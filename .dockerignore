@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.superpowers
+coverage
+*.md
+.env
+.env.*
+!.env.example
+npm-debug.log*
+Dockerfile
+docker-compose.yml

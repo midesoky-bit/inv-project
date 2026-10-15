@@ -39,6 +39,18 @@ Cache tags are locale-scoped (`services:en`, `service:ar:slug`, etc.). The reval
 
 With the default `mock` provider, fetches do not register Next.js cache tags, so `POST /api/revalidate` may return success without changing mock-backed pages until a remote provider is used.
 
+## Docker
+
+Build and run the production image locally:
+
+```bash
+docker compose up --build
+```
+
+Open http://localhost:3000/en. Runtime settings (`CMS_PROVIDER`, `CMS_URL`, `CMS_TOKEN`, `REVALIDATE_SECRET`) can be set in a `.env` file next to `docker-compose.yml`. `NEXT_PUBLIC_SITE_URL` is baked in at image build time, so set it before `docker compose up --build` when the site will be served from a public host.
+
+Pushing to `master` runs `.github/workflows/build-image.yml`, which builds this Dockerfile and publishes it to GitHub Container Registry as `ghcr.io/<owner>/<repo>:latest`. Set the repository variable `NEXT_PUBLIC_SITE_URL` before that workflow runs for a production image.
+
 ## Production
 
 Set `NEXT_PUBLIC_SITE_URL` to your public site origin (for example `https://www.example.com`) **before** `npm run build`. The value is inlined at build time and drives canonical URLs, hreflang alternates, Open Graph URLs, Organization JSON-LD, `sitemap.xml`, and `robots.txt`. If it is missing or still `localhost` in a production build, the app logs a warning and SEO metadata will point at the wrong host.
