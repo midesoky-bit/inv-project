@@ -1,3 +1,4 @@
+/** Display labels resolve via `nav.{messageKey}` in message catalogs. */
 export const NAV_LINKS = [
   { href: "/#services", messageKey: "services" },
   { href: "/#insights", messageKey: "insights" },

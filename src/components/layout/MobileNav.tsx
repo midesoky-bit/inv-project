@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -65,6 +66,9 @@ export function MobileNav() {
               </li>
             ))}
           </ul>
+          <div className="mx-auto max-w-6xl border-t border-white/10 px-6 py-4">
+            <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
+          </div>
         </nav>
       ) : null}
     </>

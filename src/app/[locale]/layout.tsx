@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { routing, type Locale } from "@/i18n/routing";
 import { fontVariableClasses } from "@/lib/fonts";
 import { getSiteUrl } from "@/lib/site";
@@ -80,6 +81,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     >
       <body className="min-h-screen antialiased">
         <NextIntlClientProvider locale={locale as Locale} messages={messages}>
+          <SkipLink />
           <Header />
           <main id="main-content">{children}</main>
           <Footer />

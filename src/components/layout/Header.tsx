@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
@@ -16,18 +17,21 @@ export async function Header() {
         >
           {tBrand("name")}
         </Link>
-        <nav aria-label={t("primary")} className="hidden gap-8 md:flex">
-          {NAV_LINKS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-white/80 transition-colors hover:text-inv-white"
-            >
-              {t(item.messageKey)}
-            </Link>
-          ))}
-        </nav>
-        <MobileNav />
+        <div className="flex items-center gap-4 md:gap-6">
+          <nav aria-label={t("primary")} className="hidden gap-8 md:flex">
+            {NAV_LINKS.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm text-white/80 transition-colors hover:text-inv-white"
+              >
+                {t(item.messageKey)}
+              </Link>
+            ))}
+          </nav>
+          <LanguageSwitcher className="hidden md:block" />
+          <MobileNav />
+        </div>
       </div>
     </header>
   );
