@@ -3,6 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { fetchServiceBySlug, fetchServices } from "@/services/cms";
 
+export const revalidate = 3600;
+export const dynamicParams = true;
+
 type PageProps = {
   params: Promise<{ slug: string }>;
 };

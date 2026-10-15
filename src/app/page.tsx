@@ -3,6 +3,8 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { fetchServices } from "@/services/cms";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
