@@ -1,3 +1,4 @@
+import type { Locale } from "@/i18n/routing";
 import type {
   CaseStudy,
   EsgCommitment,
@@ -52,25 +53,28 @@ const SERVICES: Service[] = [
   },
 ];
 
-export async function mockFetchServices(): Promise<Service[]> {
+export async function mockFetchServices(_locale: Locale): Promise<Service[]> {
   return [...SERVICES].sort((a, b) => a.order - b.order);
 }
 
 export async function mockFetchServiceBySlug(
   slug: string,
+  _locale: Locale,
 ): Promise<Service | null> {
-  const services = await mockFetchServices();
+  const services = await mockFetchServices(_locale);
   return services.find((s) => s.slug === slug) ?? null;
 }
 
-export async function mockFetchInsights(): Promise<Insight[]> {
+export async function mockFetchInsights(_locale: Locale): Promise<Insight[]> {
   return [];
 }
 
-export async function mockFetchEsgCommitments(): Promise<EsgCommitment[]> {
+export async function mockFetchEsgCommitments(
+  _locale: Locale,
+): Promise<EsgCommitment[]> {
   return [];
 }
 
-export async function mockFetchCaseStudies(): Promise<CaseStudy[]> {
+export async function mockFetchCaseStudies(_locale: Locale): Promise<CaseStudy[]> {
   return [];
 }

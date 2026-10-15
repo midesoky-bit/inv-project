@@ -13,7 +13,7 @@ describe("cms service (mock provider)", () => {
   });
 
   it("returns ordered services including public affairs", async () => {
-    const services = await fetchServices();
+    const services = await fetchServices("en");
     expect(services.length).toBeGreaterThanOrEqual(4);
     expect(services.map((s) => s.slug)).toContain("public-affairs");
     const orders = services.map((s) => s.order);
@@ -21,18 +21,18 @@ describe("cms service (mock provider)", () => {
   });
 
   it("fetches a service by slug", async () => {
-    const service = await fetchServiceBySlug("media-production");
+    const service = await fetchServiceBySlug("media-production", "en");
     expect(service).not.toBeNull();
     expect(service?.title).toMatch(/media production/i);
   });
 
   it("returns null for unknown slug", async () => {
-    expect(await fetchServiceBySlug("does-not-exist")).toBeNull();
+    expect(await fetchServiceBySlug("does-not-exist", "en")).toBeNull();
   });
 
   it("exposes future content helpers", async () => {
-    await expect(fetchInsights()).resolves.toEqual([]);
-    await expect(fetchEsgCommitments()).resolves.toEqual([]);
-    await expect(fetchCaseStudies()).resolves.toEqual([]);
+    await expect(fetchInsights("en")).resolves.toEqual([]);
+    await expect(fetchEsgCommitments("en")).resolves.toEqual([]);
+    await expect(fetchCaseStudies("en")).resolves.toEqual([]);
   });
 });

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { ServiceCardMotion } from "@/components/home/ServiceCardMotion";
 import type { Service } from "@/types/cms";
 
@@ -5,7 +6,9 @@ type ServiceGridProps = {
   services: Service[];
 };
 
-export function ServiceGrid({ services }: ServiceGridProps) {
+export async function ServiceGrid({ services }: ServiceGridProps) {
+  const t = await getTranslations("services");
+
   return (
     <section
       id="services"
@@ -15,17 +18,15 @@ export function ServiceGrid({ services }: ServiceGridProps) {
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 max-w-2xl">
           <p className="mb-3 text-xs font-medium tracking-[0.18em] text-inv-accent uppercase">
-            Capabilities
+            {t("eyebrow")}
           </p>
           <h2
             id="services-heading"
             className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
           >
-            Core offerings
+            {t("title")}
           </h2>
-          <p className="mt-4 text-base text-inv-slate">
-            Integrated communications disciplines for institutional clients.
-          </p>
+          <p className="mt-4 text-base text-inv-slate">{t("subtitle")}</p>
         </div>
         <div className="grid gap-6 md:grid-cols-2">
           {services.map((service, index) => (
@@ -35,6 +36,7 @@ export function ServiceGrid({ services }: ServiceGridProps) {
               title={service.title}
               summary={service.summary}
               index={index}
+              learnMoreLabel={t("learnMore")}
             />
           ))}
         </div>

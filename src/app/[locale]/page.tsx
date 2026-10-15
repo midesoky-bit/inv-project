@@ -1,0 +1,105 @@
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { HeroSection } from "@/components/home/HeroSection";
+import { ServiceGrid } from "@/components/home/ServiceGrid";
+import { routing, type Locale } from "@/i18n/routing";
+import { getSiteUrl } from "@/lib/site";
+import { fetchEsgCommitments, fetchServices } from "@/services/cms";
+
+export const revalidate = 3600;
+
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
+type PageProps = {
+  params: Promise<{ locale: string }>;
+};
+
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const base = getSiteUrl();
+
+  return {
+    alternates: {
+      canonical: `/${locale}`,
+      languages: {
+        en: `${base}/en`,
+        ar: `${base}/ar`,
+        "x-default": `${base}/en`,
+      },
+    },
+  };
+}
+
+export default async function HomePage({ params }: PageProps) {
+  const { locale } = await params;
+  setRequestLocale(locale);
+
+  const cmsLocale = locale as Locale;
+  const services = await fetchServices(cmsLocale);
+  const esgCommitments = await fetchEsgCommitments(cmsLocale);
+  const tInsights = await getTranslations("insights");
+  const tEsg = await getTranslations("esg");
+
+  return (
+    <>
+      <HeroSection />
+      <ServiceGrid services={services} />
+      <section
+        id="insights"
+        className="border-t border-inv-navy/10 bg-inv-white px-6 py-20 md:py-24"
+        aria-labelledby="insights-heading"
+      >
+        <div className="mx-auto max-w-6xl">
+          <h2
+            id="insights-heading"
+            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
+          >
+            {tInsights("title")}
+          </h2>
+          <p className="mt-4 max-w-2xl text-base text-inv-slate">
+            {tInsights("comingSoon")}
+          </p>
+        </div>
+      </section>
+      <section
+        id="esg"
+        className="border-t border-inv-navy/10 bg-inv-mist px-6 py-20 md:py-24"
+        aria-labelledby="esg-heading"
+      >
+        <div className="mx-auto max-w-6xl">
+          <h2
+            id="esg-heading"
+            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
+          >
+            {tEsg("title")}
+          </h2>
+          {esgCommitments.length > 0 ? (
+            <ul className="mt-8 grid gap-6 md:grid-cols-3">
+              {esgCommitments.map((item) => (
+                <li
+                  key={item.id}
+                  className="border border-inv-navy/10 bg-inv-white p-6"
+                >
+                  <h3 className="font-serif text-xl text-inv-navy">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-relaxed text-inv-slate">
+                    {item.summary}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mt-4 max-w-2xl text-base text-inv-slate">
+              {tEsg("comingSoon")}
+            </p>
+          )}
+        </div>
+      </section>
+    </>
+  );
+}

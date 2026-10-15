@@ -1,12 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
-import { NAV_ITEMS } from "@/components/layout/navigation";
+import { NAV_LINKS } from "@/components/layout/navigation";
+import { Link } from "@/i18n/navigation";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const t = useTranslations("nav");
 
   useEffect(() => {
     if (!open) return;
@@ -21,7 +23,7 @@ export function MobileNav() {
     <>
       <button
         type="button"
-        aria-label={open ? "Close menu" : "Open menu"}
+        aria-label={open ? t("closeMenu") : t("openMenu")}
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
@@ -47,18 +49,18 @@ export function MobileNav() {
       {open ? (
         <nav
           id={panelId}
-          aria-label="Mobile"
+          aria-label={t("mobile")}
           className="absolute inset-x-0 top-full border-b border-white/10 bg-inv-navy md:hidden"
         >
           <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {NAV_ITEMS.map((item) => (
+            {NAV_LINKS.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
                   className="block py-3 text-base text-white/85 transition-colors hover:text-inv-white"
                 >
-                  {item.label}
+                  {t(item.messageKey)}
                 </Link>
               </li>
             ))}

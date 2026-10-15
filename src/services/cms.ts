@@ -1,4 +1,5 @@
 import { getCmsProvider } from "@/lib/cms/client";
+import type { Locale } from "@/i18n/routing";
 import * as directus from "@/lib/cms/providers/directus";
 import * as mock from "@/lib/cms/providers/mock";
 import * as supabase from "@/lib/cms/providers/supabase";
@@ -9,60 +10,63 @@ import type {
   Service,
 } from "@/types/cms";
 
-export async function fetchServices(): Promise<Service[]> {
+export async function fetchServices(locale: Locale): Promise<Service[]> {
   switch (getCmsProvider()) {
     case "directus":
-      return directus.directusFetchServices();
+      return directus.directusFetchServices(locale);
     case "supabase":
-      return supabase.supabaseFetchServices();
+      return supabase.supabaseFetchServices(locale);
     default:
-      return mock.mockFetchServices();
+      return mock.mockFetchServices(locale);
   }
 }
 
 export async function fetchServiceBySlug(
   slug: string,
+  locale: Locale,
 ): Promise<Service | null> {
   switch (getCmsProvider()) {
     case "directus":
-      return directus.directusFetchServiceBySlug(slug);
+      return directus.directusFetchServiceBySlug(slug, locale);
     case "supabase":
-      return supabase.supabaseFetchServiceBySlug(slug);
+      return supabase.supabaseFetchServiceBySlug(slug, locale);
     default:
-      return mock.mockFetchServiceBySlug(slug);
+      return mock.mockFetchServiceBySlug(slug, locale);
   }
 }
 
-export async function fetchInsights(): Promise<Insight[]> {
+export async function fetchInsights(locale: Locale): Promise<Insight[]> {
   switch (getCmsProvider()) {
     case "directus":
-      return directus.directusFetchInsights();
+      return directus.directusFetchInsights(locale);
     case "supabase":
-      return supabase.supabaseFetchInsights();
+      return supabase.supabaseFetchInsights(locale);
     default:
-      return mock.mockFetchInsights();
+      return mock.mockFetchInsights(locale);
   }
 }
 
-export async function fetchEsgCommitments(): Promise<EsgCommitment[]> {
+export async function fetchEsgCommitments(
+  locale: Locale,
+): Promise<EsgCommitment[]> {
   switch (getCmsProvider()) {
     case "directus":
-      return directus.directusFetchEsgCommitments();
+      return directus.directusFetchEsgCommitments(locale);
     case "supabase":
-      return supabase.supabaseFetchEsgCommitments();
+      return supabase.supabaseFetchEsgCommitments(locale);
     default:
-      return mock.mockFetchEsgCommitments();
+      return mock.mockFetchEsgCommitments(locale);
   }
 }
 
-export async function fetchCaseStudies(): Promise<CaseStudy[]> {
+export async function fetchCaseStudies(locale: Locale): Promise<CaseStudy[]> {
   switch (getCmsProvider()) {
     case "directus":
-      return directus.directusFetchCaseStudies();
+      return directus.directusFetchCaseStudies(locale);
     case "supabase":
-      return supabase.supabaseFetchCaseStudies();
+      return supabase.supabaseFetchCaseStudies(locale);
     default:
-      return mock.mockFetchCaseStudies();
+      return mock.mockFetchCaseStudies(locale);
   }
 }
 

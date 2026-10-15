@@ -1,23 +1,42 @@
 import type { MetadataRoute } from "next";
+import { routing } from "@/i18n/routing";
 import { getSiteUrl } from "@/lib/site";
 import { fetchServices } from "@/services/cms";
 
 export const revalidate = 3600;
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+function languageAlternates(pathSuffix: string) {
   const base = getSiteUrl();
-  const services = await fetchServices();
+  return {
+    en: `${base}/en${pathSuffix}`,
+    ar: `${base}/ar${pathSuffix}`,
+    "x-default": `${base}/en${pathSuffix}`,
+  };
+}
 
-  return [
-    {
-      url: base,
-      changeFrequency: "monthly" as const,
-      priority: 1,
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const services = await fetchServices("en");
+
+  const homeEntries: MetadataRoute.Sitemap = routing.locales.map((locale) => ({
+    url: `${getSiteUrl()}/${locale}`,
+    changeFrequency: "monthly" as const,
+    priority: 1,
+    alternates: {
+      languages: languageAlternates(""),
     },
-    ...services.map((service) => ({
-      url: `${base}/services/${service.slug}`,
-      changeFrequency: "monthly" as const,
-      priority: 0.7,
-    })),
-  ];
+  }));
+
+  const serviceEntries: MetadataRoute.Sitemap = routing.locales.flatMap(
+    (locale) =>
+      services.map((service) => ({
+        url: `${getSiteUrl()}/${locale}/services/${service.slug}`,
+        changeFrequency: "monthly" as const,
+        priority: 0.7,
+        alternates: {
+          languages: languageAlternates(`/services/${service.slug}`),
+        },
+      })),
+  );
+
+  return [...homeEntries, ...serviceEntries];
 }

@@ -1,7 +1,12 @@
-import Link from "next/link";
-import { NAV_ITEMS } from "@/components/layout/navigation";
+import { getTranslations } from "next-intl/server";
+import { NAV_LINKS } from "@/components/layout/navigation";
+import { Link } from "@/i18n/navigation";
 
-export function Footer() {
+export async function Footer() {
+  const tNav = await getTranslations("nav");
+  const tBrand = await getTranslations("brand");
+  const tFooter = await getTranslations("footer");
+
   return (
     <footer
       id="contact"
@@ -9,24 +14,21 @@ export function Footer() {
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm space-y-3">
-          <p className="font-serif text-xl tracking-tight">
-            Inventure Communications
-          </p>
-          <p className="text-sm text-white/70">
-            Strategic Communications & Public Affairs — Middle East.
-          </p>
+          <p className="font-serif text-xl tracking-tight">{tBrand("name")}</p>
+          <p className="text-sm text-white/70">{tFooter("tagline")}</p>
         </div>
         <div className="space-y-2 text-sm text-white/70">
-          {NAV_ITEMS.filter((item) => item.label !== "Contact").map((item) => (
-            <p key={item.href}>
-              <Link href={item.href} className="hover:text-inv-white">
-                {item.label}
-              </Link>
-            </p>
-          ))}
+          {NAV_LINKS.filter((item) => item.messageKey !== "contact").map(
+            (item) => (
+              <p key={item.href}>
+                <Link href={item.href} className="hover:text-inv-white">
+                  {tNav(item.messageKey)}
+                </Link>
+              </p>
+            ),
+          )}
           <p className="pt-4 text-xs text-white/50">
-            © {new Date().getFullYear()} Inventure Communications. All rights
-            reserved.
+            © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
           </p>
         </div>
       </div>

@@ -28,6 +28,19 @@ body {
   font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
 }
 
+[dir="rtl"] body {
+  font-family: var(--font-ibm-plex-sans-arabic), system-ui, sans-serif;
+  line-height: 1.7;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3 {
+  font-family: var(--font-noto-naskh-arabic), var(--font-ibm-plex-sans-arabic),
+    system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
 ::selection {
   background: color-mix(in srgb, var(--inv-accent) 35%, white);
 }
