@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { useSyncExternalStore } from "react";
 import { Button } from "@/components/ui/Button";
 
@@ -18,9 +19,19 @@ export function HeroSection() {
   const hydrated = useHydrated();
   const animate = hydrated && !reduceMotion;
   const t = useTranslations("hero");
+  const tImages = useTranslations("images");
 
   return (
-    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-brand px-6 pt-24 pb-20 text-brand-foreground">
+    <section className="relative flex min-h-[70vh] items-center overflow-hidden bg-brand px-6 pt-28 pb-16 text-brand-foreground">
+      <Image
+        src="/images/hero.webp"
+        alt={tImages("hero")}
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div aria-hidden className="absolute inset-0 bg-brand/78" />
       <div
         aria-hidden
         className="inv-hero-glow pointer-events-none absolute -inset-[12%] bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.38),_transparent_58%)]"
@@ -68,7 +79,7 @@ export function HeroSection() {
           initial={animate ? { opacity: 0, y: 16 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
-          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl"
+          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl"
         >
           {t("title")}
         </motion.h1>

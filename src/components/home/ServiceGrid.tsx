@@ -12,11 +12,11 @@ export async function ServiceGrid({ services }: ServiceGridProps) {
   return (
     <section
       id="services"
-      className="bg-surface-muted px-6 py-20 md:py-28"
+      className="scroll-mt-24 bg-surface-muted px-6 py-14 md:py-20"
       aria-labelledby="services-heading"
     >
       <div className="mx-auto max-w-6xl">
-        <div className="mb-12 max-w-2xl">
+        <div className="mb-8 max-w-2xl">
           <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {t("eyebrow")}
           </p>
@@ -28,7 +28,7 @@ export async function ServiceGrid({ services }: ServiceGridProps) {
           </h2>
           <p className="mt-4 text-base text-muted">{t("subtitle")}</p>
         </div>
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2">
           {services.map((service, index) => (
             <ServiceCardMotion
               key={service.id}

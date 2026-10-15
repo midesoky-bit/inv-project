@@ -1,57 +1,57 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-import { useTranslations } from "next-intl";
-import { useSyncExternalStore } from "react";
-
-function useHydrated() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
+import { getTranslations } from "next-intl/server";
 
 const MARKETS = ["egypt", "saudi", "uae", "qatar"] as const;
 
-export function PresenceStrip() {
-  const t = useTranslations("presence");
-  const reduceMotion = useReducedMotion();
-  const hydrated = useHydrated();
-  const animate = hydrated && !reduceMotion;
+type PresencePoint = { title: string; body: string };
+
+export async function PresenceStrip() {
+  const t = await getTranslations("presence");
+  const points = t.raw("points") as PresencePoint[];
 
   return (
     <section
       aria-labelledby="presence-heading"
-      className="border-y border-border bg-background px-6 py-10"
+      className="scroll-mt-24 border-y border-border bg-background px-6 py-14 md:py-20"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-6">
-        <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-        <h2
-          id="presence-heading"
-          className="text-xs font-medium tracking-[0.18em] text-accent uppercase"
-        >
+      <div className="mx-auto max-w-6xl">
+        <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
           {t("label")}
-        </h2>
-        <ul className="flex flex-wrap gap-x-8 gap-y-3">
-          {MARKETS.map((market, index) => (
-            <motion.li
-              key={market}
-              initial={animate ? { opacity: 0, y: 8 } : false}
-              animate={animate ? { opacity: 1, y: 0 } : undefined}
-              transition={{
-                duration: 0.4,
-                delay: 0.08 * index,
-                ease: "easeOut",
-              }}
-              className="font-serif text-lg text-foreground"
-            >
-              {t(market)}
-            </motion.li>
+        </p>
+        <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+          <h2
+            id="presence-heading"
+            className="font-serif text-3xl tracking-tight text-balance text-foreground md:text-4xl lg:col-span-7"
+          >
+            {t("title")}
+          </h2>
+          <p className="text-base leading-relaxed text-muted lg:col-span-5">
+            {t("lead")}
+          </p>
+        </div>
+
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {MARKETS.map((market) => (
+            <li key={market} className="border border-border bg-surface px-5 py-5">
+              <p className="text-xs font-medium tracking-[0.14em] text-accent uppercase">
+                {t("status")}
+              </p>
+              <p className="mt-3 font-serif text-2xl text-foreground">
+                {t(market)}
+              </p>
+            </li>
           ))}
         </ul>
+
+        <div className="mt-px grid gap-px bg-border md:grid-cols-2">
+          {points.map((point) => (
+            <div key={point.title} className="bg-surface-muted px-6 py-8">
+              <h3 className="font-serif text-xl text-foreground">{point.title}</h3>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
+                {point.body}
+              </p>
+            </div>
+          ))}
         </div>
-        <p className="max-w-3xl text-sm leading-relaxed text-muted">{t("body")}</p>
       </div>
     </section>
   );

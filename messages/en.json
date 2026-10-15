@@ -10,15 +10,31 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "primary": "Primary",
-    "mobile": "Mobile"
+    "mobile": "Mobile",
+    "aboutDetail": "An integrated platform across media, public affairs, and institutional engagement.",
+    "servicesDetail": "Seven disciplines, from media production to capital markets.",
+    "approachDetail": "How strategy, media, and public affairs operate as one system.",
+    "contactDetail": "info@inventurecommunications.com"
   },
   "presence": {
     "label": "Regional presence",
+    "title": "Active engagement across the Middle East",
+    "lead": "We operate across the Middle East, with active presence and ongoing engagement in four markets.",
+    "status": "Ongoing engagement",
     "egypt": "Egypt",
     "saudi": "Saudi Arabia",
     "uae": "United Arab Emirates",
     "qatar": "Qatar",
-    "body": "Our presence in these markets allows us to work within different regulatory and institutional contexts while maintaining a consistent approach to strategy and delivery."
+    "points": [
+      {
+        "title": "Local context, one approach",
+        "body": "Our presence in these markets allows us to work within different regulatory and institutional contexts while maintaining a consistent approach to strategy and delivery."
+      },
+      {
+        "title": "Cross-market delivery",
+        "body": "We combine local understanding with a regional perspective—enabling us to support cross-market initiatives, align stakeholders across jurisdictions, and execute communication programs with clarity and coordination."
+      }
+    ]
   },
   "about": {
     "eyebrow": "About us",
@@ -108,7 +124,9 @@
     "subtitle": "Integrated communications disciplines for institutional clients.",
     "learnMore": "Learn more",
     "all": "All services",
-    "label": "Service"
+    "label": "Service",
+    "includes": "What this includes",
+    "others": "Other capabilities"
   },
   "insights": {
     "title": "Insights",
@@ -151,6 +169,13 @@
     "ogTitle": "Inventure Communications — Strategic Communications & Public Affairs",
     "twitterTitle": "Inventure Communications",
     "twitterDescription": "Strategic Communications & Public Affairs for institutional audiences in the Middle East."
+  },
+  "images": {
+    "hero": "Glass office towers seen from below",
+    "about": "Team working in an open office",
+    "briefing": "Briefing around a conference table",
+    "forum": "Audience at an institutional forum",
+    "analytics": "Performance dashboard on a laptop"
   },
   "a11y": {
     "skipToContent": "Skip to content"

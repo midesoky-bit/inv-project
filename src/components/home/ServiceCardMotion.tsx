@@ -37,7 +37,7 @@ export function ServiceCardMotion({
       whileInView={animate ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-      className="group border border-border bg-surface p-8 shadow-none transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-md focus-within:-translate-y-1 focus-within:border-accent focus-within:shadow-md"
+      className="group border border-border bg-surface p-6 shadow-none transition-[transform,border-color] duration-300 hover:border-accent focus-within:border-accent"
     >
       <Link
         href={href}
