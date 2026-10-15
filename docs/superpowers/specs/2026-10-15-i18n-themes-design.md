@@ -1,7 +1,7 @@
 # Inventure Communications — i18n, RTL & Themes Design
 
 **Date:** 2026-10-15 (revised after design review)  
-**Status:** Draft — pending user review  
+**Status:** Approved  
 **Next.js:** 16.4.1 (use `src/proxy.ts`, not `middleware.ts`)  
 **Branch target:** `feat/inventure-website-bootstrap` (or follow-on feature branch)  
 **Source of truth (copy):** `d:\Projects\Inventure Communications.docx` (extracted profile text available under `.superpowers/sdd/inventure-profile.txt`)  

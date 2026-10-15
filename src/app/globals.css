@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: light;
+
+  --inv-navy: #0b1d36;
+  --inv-navy-mid: #132a4a;
+  --inv-slate: #5c6b7a;
+  --inv-mist: #f3f5f7;
+  --inv-white: #ffffff;
+  --inv-accent: #3a6b8c;
+
+  --background: #ffffff;
+  --foreground: #0b1d36;
+  --surface: #ffffff;
+  --surface-muted: #f3f5f7;
+  --muted: #5c6b7a;
+  --border: color-mix(in srgb, var(--foreground) 12%, transparent);
+  --brand: #0b1d36;
+  --brand-mid: #132a4a;
+  --brand-foreground: #ffffff;
+  --accent: #3a6b8c;
+  --accent-foreground: #ffffff;
+  --ring: #3a6b8c;
+  --overlay: rgb(11 29 54 / 0.55);
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #0a1628;
+  --foreground: #f3f5f7;
+  --surface: #132a4a;
+  --surface-muted: #0b1d36;
+  --muted: #a8b4c0;
+  --border: rgb(243 245 247 / 0.14);
+  --brand: #0b1d36;
+  --brand-mid: #1a3654;
+  --brand-foreground: #f3f5f7;
+  --accent: #6ba3c4;
+  --accent-foreground: #0a1628;
+  --ring: #6ba3c4;
+  --overlay: rgb(0 0 0 / 0.65);
+}
+
+[data-theme="desert"] {
+  --surface-muted: #f7f2ea;
+  --accent: #8b6914;
+  --accent-foreground: #ffffff;
+  --ring: #8b6914;
+}
+
+.dark[data-theme="desert"] {
+  --background: #1a1410;
+  --foreground: #f5efe6;
+  --surface: #2a221c;
+  --surface-muted: #1f1915;
+  --muted: #c4b8a8;
+  --border: rgb(245 239 230 / 0.14);
+  --accent: #d4a574;
+  --accent-foreground: #1a1410;
+  --ring: #d4a574;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-brand: var(--brand);
+  --color-brand-mid: var(--brand-mid);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+
+  --color-inv-navy: var(--inv-navy);
+  --color-inv-navy-mid: var(--inv-navy-mid);
+  --color-inv-slate: var(--inv-slate);
+  --color-inv-mist: var(--inv-mist);
+  --color-inv-white: var(--inv-white);
+  --color-inv-accent: var(--inv-accent);
+
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-serif: var(--font-ibm-plex-serif);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
+}
+
+[dir="rtl"] body {
+  font-family: var(--font-ibm-plex-sans-arabic), system-ui, sans-serif;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4 {
+  font-family: var(--font-noto-naskh-arabic), var(--font-ibm-plex-sans-arabic),
+    system-ui, sans-serif;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] .tracking-tight,
+[dir="rtl"] .tracking-\[0\.18em\] {
+  letter-spacing: 0;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, var(--background));
+}

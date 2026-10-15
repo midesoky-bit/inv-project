@@ -16,8 +16,10 @@
 - Fonts: IBM Plex Serif (display) + IBM Plex Sans (body)
 - Hero: brand + one headline + one subhead + CTA group only — no cards, stats, badges, overlays
 - `"use client"` only on interactive leaf components
-- Insights/ESG full pages are out of scope (nav may use `#insights` / `#esg`)
+- Insights/ESG full pages are out of scope (nav uses `/#insights` / `/#esg` / `/#contact` so links work from any route)
 - Spec: `docs/superpowers/specs/2026-10-15-inventure-communications-website-design.md`
+- Amendments A–E applied 2026-10-15: mobile nav, sitemap/robots, per-page canonicals/OG, ISR revalidate API, extended verification
+- Task order: 1 → 2 → 3 → 4 → 5 → 7 → 8 → 6 (final verification last)
 
 ---
 
@@ -34,15 +36,21 @@
 | `src/lib/utils.ts` | `cn()` class helper |
 | `src/services/cms.ts` | Public CMS API used by pages |
 | `src/components/ui/Button.tsx` | Shared CTA control |
+| `src/components/layout/navigation.ts` | Shared `NAV_ITEMS` (`/#…` hrefs) |
+| `src/components/layout/MobileNav.tsx` | Mobile menu client leaf |
 | `src/components/layout/Header.tsx` | Site header |
 | `src/components/layout/Footer.tsx` | Site footer |
 | `src/components/home/HeroSection.tsx` | Full-bleed institutional hero (client leaf for motion) |
 | `src/components/home/ServiceGrid.tsx` | Services grid (server + motion leaf) |
+| `src/lib/site.ts` | `getSiteUrl()` helper |
 | `src/app/globals.css` | Tailwind + design tokens |
 | `src/app/layout.tsx` | Fonts, metadata, Header/Footer shell |
 | `src/app/page.tsx` | Homepage |
 | `src/app/services/[slug]/page.tsx` | Service detail SSG/ISR |
-| `.env.example` | Documented env vars |
+| `src/app/sitemap.ts` | `/sitemap.xml` |
+| `src/app/robots.ts` | `/robots.txt` |
+| `src/app/api/revalidate/route.ts` | Secret-protected tag revalidation |
+| `.env.example` | Documented env vars (`REVALIDATE_SECRET` included) |
 | `src/services/cms.test.ts` | Unit tests for CMS public API (mock provider) |
 
 ---
@@ -674,6 +682,8 @@ git commit -m "feat: add CMS-agnostic service layer with mock provider"
 **Files:**
 - Create: `src/lib/utils.ts`
 - Create: `src/components/ui/Button.tsx`
+- Create: `src/components/layout/navigation.ts`
+- Create: `src/components/layout/MobileNav.tsx`
 - Create: `src/components/layout/Header.tsx`
 - Create: `src/components/layout/Footer.tsx`
 - Modify: `src/app/globals.css`
@@ -682,7 +692,7 @@ git commit -m "feat: add CMS-agnostic service layer with mock provider"
 
 **Interfaces:**
 - Consumes: design tokens from spec
-- Produces: `cn()`, `Button`, `Header`, `Footer`, global metadata + fonts
+- Produces: `cn()`, `Button`, `NAV_ITEMS`, `MobileNav`, `Header`, `Footer`, global metadata + fonts (no root canonical — homepage sets its own in Task 4)
 
 - [ ] **Step 1: Add `cn` utility**
 
@@ -782,19 +792,104 @@ export function Button({
 }
 ```
 
-- [ ] **Step 4: Implement Header and Footer**
+- [ ] **Step 4a: Shared nav items** (Amendment A)
 
-Create `src/components/layout/Header.tsx`:
+Create `src/components/layout/navigation.ts`:
+
+```ts
+export const NAV_ITEMS = [
+  { href: "/#services", label: "Services" },
+  { href: "/#insights", label: "Insights" },
+  { href: "/#esg", label: "ESG" },
+  { href: "/#contact", label: "Contact" },
+] as const;
+```
+
+- [ ] **Step 4b: Mobile nav (client leaf)** (Amendment A)
+
+Create `src/components/layout/MobileNav.tsx`:
+
+```tsx
+"use client";
+
+import Link from "next/link";
+import { useEffect, useId, useState } from "react";
+import { NAV_ITEMS } from "@/components/layout/navigation";
+
+export function MobileNav() {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [open]);
+
+  return (
+    <>
+      <button
+        type="button"
+        aria-label={open ? "Close menu" : "Open menu"}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((value) => !value)}
+        className="inline-flex h-10 w-10 items-center justify-center text-inv-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inv-accent md:hidden"
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 22 22"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          aria-hidden
+        >
+          {open ? (
+            <path d="M4 4l14 14M18 4L4 18" />
+          ) : (
+            <path d="M3 6h16M3 11h16M3 16h16" />
+          )}
+        </svg>
+      </button>
+
+      {open ? (
+        <nav
+          id={panelId}
+          aria-label="Mobile"
+          className="absolute inset-x-0 top-full border-b border-white/10 bg-inv-navy md:hidden"
+        >
+          <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="block py-3 text-base text-white/85 transition-colors hover:text-inv-white"
+                >
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
+    </>
+  );
+}
+```
+
+- [ ] **Step 4c: Header** (Amendment A)
+
+Replace `src/components/layout/Header.tsx`:
 
 ```tsx
 import Link from "next/link";
-
-const NAV = [
-  { href: "/#services", label: "Services" },
-  { href: "#insights", label: "Insights" },
-  { href: "#esg", label: "ESG" },
-  { href: "#contact", label: "Contact" },
-] as const;
+import { MobileNav } from "@/components/layout/MobileNav";
+import { NAV_ITEMS } from "@/components/layout/navigation";
 
 export function Header() {
   return (
@@ -807,7 +902,7 @@ export function Header() {
           Inventure Communications
         </Link>
         <nav aria-label="Primary" className="hidden gap-8 md:flex">
-          {NAV.map((item) => (
+          {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
               href={item.href}
@@ -817,20 +912,27 @@ export function Header() {
             </Link>
           ))}
         </nav>
+        <MobileNav />
       </div>
     </header>
   );
 }
 ```
 
-Create `src/components/layout/Footer.tsx`:
+- [ ] **Step 4d: Footer** (Amendment A)
+
+Replace `src/components/layout/Footer.tsx`:
 
 ```tsx
 import Link from "next/link";
+import { NAV_ITEMS } from "@/components/layout/navigation";
 
 export function Footer() {
   return (
-    <footer id="contact" className="border-t border-inv-navy/10 bg-inv-navy text-inv-white">
+    <footer
+      id="contact"
+      className="border-t border-inv-navy/10 bg-inv-navy text-inv-white"
+    >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm space-y-3">
           <p className="font-serif text-xl tracking-tight">
@@ -841,21 +943,13 @@ export function Footer() {
           </p>
         </div>
         <div className="space-y-2 text-sm text-white/70">
-          <p>
-            <Link href="/#services" className="hover:text-inv-white">
-              Services
-            </Link>
-          </p>
-          <p>
-            <a href="#insights" className="hover:text-inv-white">
-              Insights
-            </a>
-          </p>
-          <p>
-            <a href="#esg" className="hover:text-inv-white">
-              ESG
-            </a>
-          </p>
+          {NAV_ITEMS.filter((item) => item.label !== "Contact").map((item) => (
+            <p key={item.href}>
+              <Link href={item.href} className="hover:text-inv-white">
+                {item.label}
+              </Link>
+            </p>
+          ))}
           <p className="pt-4 text-xs text-white/50">
             © {new Date().getFullYear()} Inventure Communications. All rights
             reserved.
@@ -867,7 +961,15 @@ export function Footer() {
 }
 ```
 
-- [ ] **Step 5: Implement global layout with Metadata API**
+- [ ] **Step 4e: Verify nav** (Amendment A)
+
+```powershell
+npx tsc --noEmit
+```
+
+Expected: no errors. Manual check at ≤767px: menu toggles, Escape closes, link tap closes.
+
+- [ ] **Step 5: Implement global layout with Metadata API** (Amendment C1: no root canonical)
 
 Replace `src/app/layout.tsx`:
 
@@ -931,9 +1033,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({
@@ -955,6 +1054,8 @@ export default function RootLayout({
 }
 ```
 
+Note: Task 7 later swaps the inline `siteUrl` for `getSiteUrl()`.
+
 - [ ] **Step 6: Verify typecheck**
 
 ```powershell
@@ -967,7 +1068,7 @@ Expected: no errors (homepage may still be starter until Task 4).
 
 ```powershell
 git add src/lib/utils.ts src/components src/app/globals.css src/app/layout.tsx package.json package-lock.json
-git commit -m "feat: add institutional layout, tokens, and SEO metadata"
+git commit -m "feat: add institutional layout, tokens, mobile nav, and SEO metadata"
 ```
 
 ---
@@ -1034,7 +1135,7 @@ export function HeroSection() {
           className="mt-10 flex flex-wrap items-center gap-6"
         >
           <Button href="/#services">Explore our services</Button>
-          <Button href="#contact" variant="ghost">
+          <Button href="/#contact" variant="ghost">
             Contact
           </Button>
         </motion.div>
@@ -1139,14 +1240,19 @@ export function ServiceGrid({ services }: ServiceGridProps) {
 }
 ```
 
-- [ ] **Step 3: Wire homepage**
+- [ ] **Step 3: Wire homepage** (Amendment C2: homepage canonical)
 
 Replace `src/app/page.tsx`:
 
 ```tsx
+import type { Metadata } from "next";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { fetchServices } from "@/services/cms";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const services = await fetchServices();
@@ -1211,13 +1317,20 @@ export async function generateMetadata({
   const { slug } = await params;
   const service = await fetchServiceBySlug(slug);
   if (!service) {
-    return { title: "Service not found" };
+    return { title: "Service not found", robots: { index: false } };
   }
+
+  const path = `/services/${service.slug}`;
 
   return {
     title: service.title,
     description: service.summary,
+    alternates: { canonical: path },
     openGraph: {
+      type: "website",
+      locale: "en_US",
+      siteName: "Inventure Communications",
+      url: path,
       title: `${service.title} | Inventure Communications`,
       description: service.summary,
     },
@@ -1276,12 +1389,349 @@ git add src/app/services
 git commit -m "feat: add SSG service detail routes with CMS metadata"
 ```
 
+Note: `export const revalidate = 3600` and `dynamicParams = true` are added in Task 8 (keep Task 5 focused on SSG + metadata).
+
 ---
 
-### Task 6: Final verification
+### Task 7: Site URL helper, sitemap, robots (Amendment B)
+
+**Files:**
+- Create: `src/lib/site.ts`
+- Create: `src/lib/site.test.ts`
+- Create: `src/app/sitemap.ts`
+- Create: `src/app/robots.ts`
+- Modify: `src/app/layout.tsx` (use the helper)
+
+**Interfaces:**
+- Consumes: `fetchServices()`
+- Produces: `getSiteUrl()`, `/sitemap.xml`, `/robots.txt`
+
+- [ ] **Step 1: Write failing test**
+
+Create `src/lib/site.test.ts`:
+
+```ts
+import { afterEach, describe, expect, it } from "vitest";
+import { getSiteUrl } from "@/lib/site";
+
+describe("getSiteUrl", () => {
+  const original = process.env.NEXT_PUBLIC_SITE_URL;
+
+  afterEach(() => {
+    if (original === undefined) delete process.env.NEXT_PUBLIC_SITE_URL;
+    else process.env.NEXT_PUBLIC_SITE_URL = original;
+  });
+
+  it("defaults to localhost", () => {
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+    expect(getSiteUrl()).toBe("http://localhost:3000");
+  });
+
+  it("strips trailing slashes", () => {
+    process.env.NEXT_PUBLIC_SITE_URL = "https://example.com//";
+    expect(getSiteUrl()).toBe("https://example.com");
+  });
+});
+```
+
+- [ ] **Step 2: Run — expect FAIL**
+
+```powershell
+npm test
+```
+
+Expected: FAIL (`@/lib/site` not found).
+
+- [ ] **Step 3: Implement helper**
+
+Create `src/lib/site.ts`:
+
+```ts
+export function getSiteUrl(): string {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  return raw.replace(/\/+$/, "");
+}
+```
+
+In `src/app/layout.tsx`, replace the inline `siteUrl` constant:
+
+```tsx
+import { getSiteUrl } from "@/lib/site";
+
+const siteUrl = getSiteUrl();
+```
+
+- [ ] **Step 4: Sitemap**
+
+Create `src/app/sitemap.ts`:
+
+```ts
+import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
+import { fetchServices } from "@/services/cms";
+
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const base = getSiteUrl();
+  const services = await fetchServices();
+
+  return [
+    {
+      url: base,
+      changeFrequency: "monthly" as const,
+      priority: 1,
+    },
+    ...services.map((service) => ({
+      url: `${base}/services/${service.slug}`,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ];
+}
+```
+
+`revalidate` must stay a literal number here; Next analyzes it statically.
+
+- [ ] **Step 5: Robots**
+
+Create `src/app/robots.ts`:
+
+```ts
+import type { MetadataRoute } from "next";
+import { getSiteUrl } from "@/lib/site";
+
+export default function robots(): MetadataRoute.Robots {
+  const base = getSiteUrl();
+  return {
+    rules: [{ userAgent: "*", allow: "/", disallow: "/api/" }],
+    sitemap: `${base}/sitemap.xml`,
+    host: base,
+  };
+}
+```
+
+- [ ] **Step 6: Run tests and build**
+
+```powershell
+npm test
+npm run build
+```
+
+Expected: tests PASS; build output lists `/sitemap.xml` and `/robots.txt`.
+
+- [ ] **Step 7: Commit**
+
+```powershell
+git add src/lib/site.ts src/lib/site.test.ts src/app/sitemap.ts src/app/robots.ts src/app/layout.tsx
+git commit -m "feat: add sitemap, robots, and site URL helper"
+```
+
+---
+
+### Task 8: ISR segment config and tag revalidation endpoint (Amendment D)
+
+**Files:**
+- Modify: `src/app/page.tsx`, `src/app/services/[slug]/page.tsx`
+- Create: `src/app/api/revalidate/route.ts`
+- Create: `src/app/api/revalidate/route.test.ts`
+- Modify: `.env.example`, `.env.local`
+
+**Interfaces:**
+- Consumes: `REVALIDATE_SECRET` env var
+- Produces: `POST /api/revalidate` accepting `{ "tags": string[] }` with header `x-revalidate-secret`
+
+- [ ] **Step 1: Page-level ISR window**
+
+Add to `src/app/page.tsx` and `src/app/services/[slug]/page.tsx`:
+
+```ts
+export const revalidate = 3600;
+```
+
+For the service route, also add:
+
+```ts
+export const dynamicParams = true;
+```
+
+- [ ] **Step 2: Env vars**
+
+Append to `.env.example` and `.env.local`:
+
+```env
+REVALIDATE_SECRET=
+```
+
+Generate a value for real environments:
+
+```powershell
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+- [ ] **Step 3: Write failing handler test**
+
+Create `src/app/api/revalidate/route.test.ts`:
+
+```ts
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { NextRequest } from "next/server";
+
+const revalidateTag = vi.fn();
+vi.mock("next/cache", () => ({ revalidateTag }));
+
+import { POST } from "@/app/api/revalidate/route";
+
+function request(body: unknown, secret?: string) {
+  return new NextRequest("http://localhost/api/revalidate", {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      ...(secret ? { "x-revalidate-secret": secret } : {}),
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+describe("POST /api/revalidate", () => {
+  beforeEach(() => {
+    revalidateTag.mockReset();
+    process.env.REVALIDATE_SECRET = "test-secret";
+  });
+
+  it("503s when no secret is configured", async () => {
+    delete process.env.REVALIDATE_SECRET;
+    const res = await POST(request({ tags: ["services"] }, "x"));
+    expect(res.status).toBe(503);
+  });
+
+  it("401s on a wrong secret", async () => {
+    const res = await POST(request({ tags: ["services"] }, "nope"));
+    expect(res.status).toBe(401);
+    expect(revalidateTag).not.toHaveBeenCalled();
+  });
+
+  it("400s on unknown tags", async () => {
+    const res = await POST(request({ tags: ["secrets"] }, "test-secret"));
+    expect(res.status).toBe(400);
+    expect(revalidateTag).not.toHaveBeenCalled();
+  });
+
+  it("revalidates allowed tags", async () => {
+    const res = await POST(
+      request({ tags: ["services", "service:events"] }, "test-secret"),
+    );
+    expect(res.status).toBe(200);
+    expect(revalidateTag).toHaveBeenCalledTimes(2);
+  });
+});
+```
+
+- [ ] **Step 4: Run — expect FAIL**
+
+```powershell
+npm test
+```
+
+Expected: FAIL (route module not found).
+
+- [ ] **Step 5: Implement the route**
+
+Create `src/app/api/revalidate/route.ts`:
+
+```ts
+import { timingSafeEqual } from "node:crypto";
+import { revalidateTag } from "next/cache";
+import { NextResponse, type NextRequest } from "next/server";
+
+const STATIC_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
+const SERVICE_TAG = /^service:[a-z0-9-]+$/;
+
+function isAllowedTag(tag: unknown): tag is string {
+  return (
+    typeof tag === "string" && (STATIC_TAGS.has(tag) || SERVICE_TAG.test(tag))
+  );
+}
+
+function secretMatches(provided: string, expected: string): boolean {
+  const a = Buffer.from(provided);
+  const b = Buffer.from(expected);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+export async function POST(request: NextRequest) {
+  const expected = process.env.REVALIDATE_SECRET;
+  if (!expected) {
+    return NextResponse.json(
+      { error: "Revalidation is not configured" },
+      { status: 503 },
+    );
+  }
+
+  const provided = request.headers.get("x-revalidate-secret") ?? "";
+  if (!secretMatches(provided, expected)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+  }
+
+  const tags = (body as { tags?: unknown })?.tags;
+  if (!Array.isArray(tags) || tags.length === 0 || !tags.every(isAllowedTag)) {
+    return NextResponse.json(
+      { error: "Provide a non-empty `tags` array of known tags" },
+      { status: 400 },
+    );
+  }
+
+  for (const tag of tags) {
+    revalidateTag(tag, "max");
+  }
+
+  return NextResponse.json({ revalidated: tags });
+}
+```
+
+**Next version note:** `revalidateTag(tag, "max")` is the Next 16 signature. If Task 1 installed Next 15, call `revalidateTag(tag)` with one argument. Check `package.json` and adjust.
+
+- [ ] **Step 6: Run tests — expect PASS**
+
+```powershell
+npm test
+```
+
+- [ ] **Step 7: Manual smoke**
+
+```powershell
+npm run build
+npm run start
+# in a second terminal (set REVALIDATE_SECRET in .env.local first):
+curl.exe -X POST http://localhost:3000/api/revalidate `
+  -H "content-type: application/json" `
+  -H "x-revalidate-secret: <your secret>" `
+  -d "{\"tags\":[\"services\"]}"
+```
+
+Expected: `{"revalidated":["services"]}`.
+
+- [ ] **Step 8: Commit**
+
+```powershell
+git add src/app/page.tsx "src/app/services/[slug]/page.tsx" src/app/api .env.example
+git commit -m "feat: add ISR window and secret-protected tag revalidation"
+```
+
+---
+
+### Task 6: Final verification (Amendment E)
 
 **Files:**
 - Modify: `README.md` (brief run instructions only)
+- Optionally modify: `package.json` (`"typecheck": "tsc --noEmit"`)
 
 **Interfaces:**
 - Consumes: full app
@@ -1295,15 +1745,38 @@ npm test
 
 Expected: PASS.
 
-- [ ] **Step 2: Production build**
+- [ ] **Step 2: Typecheck and lint** (Amendment E)
+
+```powershell
+npx tsc --noEmit
+npm run lint
+```
+
+Expected: both clean. Optionally add `"typecheck": "tsc --noEmit"` to `package.json` scripts.
+
+- [ ] **Step 3: Production build**
 
 ```powershell
 npm run build
 ```
 
-Expected: PASS with homepage + service routes.
+Expected: PASS with homepage + service routes + sitemap/robots.
 
-- [ ] **Step 3: Write concise README**
+- [ ] **Step 4: Crawl surface check** (Amendment E)
+
+```powershell
+npm run start
+curl.exe http://localhost:3000/sitemap.xml
+curl.exe http://localhost:3000/robots.txt
+```
+
+Expected: sitemap lists `/` plus four `/services/*` URLs; robots allows `/`, disallows `/api/`, references sitemap.
+
+- [ ] **Step 5: Canonical and nav spot-check** (Amendment E)
+
+View source of `/services/events` and confirm a self-referencing canonical. Open at mobile width and confirm the menu works from a service page; Contact scrolls to the footer.
+
+- [ ] **Step 6: Write concise README**
 
 Replace or create `README.md`:
 
@@ -1328,17 +1801,20 @@ npm run dev
 
 Set `CMS_PROVIDER` to `mock` (default), `directus`, or `supabase`. Configure `CMS_URL` and `CMS_TOKEN` for remote providers.
 
+Set `REVALIDATE_SECRET` for `POST /api/revalidate` (header `x-revalidate-secret`, body `{ "tags": ["services"] }`).
+
 ## Scripts
 
 - `npm run dev` — local development
 - `npm run build` — production build
-- `npm test` — CMS service unit tests
+- `npm test` — unit tests
+- `npm run typecheck` — TypeScript check (if script added)
 ```
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 7: Commit**
 
 ```powershell
-git add README.md
+git add README.md package.json
 git commit -m "docs: add bootstrap README and verify build"
 ```
 
@@ -1346,6 +1822,7 @@ git commit -m "docs: add bootstrap README and verify build"
 
 ## Plan self-review
 
-1. **Spec coverage:** Scaffold, CMS abstraction + mock/directus/supabase stubs, tokens/fonts, layout SEO, Header/Footer, Hero, ServiceGrid, `services/[slug]` SSG/metadata, env example, build verification — all mapped to tasks. Insights/ESG pages correctly omitted.
-2. **Placeholders:** None remaining; `fetchServices` switch pattern made explicit.
-3. **Type consistency:** `Service` fields (`id`, `slug`, `title`, `summary`, `description`, `order`, `icon?`) consistent across mock, CMS API, ServiceGrid, and detail page.
+1. **Spec coverage:** Scaffold, CMS abstraction + mock/directus/supabase stubs, tokens/fonts, layout SEO, Header/Footer/mobile nav, Hero, ServiceGrid, `services/[slug]` SSG/metadata, sitemap/robots, ISR revalidate API, env example, build verification — all mapped. Insights/ESG pages correctly omitted.
+2. **Amendments A–E:** Integrated into Tasks 3–6 and new Tasks 7–8. Execution order: 1→2→3→4→5→7→8→6.
+3. **Placeholders:** None remaining; `fetchServices` switch pattern made explicit; `revalidateTag` arity noted for Next 15 vs 16.
+4. **Type consistency:** `Service` fields consistent across mock, CMS API, ServiceGrid, and detail page.
