@@ -192,7 +192,8 @@ export async function mockFetchServiceBySlug(
   return toService(record, locale);
 }
 
-export async function mockFetchInsights(_locale: Locale): Promise<Insight[]> {
+export async function mockFetchInsights(locale: Locale): Promise<Insight[]> {
+  void locale;
   return [];
 }
 
@@ -204,6 +205,7 @@ export async function mockFetchEsgCommitments(
     .map((record) => toEsgCommitment(record, locale));
 }
 
-export async function mockFetchCaseStudies(_locale: Locale): Promise<CaseStudy[]> {
+export async function mockFetchCaseStudies(locale: Locale): Promise<CaseStudy[]> {
+  void locale;
   return [];
 }

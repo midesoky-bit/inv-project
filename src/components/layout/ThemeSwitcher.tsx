@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 
 const OPTIONS = ["light", "dark", "system"] as const;
 type ThemeOption = (typeof OPTIONS)[number];
@@ -14,11 +14,11 @@ type ThemeSwitcherProps = {
 export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
   const t = useTranslations("theme");
   const { theme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const active = (theme ?? "system") as ThemeOption;
 

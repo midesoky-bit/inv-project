@@ -24,11 +24,7 @@ export function LanguageSwitcher({
     const search = window.location.search;
     const hash = window.location.hash;
 
-    router.replace(`${pathname}${search}`, { locale: nextLocale });
-
-    if (hash) {
-      window.location.hash = hash;
-    }
+    router.replace(`${pathname}${search}${hash}`, { locale: nextLocale });
 
     onLocaleChange?.();
   };

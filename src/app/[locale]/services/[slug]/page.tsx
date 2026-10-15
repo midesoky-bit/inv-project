@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
-import { getSiteUrl } from "@/lib/site";
+import { buildPageMetadata } from "@/lib/metadata";
 import { fetchServiceBySlug, fetchServices } from "@/services/cms";
 
 export const revalidate = 3600;
@@ -24,35 +24,22 @@ export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
+  setRequestLocale(locale);
   const cmsLocale = locale as Locale;
   const service = await fetchServiceBySlug(slug, cmsLocale);
   if (!service) {
     return { title: "Service not found", robots: { index: false } };
   }
 
-  const base = getSiteUrl();
-  const path = `/${locale}/services/${service.slug}`;
+  const tBrand = await getTranslations("brand");
 
-  return {
+  return buildPageMetadata({
+    locale: cmsLocale,
+    pathSuffix: `/services/${service.slug}`,
     title: service.title,
     description: service.summary,
-    alternates: {
-      canonical: path,
-      languages: {
-        en: `${base}/en/services/${service.slug}`,
-        ar: `${base}/ar/services/${service.slug}`,
-        "x-default": `${base}/en/services/${service.slug}`,
-      },
-    },
-    openGraph: {
-      type: "website",
-      locale: locale === "ar" ? "ar_AR" : "en_US",
-      siteName: "Inventure Communications",
-      url: path,
-      title: `${service.title} | Inventure Communications`,
-      description: service.summary,
-    },
-  };
+    openGraphTitle: `${service.title} | ${tBrand("name")}`,
+  });
 }
 
 export default async function ServicePage({ params }: PageProps) {

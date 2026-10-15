@@ -49,6 +49,14 @@
     "en": "EN",
     "ar": "العربية"
   },
+  "seo": {
+    "titleDefault": "Inventure Communications",
+    "titleTemplate": "%s | Inventure Communications",
+    "description": "Inventure Communications شركة اتصالات استراتيجية وشؤون عامة تقدّم المشورة للمؤسسات في أنحاء الشرق الأوسط في السمعة والإعلام وإشراك أصحاب المصلحة.",
+    "ogTitle": "Inventure Communications — اتصالات استراتيجية وشؤون عامة",
+    "twitterTitle": "Inventure Communications",
+    "twitterDescription": "اتصالات استراتيجية وشؤون عامة للجماهير المؤسسية في الشرق الأوسط."
+  },
   "a11y": {
     "skipToContent": "تخطّ إلى المحتوى"
   },

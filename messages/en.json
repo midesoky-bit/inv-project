@@ -49,6 +49,14 @@
     "en": "EN",
     "ar": "العربية"
   },
+  "seo": {
+    "titleDefault": "Inventure Communications",
+    "titleTemplate": "%s | Inventure Communications",
+    "description": "Inventure Communications is a Strategic Communications & Public Affairs firm advising institutions across the Middle East on reputation, media, and stakeholder engagement.",
+    "ogTitle": "Inventure Communications — Strategic Communications & Public Affairs",
+    "twitterTitle": "Inventure Communications",
+    "twitterDescription": "Strategic Communications & Public Affairs for institutional audiences in the Middle East."
+  },
   "a11y": {
     "skipToContent": "Skip to content"
   },
