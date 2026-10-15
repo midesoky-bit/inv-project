@@ -50,30 +50,30 @@ export default async function HomePage({ params }: PageProps) {
       <ServiceGrid services={services} />
       <section
         id="insights"
-        className="border-t border-inv-navy/10 bg-inv-white px-6 py-20 md:py-24"
+        className="border-t border-border bg-background px-6 py-20 md:py-24"
         aria-labelledby="insights-heading"
       >
         <div className="mx-auto max-w-6xl">
           <h2
             id="insights-heading"
-            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
+            className="font-serif text-3xl tracking-tight text-foreground md:text-4xl"
           >
             {tInsights("title")}
           </h2>
-          <p className="mt-4 max-w-2xl text-base text-inv-slate">
+          <p className="mt-4 max-w-2xl text-base text-muted">
             {tInsights("comingSoon")}
           </p>
         </div>
       </section>
       <section
         id="esg"
-        className="border-t border-inv-navy/10 bg-inv-mist px-6 py-20 md:py-24"
+        className="border-t border-border bg-surface-muted px-6 py-20 md:py-24"
         aria-labelledby="esg-heading"
       >
         <div className="mx-auto max-w-6xl">
           <h2
             id="esg-heading"
-            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
+            className="font-serif text-3xl tracking-tight text-foreground md:text-4xl"
           >
             {tEsg("title")}
           </h2>
@@ -82,19 +82,19 @@ export default async function HomePage({ params }: PageProps) {
               {esgCommitments.map((item) => (
                 <li
                   key={item.id}
-                  className="border border-inv-navy/10 bg-inv-white p-6"
+                  className="border border-border bg-surface p-6"
                 >
-                  <h3 className="font-serif text-xl text-inv-navy">
+                  <h3 className="font-serif text-xl text-foreground">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-inv-slate">
+                  <p className="mt-3 text-sm leading-relaxed text-muted">
                     {item.summary}
                   </p>
                 </li>
               ))}
             </ul>
           ) : (
-            <p className="mt-4 max-w-2xl text-base text-inv-slate">
+            <p className="mt-4 max-w-2xl text-base text-muted">
               {tEsg("comingSoon")}
             </p>
           )}

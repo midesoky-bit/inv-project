@@ -6,6 +6,8 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SkipLink } from "@/components/layout/SkipLink";
+import { ThemeColorMeta } from "@/components/layout/ThemeColorMeta";
+import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { routing, type Locale } from "@/i18n/routing";
 import { fontVariableClasses } from "@/lib/fonts";
 import { getSiteUrl } from "@/lib/site";
@@ -79,13 +81,19 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       className={fontVariableClasses}
       suppressHydrationWarning
     >
-      <body className="min-h-screen antialiased">
-        <NextIntlClientProvider locale={locale as Locale} messages={messages}>
-          <SkipLink />
-          <Header />
-          <main id="main-content">{children}</main>
-          <Footer />
-        </NextIntlClientProvider>
+      <head>
+        <meta name="theme-color" content="#0b1d36" />
+      </head>
+      <body className="min-h-screen bg-background text-foreground antialiased">
+        <ThemeProvider>
+          <ThemeColorMeta />
+          <NextIntlClientProvider locale={locale as Locale} messages={messages}>
+            <SkipLink />
+            <Header />
+            <main id="main-content">{children}</main>
+            <Footer />
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

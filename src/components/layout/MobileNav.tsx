@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -28,7 +29,7 @@ export function MobileNav() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-inv-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inv-accent md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center text-brand-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
       >
         <svg
           width="22"
@@ -51,7 +52,7 @@ export function MobileNav() {
         <nav
           id={panelId}
           aria-label={t("mobile")}
-          className="absolute inset-x-0 top-full border-b border-white/10 bg-inv-navy md:hidden"
+          className="absolute inset-x-0 top-full border-b border-brand-foreground/10 bg-brand text-brand-foreground md:hidden"
         >
           <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
             {NAV_LINKS.map((item) => (
@@ -59,14 +60,15 @@ export function MobileNav() {
                 <Link
                   href={item.href}
                   onClick={() => setOpen(false)}
-                  className="block py-3 text-base text-white/85 transition-colors hover:text-inv-white"
+                  className="block py-3 text-base text-brand-foreground/85 transition-colors hover:text-brand-foreground"
                 >
                   {t(item.messageKey)}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="mx-auto max-w-6xl border-t border-white/10 px-6 py-4">
+          <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-brand-foreground/10 px-6 py-4">
+            <ThemeSwitcher />
             <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
           </div>
         </nav>

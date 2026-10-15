@@ -10,24 +10,24 @@ export async function Footer() {
   return (
     <footer
       id="contact"
-      className="border-t border-inv-navy/10 bg-inv-navy text-inv-white"
+      className="border-t border-brand-foreground/10 bg-brand text-brand-foreground"
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm space-y-3">
           <p className="font-serif text-xl tracking-tight">{tBrand("name")}</p>
-          <p className="text-sm text-white/70">{tFooter("tagline")}</p>
+          <p className="text-sm text-brand-foreground/70">{tFooter("tagline")}</p>
         </div>
-        <div className="space-y-2 text-sm text-white/70">
+        <div className="space-y-2 text-sm text-brand-foreground/70">
           {NAV_LINKS.filter((item) => item.messageKey !== "contact").map(
             (item) => (
               <p key={item.href}>
-                <Link href={item.href} className="hover:text-inv-white">
+                <Link href={item.href} className="hover:text-brand-foreground">
                   {tNav(item.messageKey)}
                 </Link>
               </p>
             ),
           )}
-          <p className="pt-4 text-xs text-white/50">
+          <p className="pt-4 text-xs text-brand-foreground/50">
             © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
           </p>
         </div>

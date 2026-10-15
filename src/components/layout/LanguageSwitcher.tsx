@@ -45,7 +45,7 @@ export function LanguageSwitcher({
           return (
             <li key={code} className="flex items-center gap-2">
               {index > 0 ? (
-                <span className="text-white/35" aria-hidden>
+                <span className="text-brand-foreground/35" aria-hidden>
                   |
                 </span>
               ) : null}
@@ -56,8 +56,8 @@ export function LanguageSwitcher({
                 lang={code === "ar" ? "ar" : undefined}
                 className={
                   active
-                    ? "text-inv-white"
-                    : "text-white/70 transition-colors hover:text-inv-white"
+                    ? "text-brand-foreground"
+                    : "text-brand-foreground/70 transition-colors hover:text-brand-foreground"
                 }
               >
                 {t(code)}

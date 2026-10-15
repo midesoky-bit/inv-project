@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -9,11 +10,11 @@ export async function Header() {
   const tBrand = await getTranslations("brand");
 
   return (
-    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/10 bg-inv-navy">
+    <header className="absolute inset-x-0 top-0 z-20 border-b border-brand-foreground/10 bg-brand text-brand-foreground">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-serif text-lg tracking-tight text-inv-white"
+          className="font-serif text-lg tracking-tight text-brand-foreground"
         >
           {tBrand("name")}
         </Link>
@@ -23,12 +24,13 @@ export async function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm text-white/80 transition-colors hover:text-inv-white"
+                className="text-sm text-brand-foreground/80 transition-colors hover:text-brand-foreground"
               >
                 {t(item.messageKey)}
               </Link>
             ))}
           </nav>
+          <ThemeSwitcher className="hidden md:block" />
           <LanguageSwitcher className="hidden md:block" />
           <MobileNav />
         </div>

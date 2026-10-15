@@ -20,7 +20,7 @@ export function HeroSection() {
   const t = useTranslations("hero");
 
   return (
-    <section className="relative flex min-h-[88vh] items-center bg-inv-navy px-6 pt-24 pb-20 text-inv-white">
+    <section className="relative flex min-h-[88vh] items-center bg-brand px-6 pt-24 pb-20 text-brand-foreground">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.25),_transparent_55%)]"
@@ -30,7 +30,7 @@ export function HeroSection() {
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-6 font-serif text-sm tracking-[0.2em] text-white/70 uppercase"
+          className="mb-6 font-serif text-sm tracking-[0.2em] text-brand-foreground/70 uppercase"
         >
           {t("eyebrow")}
         </motion.p>
@@ -46,7 +46,7 @@ export function HeroSection() {
           initial={animate ? { opacity: 0, y: 16 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
-          className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg"
+          className="mt-6 max-w-xl text-base leading-relaxed text-brand-foreground/75 sm:text-lg"
         >
           {t("subtitle")}
         </motion.p>

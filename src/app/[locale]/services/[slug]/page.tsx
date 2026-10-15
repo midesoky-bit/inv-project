@@ -68,25 +68,25 @@ export default async function ServicePage({ params }: PageProps) {
   }
 
   return (
-    <article className="bg-inv-white">
-      <div className="bg-inv-navy px-6 pt-28 pb-16 text-inv-white">
+    <article className="bg-background">
+      <div className="bg-brand px-6 pt-28 pb-16 text-brand-foreground">
         <div className="mx-auto max-w-3xl">
-          <p className="mb-4 text-xs tracking-[0.18em] text-white/60 uppercase">
+          <p className="mb-4 text-xs tracking-[0.18em] text-brand-foreground/60 uppercase">
             {t("label")}
           </p>
           <h1 className="font-serif text-4xl tracking-tight md:text-5xl">
             {service.title}
           </h1>
-          <p className="mt-6 text-lg text-white/75">{service.summary}</p>
+          <p className="mt-6 text-lg text-brand-foreground/75">{service.summary}</p>
         </div>
       </div>
       <div className="mx-auto max-w-3xl px-6 py-16">
-        <p className="text-base leading-relaxed text-inv-slate">
+        <p className="text-base leading-relaxed text-muted">
           {service.description}
         </p>
         <Link
           href="/#services"
-          className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-inv-accent hover:underline"
+          className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
         >
           <span aria-hidden className="rtl:-scale-x-100">
             ←
