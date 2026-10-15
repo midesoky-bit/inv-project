@@ -4,7 +4,7 @@ import { NAV_ITEMS } from "@/components/layout/navigation";
 
 export function Header() {
   return (
-    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/10">
+    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/10 bg-inv-navy">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"

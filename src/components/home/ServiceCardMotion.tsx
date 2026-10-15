@@ -1,7 +1,16 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Link from "next/link";
+import { useSyncExternalStore } from "react";
+
+function useHydrated() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
 
 type ServiceCardMotionProps = {
   href: string;
@@ -16,10 +25,14 @@ export function ServiceCardMotion({
   summary,
   index,
 }: ServiceCardMotionProps) {
+  const reduceMotion = useReducedMotion();
+  const hydrated = useHydrated();
+  const animate = hydrated && !reduceMotion;
+
   return (
     <motion.article
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={animate ? { opacity: 0, y: 16 } : false}
+      whileInView={animate ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
       className="group border border-inv-navy/10 bg-inv-white p-8 transition-colors hover:border-inv-accent/40"
