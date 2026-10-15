@@ -1,16 +1,18 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
-import { Link } from "@/i18n/navigation";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const t = useTranslations("nav");
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     if (!open) return;
@@ -48,31 +50,47 @@ export function MobileNav() {
         </svg>
       </button>
 
-      {open ? (
-        <nav
-          id={panelId}
-          aria-label={t("mobile")}
-          className="absolute inset-x-0 top-full border-b border-brand-foreground/10 bg-brand text-brand-foreground md:hidden"
-        >
-          <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {NAV_LINKS.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 text-base text-brand-foreground/85 transition-colors hover:text-brand-foreground"
+      <AnimatePresence>
+        {open ? (
+          <motion.nav
+            key="mobile-panel"
+            id={panelId}
+            aria-label={t("mobile")}
+            initial={reduceMotion ? false : { opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="absolute inset-x-0 top-full border-b border-brand-foreground/10 bg-brand text-brand-foreground md:hidden"
+          >
+            <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
+              {NAV_LINKS.map((item, index) => (
+                <motion.li
+                  key={item.href}
+                  initial={reduceMotion ? false : { opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: 0.22,
+                    delay: reduceMotion ? 0 : 0.04 * index,
+                    ease: "easeOut",
+                  }}
                 >
-                  {t(item.messageKey)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-brand-foreground/10 px-6 py-4">
-            <ThemeSwitcher />
-            <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
-          </div>
-        </nav>
-      ) : null}
+                  <SectionLink
+                    href={item.href}
+                    onNavigate={() => setOpen(false)}
+                    className="block py-3 text-base text-brand-foreground/85 transition-colors hover:text-brand-foreground"
+                  >
+                    {t(item.messageKey)}
+                  </SectionLink>
+                </motion.li>
+              ))}
+            </ul>
+            <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-brand-foreground/10 px-6 py-4">
+              <ThemeSwitcher />
+              <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
+            </div>
+          </motion.nav>
+        ) : null}
+      </AnimatePresence>
     </>
   );
 }

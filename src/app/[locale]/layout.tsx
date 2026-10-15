@@ -4,6 +4,7 @@ import { hasLocale } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Footer } from "@/components/layout/Footer";
+import { HashScroll } from "@/components/layout/HashScroll";
 import { Header } from "@/components/layout/Header";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { ThemeColorMeta } from "@/components/layout/ThemeColorMeta";
@@ -106,6 +107,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
         <ThemeProvider>
           <ThemeColorMeta />
           <NextIntlClientProvider locale={locale as Locale} messages={messages}>
+            <HashScroll />
             <SkipLink />
             <Header />
             <main id="main-content">{children}</main>

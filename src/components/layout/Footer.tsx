@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { NAV_LINKS } from "@/components/layout/navigation";
-import { Link } from "@/i18n/navigation";
+import { SectionLink } from "@/components/layout/SectionLink";
 
 export async function Footer() {
   const tNav = await getTranslations("nav");
@@ -37,9 +37,12 @@ export async function Footer() {
           {NAV_LINKS.filter((item) => item.messageKey !== "contact").map(
             (item) => (
               <p key={item.href}>
-                <Link href={item.href} className="hover:text-brand-foreground">
+                <SectionLink
+                  href={item.href}
+                  className="hover:text-brand-foreground"
+                >
                   {tNav(item.messageKey)}
-                </Link>
+                </SectionLink>
               </p>
             ),
           )}

@@ -1,2 +1,8 @@
 {"timestamp":"00:00:00.650","source":"Server","level":"LOG","message":""}
 {"timestamp":"00:00:03.777","source":"Server","level":"WARN","message":"⚠ Blocked cross-origin request to Next.js dev resource /_next/hmr from \"192.168.100.10\".\nCross-origin access to Next.js dev resources is blocked by default for safety.\n\nTo allow this host in development, add it to \"allowedDevOrigins\" in next.config.js and restart the dev server:\n\n// next.config.js\nmodule.exports = {\n  allowedDevOrigins: ['192.168.100.10'],\n}\n\nRead more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins"}
+{"timestamp":"00:02:48.784","source":"Server","level":"LOG","message":"✓ Compiled in 33ms"}
+{"timestamp":"00:02:49.611","source":"Server","level":"LOG","message":"✓ Compiled in 81ms"}
+{"timestamp":"00:02:54.584","source":"Server","level":"LOG","message":"✓ Compiled in 22ms"}
+{"timestamp":"00:02:55.032","source":"Server","level":"LOG","message":"✓ Compiled in 45ms"}
+{"timestamp":"00:02:55.473","source":"Server","level":"LOG","message":"✓ Compiled in 16ms"}
+{"timestamp":"00:02:56.324","source":"Server","level":"LOG","message":"✓ Compiled in 36ms"}

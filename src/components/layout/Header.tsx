@@ -3,6 +3,7 @@ import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { Link } from "@/i18n/navigation";
 
 export async function Header() {
@@ -21,13 +22,13 @@ export async function Header() {
         <div className="flex items-center gap-4 md:gap-6">
           <nav aria-label={t("primary")} className="hidden gap-8 md:flex">
             {NAV_LINKS.map((item) => (
-              <Link
+              <SectionLink
                 key={item.href}
                 href={item.href}
                 className="text-sm text-brand-foreground/80 transition-colors hover:text-brand-foreground"
               >
                 {t(item.messageKey)}
-              </Link>
+              </SectionLink>
             ))}
           </nav>
           <ThemeSwitcher className="hidden md:block" />
