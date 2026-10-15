@@ -8,6 +8,7 @@ export type ServiceRecord = {
   title: LocalizedString;
   summary: LocalizedString;
   description: LocalizedString;
+  highlights: { en: string[]; ar: string[] };
 };
 
 export type EsgCommitmentRecord = {
@@ -23,6 +24,7 @@ export type Service = {
   title: string;
   summary: string;
   description: string;
+  highlights: string[];
   order: number;
   icon?: string;
 };

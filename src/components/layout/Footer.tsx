@@ -16,6 +16,22 @@ export async function Footer() {
         <div className="max-w-sm space-y-3">
           <p className="font-serif text-xl tracking-tight">{tBrand("name")}</p>
           <p className="text-sm text-brand-foreground/70">{tFooter("tagline")}</p>
+          <p className="text-sm">
+            <a
+              href={`mailto:${tFooter("email")}`}
+              className="text-brand-foreground/80 hover:text-brand-foreground"
+            >
+              {tFooter("email")}
+            </a>
+          </p>
+          <p className="text-sm">
+            <a
+              href={`https://${tFooter("web")}`}
+              className="text-brand-foreground/80 hover:text-brand-foreground"
+            >
+              {tFooter("web")}
+            </a>
+          </p>
         </div>
         <div className="space-y-2 text-sm text-brand-foreground/70">
           {NAV_LINKS.filter((item) => item.messageKey !== "contact").map(

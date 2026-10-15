@@ -1,7 +1,9 @@
 {
   "brand": { "name": "Inventure Communications" },
   "nav": {
+    "about": "About",
     "services": "Services",
+    "approach": "Approach",
     "insights": "Insights",
     "esg": "ESG",
     "contact": "Contact",
@@ -15,7 +17,83 @@
     "egypt": "Egypt",
     "saudi": "Saudi Arabia",
     "uae": "United Arab Emirates",
-    "qatar": "Qatar"
+    "qatar": "Qatar",
+    "body": "Our presence in these markets allows us to work within different regulatory and institutional contexts while maintaining a consistent approach to strategy and delivery."
+  },
+  "about": {
+    "eyebrow": "About us",
+    "title": "An integrated communications and strategic influence platform",
+    "paragraphs": [
+      "Inventure Communications operates across media, public relations, public affairs, and institutional engagement.",
+      "We work with governments, regional organizations, and leading institutions to shape narratives, align stakeholders, and support decision-making in complex environments—delivering outcomes that are clear, measurable, and relevant.",
+      "Our approach connects strategy with execution. Communication is not treated as an isolated function, but as a structured tool that supports positioning, strengthens alignment, and drives outcomes.",
+      "The name Inventure reflects our approach—working from within institutional environments and translating insight into communication that shapes direction and drives results.",
+      "At the core of our work is a simple principle: to shape influence and deliver impact through communication that is precise, purposeful, and aligned with real-world outcomes."
+    ]
+  },
+  "positioning": {
+    "eyebrow": "Our positioning",
+    "title": "A strategic partner, not a service provider",
+    "body": "We support institutions in navigating complexity—connecting communication with decision-making, and ensuring that messaging contributes directly to clarity, alignment, and direction."
+  },
+  "impact": {
+    "eyebrow": "How we deliver impact",
+    "title": "Communication systems that connect thinking with execution",
+    "items": [
+      { "index": "01", "title": "Context-Based Strategy", "body": "Grounded in real stakeholder and institutional dynamics." },
+      { "index": "02", "title": "Institutional Understanding", "body": "Clear awareness of how decisions are made and influenced." },
+      { "index": "03", "title": "Integrated Execution", "body": "Media, PR, public affairs, and events operate as one coordinated system." },
+      { "index": "04", "title": "Insight-Driven Approach", "body": "Decisions are based on analysis, not assumptions." },
+      { "index": "05", "title": "Outcome-Focused Delivery", "body": "We define success through measurable results." },
+      { "index": "06", "title": "Structured Problem Solving", "body": "We simplify complexity and provide clear direction." }
+    ],
+    "strengthTitle": "Our core strength",
+    "strengthBody": "We operate where communication meets decision-making. Our work ensures that communication supports outcomes—not just visibility.",
+    "thinkTitle": "How we think",
+    "thinkBody": "We approach every engagement as a system, not a campaign. In complex environments, communication is not about visibility—it is about positioning."
+  },
+  "capability": {
+    "title": "Institutional capability",
+    "paragraphs": [
+      "Inventure Communications is built to operate within institutional environments—engaging with governments, regional entities, and large-scale initiatives.",
+      "We integrate strategy and execution within one structure—ensuring consistency, speed, and clarity across all communication efforts.",
+      "In-house capabilities provide full control over production, creative development, and delivery, supported by an established operational infrastructure and media network.",
+      "The company is supported by strategic partnerships and institutional backing, enabling scale, execution capability, and regional reach."
+    ],
+    "items": [
+      "Access to high-quality production facilities enabling full-scale content creation",
+      "Established relationships across media platforms, including journalists, publications, and broadcast networks",
+      "The ability to manage, distribute, and deliver communication outputs with speed, consistency, and quality"
+    ]
+  },
+  "advantage": {
+    "title": "Our advantage",
+    "items": [
+      "Integrated platform across communications disciplines",
+      "Institutional-level engagement capability",
+      "Execution-ready operational structure",
+      "Strong regional access and network",
+      "Ability to operate with clarity, speed, and consistency"
+    ]
+  },
+  "clients": {
+    "title": "Who we work with",
+    "items": [
+      "Government entities",
+      "Sovereign and institutional partners",
+      "Regional and international organizations",
+      "Corporations and investment groups",
+      "Development-focused institutions"
+    ]
+  },
+  "principles": {
+    "eyebrow": "Our principles",
+    "title": "How we operate is as important as what we deliver",
+    "items": [
+      { "title": "Transparency & Integrity", "body": "We operate with clarity, accountability, and professional discipline. Our work maintains a clear separation between advisory and execution." },
+      { "title": "Accountability", "body": "We take responsibility for outcomes. Every engagement is structured around clear objectives and measurable results." },
+      { "title": "Institutional Responsibility", "body": "We operate with a strong understanding of governance frameworks and institutional expectations." }
+    ]
   },
   "hero": {
     "eyebrow": "Inventure Communications",
@@ -39,11 +117,21 @@
   "esg": {
     "title": "Sustainability & ESG",
     "comingSoon": "ESG commitments will appear here soon.",
-    "subtitle": "Sustainability is integrated into how we operate, advise, and deliver."
+    "subtitle": "Sustainability is integrated into how we operate, advise, and deliver our work.",
+    "closing": "We view communication as a key enabler of sustainability—shaping perception, influencing behavior, and supporting institutions in aligning with long-term economic and social priorities.",
+    "practice": [
+      "Prioritize digital delivery and reduce unnecessary production",
+      "Integrate ESG messaging into relevant projects and campaigns",
+      "Apply structured review processes to ensure accuracy and transparency",
+      "Align communication outputs with recognized sustainability principles",
+      "Work with partners and suppliers who demonstrate responsible practices"
+    ]
   },
   "footer": {
     "tagline": "Strategic Communications & Public Affairs — Middle East.",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "email": "info@inventurecommunications.com",
+    "web": "inventurecommunications.com"
   },
   "theme": {
     "label": "Appearance",

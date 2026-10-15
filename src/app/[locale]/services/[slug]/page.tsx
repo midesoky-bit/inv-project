@@ -71,6 +71,15 @@ export default async function ServicePage({ params }: PageProps) {
         <p className="text-base leading-relaxed text-muted">
           {service.description}
         </p>
+        {service.highlights.length > 0 ? (
+          <ul className="mt-8 space-y-3 border-t border-border pt-8">
+            {service.highlights.map((item) => (
+              <li key={item} className="text-base leading-relaxed text-foreground">
+                {item}
+              </li>
+            ))}
+          </ul>
+        ) : null}
         <Link
           href="/#services"
           className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"

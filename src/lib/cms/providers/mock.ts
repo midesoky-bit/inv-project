@@ -27,6 +27,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
       en: "From documentary and narrative-driven production to corporate and strategic communication content, multi-platform digital assets, and high-quality event coverage — we deliver media that supports positioning, stakeholder alignment, and measurable outcomes across the Middle East.",
       ar: "من الإنتاج الوثائقي والسردي إلى المحتوى المؤسسي والاتصالي الاستراتيجي، والأصول الرقمية متعددة المنصات، وتغطية الفعاليات بجودة عالية — نقدّم إنتاجًا إعلاميًا يدعم التموضع ومواءمة أصحاب المصلحة وتحقيق نتائج قابلة للقياس في أنحاء الشرق الأوسط.",
     },
+    highlights: {
+      en: [
+        "Documentary and narrative-driven production",
+        "Corporate and strategic communication content",
+        "Multi-platform digital content",
+        "High-quality event coverage",
+      ],
+      ar: [
+        "إنتاج وثائقي وسردي",
+        "محتوى مؤسسي واتصالي استراتيجي",
+        "محتوى رقمي متعدد المنصات",
+        "تغطية فعاليات بجودة عالية",
+      ],
+    },
   },
   {
     id: "2",
@@ -44,6 +58,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
     description: {
       en: "We provide structured media coverage for initiatives and events, develop content aligned with institutional positioning, design narratives and message architecture, and plan integrated multi-channel communication programs.",
       ar: "نوفر تغطية إعلامية منظمة للمبادرات والفعاليات، ونطوّر محتوى متسقًا مع التموضع المؤسسي، ونصمم السرديات وبنية الرسائل، ونخطط لبرامج اتصال متكاملة عبر قنوات متعددة.",
+    },
+    highlights: {
+      en: [
+        "Structured media coverage for initiatives and events",
+        "Content development aligned with strategic positioning",
+        "Narrative design and message structuring",
+        "Multi-channel communication planning",
+      ],
+      ar: [
+        "تغطية إعلامية منظمة للمبادرات والفعاليات",
+        "تطوير محتوى متسق مع التموضع الاستراتيجي",
+        "تصميم السرد وبنية الرسائل",
+        "تخطيط اتصال متعدد القنوات",
+      ],
     },
   },
   {
@@ -63,6 +91,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
       en: "We manage digital presence strategically, design and execute campaigns, build content systems and publishing frameworks, and track performance to optimize reach, relevance, and reputation outcomes.",
       ar: "ندير الحضور الرقمي بشكل استراتيجي، ونصمم وننفّذ الحملات، ونبني أنظمة المحتوى وأطر النشر، ونقيس الأداء لتحسين الوصول والملاءمة ونتائج السمعة.",
     },
+    highlights: {
+      en: [
+        "Strategic management of digital presence",
+        "Campaign design and execution",
+        "Content systems and publishing frameworks",
+        "Performance tracking and optimization",
+      ],
+      ar: [
+        "إدارة استراتيجية للحضور الرقمي",
+        "تصميم الحملات وتنفيذها",
+        "أنظمة محتوى وأطر نشر",
+        "متابعة الأداء وتحسينه",
+      ],
+    },
   },
   {
     id: "4",
@@ -80,6 +122,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
     description: {
       en: "We support media positioning and relationship management, align reputation and communication with institutional objectives, structure strategic partnerships and collaborations, and design stakeholder engagement frameworks that endure scrutiny.",
       ar: "ندعم التموضع الإعلامي وإدارة العلاقات، ونوائم السمعة والاتصال مع الأهداف المؤسسية، ونهيكل الشراكات والتعاون الاستراتيجي، ونصمم أطر مشاركة أصحاب المصلحة التي تتحمل التدقيق.",
+    },
+    highlights: {
+      en: [
+        "Media positioning and relationship management",
+        "Reputation and communication alignment",
+        "Strategic partnerships and collaborations",
+        "Stakeholder engagement frameworks",
+      ],
+      ar: [
+        "التموضع الإعلامي وإدارة العلاقات",
+        "مواءمة السمعة والاتصال",
+        "شراكات وتعاون استراتيجي",
+        "أطر مشاركة أصحاب المصلحة",
+      ],
     },
   },
   {
@@ -99,6 +155,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
       en: "We design and deliver conferences and institutional events, plan and execute exhibitions, structure sponsorships and partner coordination, and integrate event communication from pre-brief through post-event narrative continuity.",
       ar: "نصمم وننفّذ المؤتمرات والفعاليات المؤسسية، ونخطط وننفّذ المعارض، ونهيكل الرعايات وتنسيق الشركاء، وندمج اتصال الفعاليات من الإعداد حتى استمرارية السرد بعد الحدث.",
     },
+    highlights: {
+      en: [
+        "Design and delivery of conferences and institutional events",
+        "Exhibition planning and execution",
+        "Sponsorship structuring and partner coordination",
+        "Integrated event communication",
+      ],
+      ar: [
+        "تصميم المؤتمرات والفعاليات المؤسسية وتقديمها",
+        "تخطيط المعارض وتنفيذها",
+        "هيكلة الرعايات وتنسيق الشركاء",
+        "اتصال متكامل للفعاليات",
+      ],
+    },
   },
   {
     id: "6",
@@ -117,6 +187,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
       en: "We advise on government and institutional engagement, develop policy-aligned communication strategies, map stakeholders and influence pathways, and support leadership on positioning in complex regulatory and public environments.",
       ar: "نقدّم المشورة في المشاركة الحكومية والمؤسسية، ونطوّر استراتيجيات اتصال متسقة مع السياسات، ونرسم خرائط أصحاب المصلحة ومسارات التأثير، وندعم القيادات في التموضع ضمن بيئات تنظيمية وعامة معقدة.",
     },
+    highlights: {
+      en: [
+        "Government and institutional engagement",
+        "Policy-aligned communication strategies",
+        "Stakeholder mapping and influence planning",
+        "Advisory on institutional positioning",
+      ],
+      ar: [
+        "المشاركة الحكومية والمؤسسية",
+        "استراتيجيات اتصال متسقة مع السياسات",
+        "رسم أصحاب المصلحة وتخطيط التأثير",
+        "مشورة في التموضع المؤسسي",
+      ],
+    },
   },
   {
     id: "7",
@@ -134,6 +218,20 @@ export const SERVICE_RECORDS: ServiceRecord[] = [
     description: {
       en: "We support institutions in communicating with investors and financial stakeholders during fundraising, listings, and major transactions — shaping investment narratives, preparing investor-facing materials, supporting investor relations, and translating complex financial information into clear, consistent messaging that builds confidence.",
       ar: "ندعم المؤسسات في التواصل مع المستثمرين وأصحاب المصلحة الماليين أثناء جمع التمويل والإدراج والصفقات الكبرى — عبر صياغة سرديات الاستثمار، وإعداد مواد موجهة للمستثمرين، ودعم علاقات المستثمرين، وترجمة المعلومات المالية المعقدة إلى رسائل واضحة ومتسقة تبني الثقة.",
+    },
+    highlights: {
+      en: [
+        "Shaping investment narratives",
+        "Preparing investor-facing materials",
+        "Supporting investor relations",
+        "Translating complex financial information into clear messaging",
+      ],
+      ar: [
+        "صياغة سرديات الاستثمار",
+        "إعداد مواد موجهة للمستثمرين",
+        "دعم علاقات المستثمرين",
+        "ترجمة المعلومات المالية المعقدة إلى رسائل واضحة",
+      ],
     },
   },
 ];

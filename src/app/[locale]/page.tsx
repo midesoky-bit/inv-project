@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PresenceStrip } from "@/components/home/PresenceStrip";
+import {
+  AboutSection,
+  AdvantageSection,
+  CapabilitySection,
+  ClientsSection,
+  ImpactSection,
+  PositioningSection,
+  PrinciplesSection,
+} from "@/components/home/ProfileSections";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -42,31 +51,19 @@ export default async function HomePage({ params }: PageProps) {
   const cmsLocale = locale as Locale;
   const services = await fetchServices(cmsLocale);
   const esgCommitments = await fetchEsgCommitments(cmsLocale);
-  const tInsights = await getTranslations("insights");
   const tEsg = await getTranslations("esg");
+  const practice = tEsg.raw("practice") as string[];
 
   return (
     <>
       <HeroSection />
+      <AboutSection />
+      <PositioningSection />
       <PresenceStrip />
       <ServiceGrid services={services} />
-      <section
-        id="insights"
-        className="border-t border-border bg-background px-6 py-20 md:py-24"
-        aria-labelledby="insights-heading"
-      >
-        <div className="mx-auto max-w-6xl">
-          <h2
-            id="insights-heading"
-            className="font-serif text-3xl tracking-tight text-foreground md:text-4xl"
-          >
-            {tInsights("title")}
-          </h2>
-          <p className="mt-4 max-w-2xl text-base text-muted">
-            {tInsights("comingSoon")}
-          </p>
-        </div>
-      </section>
+      <ImpactSection />
+      <CapabilitySection />
+      <AdvantageSection />
       <section
         id="esg"
         className="border-t border-border bg-surface-muted px-6 py-20 md:py-24"
@@ -100,8 +97,20 @@ export default async function HomePage({ params }: PageProps) {
               {tEsg("comingSoon")}
             </p>
           )}
+          <ul className="mt-10 max-w-3xl space-y-3">
+            {practice.map((item) => (
+              <li key={item} className="text-sm leading-relaxed text-muted">
+                {item}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 max-w-3xl text-base leading-relaxed text-foreground">
+            {tEsg("closing")}
+          </p>
         </div>
       </section>
+      <ClientsSection />
+      <PrinciplesSection />
     </>
   );
 }

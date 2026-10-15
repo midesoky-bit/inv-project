@@ -1,16 +1,2 @@
-{"timestamp":"00:00:00.528","source":"Server","level":"WARN","message":"⚠ Turbopack's filesystem cache has been deleted because we previously detected an internal error in Turbopack. Builds or page loads may be slower as a result."}
-{"timestamp":"00:00:00.770","source":"Server","level":"LOG","message":""}
-{"timestamp":"00:00:09.423","source":"Server","level":"LOG","message":"○ Compiling /[locale] ..."}
-{"timestamp":"00:00:10.232","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:06:56.577","source":"Browser","level":"ERROR","message":"Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template). "}
-{"timestamp":"00:06:56.578","source":"Server","level":"ERROR","message":"[browser] \"Encountered a script tag while rendering React component. Scripts inside React components are never executed when rendering on the client. Consider using template tag instead (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template).\" \"\""}
-{"timestamp":"00:15:25.235","source":"Server","level":"LOG","message":"✓ Compiled in 65ms"}
-{"timestamp":"00:15:27.422","source":"Server","level":"LOG","message":"✓ Compiled in 44ms"}
-{"timestamp":"00:15:27.928","source":"Server","level":"LOG","message":"✓ Compiled in 28ms"}
-{"timestamp":"00:15:28.662","source":"Server","level":"LOG","message":"✓ Compiled in 29ms"}
-{"timestamp":"00:15:29.046","source":"Server","level":"LOG","message":"✓ Compiled in 35ms"}
-{"timestamp":"00:15:29.593","source":"Server","level":"LOG","message":"✓ Compiled in 17ms"}
-{"timestamp":"00:15:36.186","source":"Server","level":"LOG","message":"✓ Compiled in 42ms"}
-{"timestamp":"00:15:36.396","source":"Server","level":"LOG","message":"✓ Compiled in 74ms"}
-{"timestamp":"00:16:12.243","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
-{"timestamp":"00:16:19.361","source":"Server","level":"WARN","message":"⚠ Blocked cross-origin request to Next.js dev resource /_next/hmr from \"127.0.0.1\".\nCross-origin access to Next.js dev resources is blocked by default for safety.\n\nTo allow this host in development, add it to \"allowedDevOrigins\" in next.config.js and restart the dev server:\n\n// next.config.js\nmodule.exports = {\n  allowedDevOrigins: ['127.0.0.1'],\n}\n\nRead more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins"}
+{"timestamp":"00:00:00.650","source":"Server","level":"LOG","message":""}
+{"timestamp":"00:00:03.777","source":"Server","level":"WARN","message":"⚠ Blocked cross-origin request to Next.js dev resource /_next/hmr from \"192.168.100.10\".\nCross-origin access to Next.js dev resources is blocked by default for safety.\n\nTo allow this host in development, add it to \"allowedDevOrigins\" in next.config.js and restart the dev server:\n\n// next.config.js\nmodule.exports = {\n  allowedDevOrigins: ['192.168.100.10'],\n}\n\nRead more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins"}

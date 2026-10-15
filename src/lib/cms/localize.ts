@@ -22,6 +22,10 @@ export function toService(record: ServiceRecord, locale: Locale): Service {
     title: pickLocalized(record.title, locale),
     summary: pickLocalized(record.summary, locale),
     description: pickLocalized(record.description, locale),
+    highlights:
+      record.highlights[locale]?.length > 0
+        ? record.highlights[locale]
+        : record.highlights.en,
   };
 }
 

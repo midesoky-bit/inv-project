@@ -66,6 +66,8 @@ describe("cms service (mock provider)", () => {
       expect(localizedFieldsComplete(record.title)).toBe(true);
       expect(localizedFieldsComplete(record.summary)).toBe(true);
       expect(localizedFieldsComplete(record.description)).toBe(true);
+      expect(record.highlights.en.length).toBeGreaterThan(0);
+      expect(record.highlights.ar.length).toBe(record.highlights.en.length);
     }
     for (const record of ESG_COMMITMENT_RECORDS) {
       expect(localizedFieldsComplete(record.title)).toBe(true);
