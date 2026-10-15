@@ -1,26 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --inv-navy: #0b1d36;
+  --inv-navy-mid: #132a4a;
+  --inv-slate: #5c6b7a;
+  --inv-mist: #f3f5f7;
+  --inv-white: #ffffff;
+  --inv-accent: #3a6b8c;
+  --background: var(--inv-white);
+  --foreground: var(--inv-navy);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-inv-navy: var(--inv-navy);
+  --color-inv-navy-mid: var(--inv-navy-mid);
+  --color-inv-slate: var(--inv-slate);
+  --color-inv-mist: var(--inv-mist);
+  --color-inv-white: var(--inv-white);
+  --color-inv-accent: var(--inv-accent);
+  --font-sans: var(--font-ibm-plex-sans);
+  --font-serif: var(--font-ibm-plex-serif);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--inv-accent) 35%, white);
 }
