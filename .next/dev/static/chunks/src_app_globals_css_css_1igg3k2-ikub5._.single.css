@@ -372,6 +372,10 @@
     position: absolute;
   }
 
+  .fixed {
+    position: fixed;
+  }
+
   .relative {
     position: relative;
   }
@@ -402,6 +406,10 @@
 
   .z-20 {
     z-index: 20;
+  }
+
+  .z-30 {
+    z-index: 30;
   }
 
   .mx-auto {
@@ -538,6 +546,10 @@
 
   .max-w-xl {
     max-width: var(--container-xl);
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
   }
 
   .flex-col {
@@ -1581,6 +1593,16 @@
   --accent: #d4a574;
   --accent-foreground: #1a1410;
   --ring: #d4a574;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {

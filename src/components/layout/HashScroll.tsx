@@ -1,29 +1,22 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import { useEffect } from "react";
 import { usePathname } from "@/i18n/navigation";
+import { smoothScrollToId } from "@/components/layout/smoothScroll";
 
 export function HashScroll() {
   const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const id = window.location.hash.replace(/^#/, "");
     if (!id) return;
 
-    const target = document.getElementById(id);
-    if (!target) return;
-
     const frame = window.requestAnimationFrame(() => {
-      target.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "start",
-      });
+      smoothScrollToId(id);
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [pathname, reduceMotion]);
+  }, [pathname]);
 
   return null;
 }

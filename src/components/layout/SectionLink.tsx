@@ -1,8 +1,9 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
 import type { MouseEvent, ReactNode } from "react";
-import { Link, usePathname } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { smoothScrollToId } from "@/components/layout/smoothScroll";
 
 type SectionLinkProps = {
   href: string;
@@ -11,18 +12,12 @@ type SectionLinkProps = {
   onNavigate?: () => void;
 };
 
-function scrollToId(id: string, smooth: boolean) {
-  const target = document.getElementById(id);
-  if (!target) return false;
-  target.scrollIntoView({
-    behavior: smooth ? "smooth" : "auto",
-    block: "start",
-  });
-  const nextHash = `#${id}`;
-  if (window.location.hash !== nextHash) {
-    window.history.pushState(null, "", nextHash);
-  }
-  return true;
+function samePage(path: string, locale: string) {
+  const current = window.location.pathname.replace(/\/$/, "") || "/";
+  const target =
+    (path === "/" ? `/${locale}` : `/${locale}${path}`).replace(/\/$/, "") ||
+    "/";
+  return current === target;
 }
 
 export function SectionLink({
@@ -31,29 +26,29 @@ export function SectionLink({
   children,
   onNavigate,
 }: SectionLinkProps) {
-  const pathname = usePathname();
-  const reduceMotion = useReducedMotion();
+  const locale = useLocale();
+  const hashAt = href.indexOf("#");
+  const id = hashAt === -1 ? "" : href.slice(hashAt + 1);
+  const path = hashAt === -1 ? href : href.slice(0, hashAt) || "/";
 
-  function onClick(event: MouseEvent<HTMLAnchorElement>) {
-    const hashAt = href.indexOf("#");
-    if (hashAt === -1) {
+  function handle(event: { preventDefault: () => void }) {
+    if (!id) {
       onNavigate?.();
       return;
     }
-
-    const id = href.slice(hashAt + 1);
-    const path = href.slice(0, hashAt) || "/";
-    const onThisPage = pathname === path || (path === "/" && pathname === "/");
-
-    if (onThisPage && scrollToId(id, !reduceMotion)) {
+    if (samePage(path, locale) && smoothScrollToId(id)) {
       event.preventDefault();
     }
-
     onNavigate?.();
   }
 
   return (
-    <Link href={href} scroll={false} className={className} onClick={onClick}>
+    <Link
+      href={href}
+      className={className}
+      onClick={(event: MouseEvent<HTMLAnchorElement>) => handle(event)}
+      onNavigate={handle}
+    >
       {children}
     </Link>
   );

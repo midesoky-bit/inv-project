@@ -11,7 +11,7 @@ export async function Header() {
   const tBrand = await getTranslations("brand");
 
   return (
-    <header className="absolute inset-x-0 top-0 z-20 border-b border-brand-foreground/10 bg-brand text-brand-foreground">
+    <header className="fixed inset-x-0 top-0 z-30 border-b border-brand-foreground/10 bg-brand text-brand-foreground">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"

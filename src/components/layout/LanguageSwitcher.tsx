@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
+import { getPathname, usePathname } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 
 type LanguageSwitcherProps = {
@@ -15,26 +15,19 @@ export function LanguageSwitcher({
 }: LanguageSwitcherProps) {
   const locale = useLocale() as Locale;
   const pathname = usePathname();
-  const router = useRouter();
   const t = useTranslations("language");
 
-  const switchLocale = (nextLocale: Locale) => {
+  function switchLocale(nextLocale: Locale) {
     if (nextLocale === locale) return;
 
-    const search = window.location.search;
-    const hash = window.location.hash;
-
-    router.replace(`${pathname}${search}${hash}`, { locale: nextLocale });
-
+    const nextPath = getPathname({ href: pathname, locale: nextLocale });
+    const nextUrl = `${nextPath}${window.location.search}${window.location.hash}`;
     onLocaleChange?.();
-  };
+    window.location.assign(nextUrl);
+  }
 
   return (
-    <div
-      role="group"
-      aria-label={t("label")}
-      className={className}
-    >
+    <div role="group" aria-label={t("label")} className={className}>
       <ul className="flex items-center gap-2 text-sm">
         {routing.locales.map((code, index) => {
           const active = locale === code;
@@ -49,11 +42,11 @@ export function LanguageSwitcher({
                 type="button"
                 onClick={() => switchLocale(code)}
                 aria-current={active ? "true" : undefined}
-                lang={code === "ar" ? "ar" : undefined}
+                lang={code === "ar" ? "ar" : "en"}
                 className={
                   active
                     ? "text-brand-foreground"
-                    : "text-brand-foreground/70 transition-colors hover:text-brand-foreground"
+                    : "cursor-pointer text-brand-foreground/70 transition-colors hover:text-brand-foreground"
                 }
               >
                 {t(code)}
