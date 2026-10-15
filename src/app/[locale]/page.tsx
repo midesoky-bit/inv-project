@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { HeroSection } from "@/components/home/HeroSection";
+import { PresenceStrip } from "@/components/home/PresenceStrip";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -47,6 +48,7 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <>
       <HeroSection />
+      <PresenceStrip />
       <ServiceGrid services={services} />
       <section
         id="insights"

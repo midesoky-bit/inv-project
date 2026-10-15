@@ -10,6 +10,13 @@
     "primary": "الرئيسية",
     "mobile": "الجوال"
   },
+  "presence": {
+    "label": "الحضور الإقليمي",
+    "egypt": "مصر",
+    "saudi": "المملكة العربية السعودية",
+    "uae": "الإمارات العربية المتحدة",
+    "qatar": "قطر"
+  },
   "hero": {
     "eyebrow": "<bdi>Inventure Communications</bdi>",
     "title": "اتصالات استراتيجية لصناع القرار",

@@ -20,11 +20,39 @@ export function HeroSection() {
   const t = useTranslations("hero");
 
   return (
-    <section className="relative flex min-h-[88vh] items-center bg-brand px-6 pt-24 pb-20 text-brand-foreground">
+    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-brand px-6 pt-24 pb-20 text-brand-foreground">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.25),_transparent_55%)]"
+        className="inv-hero-glow pointer-events-none absolute -inset-[12%] bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.38),_transparent_58%)]"
       />
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute inset-0 h-full w-full text-brand-foreground/25"
+        viewBox="0 0 1200 700"
+        fill="none"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <path
+          className="inv-hero-line"
+          d="M80 560 C220 420, 280 180, 460 220 S760 480, 1120 140"
+          stroke="currentColor"
+          strokeWidth="1.25"
+        />
+        <path
+          className="inv-hero-line"
+          d="M40 180 H520"
+          stroke="currentColor"
+          strokeWidth="1"
+          style={{ animationDelay: "0.15s" }}
+        />
+        <path
+          className="inv-hero-line"
+          d="M860 520 H1160"
+          stroke="currentColor"
+          strokeWidth="1"
+          style={{ animationDelay: "0.3s" }}
+        />
+      </svg>
       <div className="relative mx-auto w-full max-w-6xl">
         <motion.p
           initial={animate ? { opacity: 0, y: 12 } : false}

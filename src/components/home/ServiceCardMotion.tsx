@@ -37,7 +37,7 @@ export function ServiceCardMotion({
       whileInView={animate ? { opacity: 1, y: 0 } : undefined}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-      className="group border border-border bg-surface p-8 transition-colors hover:border-accent/40"
+      className="group border border-border bg-surface p-8 shadow-none transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-md focus-within:-translate-y-1 focus-within:border-accent focus-within:shadow-md"
     >
       <Link
         href={href}
@@ -47,7 +47,7 @@ export function ServiceCardMotion({
           {title}
         </h3>
         <p className="text-sm leading-relaxed text-muted">{summary}</p>
-        <span className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+        <span className="inline-flex items-center gap-2 text-sm font-medium text-accent transition-transform group-hover:translate-x-1 group-focus-within:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-focus-within:-translate-x-1">
           {learnMoreLabel}
           <span aria-hidden className="rtl:-scale-x-100">
             →

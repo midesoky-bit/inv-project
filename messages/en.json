@@ -10,6 +10,13 @@
     "primary": "Primary",
     "mobile": "Mobile"
   },
+  "presence": {
+    "label": "Regional presence",
+    "egypt": "Egypt",
+    "saudi": "Saudi Arabia",
+    "uae": "United Arab Emirates",
+    "qatar": "Qatar"
+  },
   "hero": {
     "eyebrow": "Inventure Communications",
     "title": "Strategic communications for decision-makers",
