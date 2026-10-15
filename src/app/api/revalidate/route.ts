@@ -2,13 +2,33 @@ import { timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 
-const STATIC_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
-const SERVICE_TAG = /^service:[a-z0-9-]+$/;
+const BARE_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
+const LOCALES = ["en", "ar"] as const;
+const LOCALE_SCOPED_TAG =
+  /^(services|insights|esg|case-studies):(en|ar)$/;
+const SERVICE_LOCALE_TAG = /^service:(en|ar):[a-z0-9-]+$/;
 
 function isAllowedTag(tag: unknown): tag is string {
   return (
-    typeof tag === "string" && (STATIC_TAGS.has(tag) || SERVICE_TAG.test(tag))
+    typeof tag === "string" &&
+    (BARE_TAGS.has(tag) ||
+      LOCALE_SCOPED_TAG.test(tag) ||
+      SERVICE_LOCALE_TAG.test(tag))
   );
+}
+
+function expandTags(tags: string[]): string[] {
+  const expanded: string[] = [];
+  for (const tag of tags) {
+    if (BARE_TAGS.has(tag)) {
+      for (const locale of LOCALES) {
+        expanded.push(`${tag}:${locale}`);
+      }
+    } else {
+      expanded.push(tag);
+    }
+  }
+  return expanded;
 }
 
 function secretMatches(provided: string, expected: string): boolean {
@@ -46,9 +66,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  for (const tag of tags) {
+  const expanded = expandTags(tags);
+  for (const tag of expanded) {
     revalidateTag(tag, "max");
   }
 
-  return NextResponse.json({ revalidated: tags });
+  return NextResponse.json({ revalidated: expanded });
 }

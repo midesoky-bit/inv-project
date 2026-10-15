@@ -1,5 +1,10 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  ESG_COMMITMENT_RECORDS,
+  SERVICE_RECORDS,
+} from "@/lib/cms/providers/mock";
+import type { LocalizedString } from "@/types/cms";
+import {
   fetchServiceBySlug,
   fetchServices,
   fetchInsights,
@@ -7,17 +12,43 @@ import {
   fetchCaseStudies,
 } from "@/services/cms";
 
+const ARABIC = /[\u0600-\u06FF]/;
+
+function localizedFieldsComplete(value: LocalizedString): boolean {
+  return Boolean(value.en.trim() && value.ar.trim());
+}
+
 describe("cms service (mock provider)", () => {
   beforeEach(() => {
     process.env.CMS_PROVIDER = "mock";
   });
 
-  it("returns ordered services including public affairs", async () => {
+  it("returns seven ordered services in English", async () => {
     const services = await fetchServices("en");
-    expect(services.length).toBeGreaterThanOrEqual(4);
-    expect(services.map((s) => s.slug)).toContain("public-affairs");
+    expect(services).toHaveLength(7);
     const orders = services.map((s) => s.order);
     expect(orders).toEqual([...orders].sort((a, b) => a - b));
+    expect(services.map((s) => s.slug)).toEqual([
+      "media-production",
+      "media-content-management",
+      "digital-media-platforms",
+      "public-relations-partnerships",
+      "events-exhibitions",
+      "public-affairs-government-relations",
+      "capital-markets-financial-communications",
+    ]);
+  });
+
+  it("returns three ESG commitments in English", async () => {
+    const commitments = await fetchEsgCommitments("en");
+    expect(commitments).toHaveLength(3);
+  });
+
+  it("returns Arabic titles for Arabic locale", async () => {
+    const services = await fetchServices("ar");
+    expect(services[0]?.title).toMatch(ARABIC);
+    const esg = await fetchEsgCommitments("ar");
+    expect(esg[0]?.title).toMatch(ARABIC);
   });
 
   it("fetches a service by slug", async () => {
@@ -30,9 +61,20 @@ describe("cms service (mock provider)", () => {
     expect(await fetchServiceBySlug("does-not-exist", "en")).toBeNull();
   });
 
-  it("exposes future content helpers", async () => {
+  it("keeps every underlying record fully localized", () => {
+    for (const record of SERVICE_RECORDS) {
+      expect(localizedFieldsComplete(record.title)).toBe(true);
+      expect(localizedFieldsComplete(record.summary)).toBe(true);
+      expect(localizedFieldsComplete(record.description)).toBe(true);
+    }
+    for (const record of ESG_COMMITMENT_RECORDS) {
+      expect(localizedFieldsComplete(record.title)).toBe(true);
+      expect(localizedFieldsComplete(record.summary)).toBe(true);
+    }
+  });
+
+  it("exposes empty insights and case studies helpers", async () => {
     await expect(fetchInsights("en")).resolves.toEqual([]);
-    await expect(fetchEsgCommitments("en")).resolves.toEqual([]);
     await expect(fetchCaseStudies("en")).resolves.toEqual([]);
   });
 });

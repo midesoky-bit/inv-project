@@ -1,3 +1,22 @@
+export type LocalizedString = { en: string; ar: string };
+
+export type ServiceRecord = {
+  id: string;
+  slug: string;
+  order: number;
+  icon?: string;
+  title: LocalizedString;
+  summary: LocalizedString;
+  description: LocalizedString;
+};
+
+export type EsgCommitmentRecord = {
+  id: string;
+  order: number;
+  title: LocalizedString;
+  summary: LocalizedString;
+};
+
 export type Service = {
   id: string;
   slug: string;

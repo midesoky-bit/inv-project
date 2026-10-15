@@ -43,11 +43,36 @@ describe("POST /api/revalidate", () => {
     expect(revalidateTag).not.toHaveBeenCalled();
   });
 
-  it("revalidates allowed tags", async () => {
+  it("400s on legacy service tags without locale", async () => {
+    const res = await POST(request({ tags: ["service:events"] }, "test-secret"));
+    expect(res.status).toBe(400);
+    expect(revalidateTag).not.toHaveBeenCalled();
+  });
+
+  it("expands bare tags to both locales", async () => {
+    const res = await POST(request({ tags: ["services"] }, "test-secret"));
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.revalidated).toEqual(["services:en", "services:ar"]);
+    expect(revalidateTag).toHaveBeenCalledTimes(2);
+    expect(revalidateTag).toHaveBeenCalledWith("services:en", "max");
+    expect(revalidateTag).toHaveBeenCalledWith("services:ar", "max");
+  });
+
+  it("revalidates locale-scoped tags", async () => {
     const res = await POST(
-      request({ tags: ["services", "service:events"] }, "test-secret"),
+      request(
+        {
+          tags: [
+            "services:en",
+            "service:ar:events-exhibitions",
+            "esg:ar",
+          ],
+        },
+        "test-secret",
+      ),
     );
     expect(res.status).toBe(200);
-    expect(revalidateTag).toHaveBeenCalledTimes(2);
+    expect(revalidateTag).toHaveBeenCalledTimes(3);
   });
 });

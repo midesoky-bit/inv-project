@@ -32,7 +32,9 @@ export function HeroSection() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="mb-6 font-serif text-sm tracking-[0.2em] text-brand-foreground/70 uppercase"
         >
-          {t("eyebrow")}
+          {t.rich("eyebrow", {
+            bdi: (chunks) => <bdi>{chunks}</bdi>,
+          })}
         </motion.p>
         <motion.h1
           initial={animate ? { opacity: 0, y: 16 } : false}

@@ -11,22 +11,22 @@ import type {
 type DirectusList<T> = { data: T[] };
 type DirectusItem<T> = { data: T };
 
-export async function directusFetchServices(_locale: Locale): Promise<Service[]> {
+export async function directusFetchServices(locale: Locale): Promise<Service[]> {
   const result = await cmsFetch<DirectusList<Service>>(
     "/items/services?sort=order",
-    { tags: ["services"] },
+    { tags: [`services:${locale}`] },
   );
   return result.data;
 }
 
 export async function directusFetchServiceBySlug(
   slug: string,
-  _locale: Locale,
+  locale: Locale,
 ): Promise<Service | null> {
   try {
     const result = await cmsFetch<DirectusList<Service>>(
       `/items/services?filter[slug][_eq]=${encodeURIComponent(slug)}&limit=1`,
-      { tags: ["services", `service:${slug}`] },
+      { tags: [`services:${locale}`, `service:${locale}:${slug}`] },
     );
     return result.data[0] ?? null;
   } catch (error) {
@@ -35,28 +35,28 @@ export async function directusFetchServiceBySlug(
   }
 }
 
-export async function directusFetchInsights(_locale: Locale): Promise<Insight[]> {
+export async function directusFetchInsights(locale: Locale): Promise<Insight[]> {
   const result = await cmsFetch<DirectusList<Insight>>("/items/insights", {
-    tags: ["insights"],
+    tags: [`insights:${locale}`],
   });
   return result.data;
 }
 
 export async function directusFetchEsgCommitments(
-  _locale: Locale,
+  locale: Locale,
 ): Promise<EsgCommitment[]> {
   const result = await cmsFetch<DirectusList<EsgCommitment>>(
     "/items/esg_commitments?sort=order",
-    { tags: ["esg"] },
+    { tags: [`esg:${locale}`] },
   );
   return result.data;
 }
 
 export async function directusFetchCaseStudies(
-  _locale: Locale,
+  locale: Locale,
 ): Promise<CaseStudy[]> {
   const result = await cmsFetch<DirectusList<CaseStudy>>("/items/case_studies", {
-    tags: ["case-studies"],
+    tags: [`case-studies:${locale}`],
   });
   return result.data;
 }
