@@ -41,13 +41,20 @@ With the default `mock` provider, fetches do not register Next.js cache tags, so
 
 ## Docker
 
-Build and run the production image locally:
+The Compose stack runs Postgres, Directus, and the Next.js site. Copy `.env.example` to `.env` and change the Directus admin password and secrets before starting it.
 
 ```bash
-docker compose up --build
+docker compose up -d --build
+node scripts/seed-directus.mjs
 ```
 
-Open http://localhost:3000/en. Runtime settings (`CMS_PROVIDER`, `CMS_URL`, `CMS_TOKEN`, `REVALIDATE_SECRET`) can be set in a `.env` file next to `docker-compose.yml`. `NEXT_PUBLIC_SITE_URL` is baked in at image build time, so set it before `docker compose up --build` when the site will be served from a public host.
+- Site: http://localhost:3000/en and http://localhost:3000/ar
+- Directus: http://localhost:8055 (admin email and password from `.env`)
+- The web container calls Directus at `http://directus:8055` with `CMS_PROVIDER=directus`.
+
+The seed creates `languages` (`en`, `ar`), `services` plus `services_translations`, and the ESG collections, then grants public read. It is safe to run again. It loads the same bilingual records as the mock provider, including all seven services.
+
+`NEXT_PUBLIC_SITE_URL` is baked in when the image is built. Set it in `.env` before `docker compose up --build` when the site will be served from a public host.
 
 Pushing to `master` runs `.github/workflows/build-image.yml`, which builds this Dockerfile and publishes it to GitHub Container Registry as `ghcr.io/<owner>/<repo>:latest`. Set the repository variable `NEXT_PUBLIC_SITE_URL` before that workflow runs for a production image.
 

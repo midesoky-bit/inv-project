@@ -5,6 +5,11 @@ import {
 } from "@/lib/cms/providers/mock";
 import type { LocalizedString } from "@/types/cms";
 import {
+  mapDirectusEsg,
+  mapDirectusService,
+  directusServicesQuery,
+} from "@/lib/cms/directus-map";
+import {
   fetchServiceBySlug,
   fetchServices,
   fetchInsights,
@@ -78,5 +83,72 @@ describe("cms service (mock provider)", () => {
   it("exposes empty insights and case studies helpers", async () => {
     await expect(fetchInsights("en")).resolves.toEqual([]);
     await expect(fetchCaseStudies("en")).resolves.toEqual([]);
+  });
+
+  it("defaults locale to English", async () => {
+    const services = await fetchServices();
+    expect(services[0]?.title).toBe("Media Production");
+  });
+});
+
+describe("Directus response mapper", () => {
+  it("flattens the requested locale translation onto Service", () => {
+    const service = mapDirectusService({
+      id: 7,
+      slug: "digital-media-platforms",
+      order: 3,
+      icon: "digital",
+      translations: [
+        {
+          languages_code: "en",
+          title: "Digital Media & Platforms",
+          summary: "Digital presence",
+          description: "We manage digital presence.",
+          highlights: ["Campaign design and execution"],
+        },
+      ],
+    });
+
+    expect(service).toEqual({
+      id: "7",
+      slug: "digital-media-platforms",
+      order: 3,
+      icon: "digital",
+      title: "Digital Media & Platforms",
+      summary: "Digital presence",
+      description: "We manage digital presence.",
+      highlights: ["Campaign design and execution"],
+    });
+  });
+
+  it("uses empty strings when the locale translation is missing", () => {
+    const service = mapDirectusService({
+      id: "1",
+      slug: "media-production",
+      translations: [],
+    });
+    expect(service.title).toBe("");
+    expect(service.highlights).toEqual([]);
+  });
+
+  it("maps ESG translations", () => {
+    expect(
+      mapDirectusEsg({
+        id: "esg-1",
+        order: 1,
+        translations: { title: "عمليات مسؤولة", summary: "نموذج رقمي" },
+      }),
+    ).toMatchObject({
+      id: "esg-1",
+      title: "عمليات مسؤولة",
+      order: 1,
+    });
+  });
+
+  it("asks Directus for one locale via a deep translation filter", () => {
+    const query = decodeURIComponent(directusServicesQuery("ar"));
+    expect(query).toContain("deep[translations][_filter][languages_code][_eq]=ar");
+    expect(query).toContain("fields=id,slug,order,icon,translations.title");
+    expect(query).toContain("filter[status][_eq]=published");
   });
 });

@@ -10,7 +10,7 @@ import type {
   Service,
 } from "@/types/cms";
 
-export async function fetchServices(locale: Locale): Promise<Service[]> {
+export async function fetchServices(locale: Locale = "en"): Promise<Service[]> {
   switch (getCmsProvider()) {
     case "directus":
       return directus.directusFetchServices(locale);
@@ -23,7 +23,7 @@ export async function fetchServices(locale: Locale): Promise<Service[]> {
 
 export async function fetchServiceBySlug(
   slug: string,
-  locale: Locale,
+  locale: Locale = "en",
 ): Promise<Service | null> {
   switch (getCmsProvider()) {
     case "directus":
