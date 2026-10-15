@@ -78,6 +78,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     <html
       lang={locale}
       dir={dir}
+      data-theme="default"
       className={fontVariableClasses}
       suppressHydrationWarning
     >
