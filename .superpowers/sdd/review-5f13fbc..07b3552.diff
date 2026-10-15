@@ -1,0 +1,155 @@
+# Review package: 5f13fbc1dbe2ad668ecf7b22dae364072d3c1454..07b35520f42f24b0a77fb674cc28f2288df9050c
+
+## Commits
+07b3552 fix: resolve lint errors for CopyrightYear and eslint ignore
+879a6f5 docs: add bootstrap README and verify build
+
+## Files changed
+ README.md                               | 28 ++++++++++++++++++++++++++++
+ eslint.config.mjs                       |  1 +
+ package.json                            |  1 +
+ src/components/layout/CopyrightYear.tsx | 13 -------------
+ src/components/layout/Footer.tsx        |  8 +-------
+ 5 files changed, 31 insertions(+), 20 deletions(-)
+
+## Diff
+diff --git a/README.md b/README.md
+new file mode 100644
+index 0000000..0fab73e
+--- /dev/null
++++ b/README.md
+@@ -0,0 +1,28 @@
++# Inventure Communications
++
++Institutional corporate website (Next.js App Router) with a CMS-agnostic content layer.
++
++## Stack
++
++Next.js, TypeScript, Tailwind CSS, Framer Motion, native fetch ISR/SSG.
++
++## Setup
++
++```bash
++npm install
++cp .env.example .env.local
++npm run dev
++```
++
++## CMS
++
++Set `CMS_PROVIDER` to `mock` (default), `directus`, or `supabase`. Configure `CMS_URL` and `CMS_TOKEN` for remote providers.
++
++Set `REVALIDATE_SECRET` for `POST /api/revalidate` (header `x-revalidate-secret`, body `{ "tags": ["services"] }`).
++
++## Scripts
++
++- `npm run dev` — local development
++- `npm run build` — production build
++- `npm test` — unit tests
++- `npm run typecheck` — TypeScript check
+diff --git a/eslint.config.mjs b/eslint.config.mjs
+index 05e726d..faa55bc 100644
+--- a/eslint.config.mjs
++++ b/eslint.config.mjs
+@@ -5,14 +5,15 @@ import nextTs from "eslint-config-next/typescript";
+ const eslintConfig = defineConfig([
+   ...nextVitals,
+   ...nextTs,
+   // Override default ignores of eslint-config-next.
+   globalIgnores([
+     // Default ignores of eslint-config-next:
+     ".next/**",
+     "out/**",
+     "build/**",
+     "next-env.d.ts",
++    ".superpowers/**",
+   ]),
+ ]);
+ 
+ export default eslintConfig;
+diff --git a/package.json b/package.json
+index 047257f..6082aed 100644
+--- a/package.json
++++ b/package.json
+@@ -1,19 +1,20 @@
+ {
+   "name": "inv-project",
+   "version": "0.1.0",
+   "private": true,
+   "scripts": {
+     "dev": "next dev",
+     "build": "next build",
+     "start": "next start",
+     "lint": "eslint",
++    "typecheck": "tsc --noEmit",
+     "test": "vitest run",
+     "test:watch": "vitest"
+   },
+   "dependencies": {
+     "clsx": "^2.1.1",
+     "framer-motion": "^14.3.0",
+     "next": "16.4.1",
+     "react": "19.3.0",
+     "react-dom": "19.3.0",
+     "tailwind-merge": "^3.7.0"
+diff --git a/src/components/layout/CopyrightYear.tsx b/src/components/layout/CopyrightYear.tsx
+deleted file mode 100644
+index 70b31fc..0000000
+--- a/src/components/layout/CopyrightYear.tsx
++++ /dev/null
+@@ -1,13 +0,0 @@
+-"use client";
+-
+-import { useEffect, useState } from "react";
+-
+-export function CopyrightYear() {
+-  const [year, setYear] = useState<number | null>(null);
+-
+-  useEffect(() => {
+-    setYear(new Date().getFullYear());
+-  }, []);
+-
+-  return <>{year ?? "2026"}</>;
+-}
+diff --git a/src/components/layout/Footer.tsx b/src/components/layout/Footer.tsx
+index b3fe8b0..215d318 100644
+--- a/src/components/layout/Footer.tsx
++++ b/src/components/layout/Footer.tsx
+@@ -1,13 +1,11 @@
+ import Link from "next/link";
+-import { Suspense } from "react";
+-import { CopyrightYear } from "@/components/layout/CopyrightYear";
+ import { NAV_ITEMS } from "@/components/layout/navigation";
+ 
+ export function Footer() {
+   return (
+     <footer
+       id="contact"
+       className="border-t border-inv-navy/10 bg-inv-navy text-inv-white"
+     >
+       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
+         <div className="max-w-sm space-y-3">
+@@ -20,22 +18,18 @@ export function Footer() {
+         </div>
+         <div className="space-y-2 text-sm text-white/70">
+           {NAV_ITEMS.filter((item) => item.label !== "Contact").map((item) => (
+             <p key={item.href}>
+               <Link href={item.href} className="hover:text-inv-white">
+                 {item.label}
+               </Link>
+             </p>
+           ))}
+           <p className="pt-4 text-xs text-white/50">
+-            ©{" "}
+-            <Suspense fallback={2026}>
+-              <CopyrightYear />
+-            </Suspense>{" "}
+-            Inventure Communications. All rights
++            © {new Date().getFullYear()} Inventure Communications. All rights
+             reserved.
+           </p>
+         </div>
+       </div>
+     </footer>
+   );
+ }

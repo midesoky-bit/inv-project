@@ -1,0 +1,232 @@
+# Review package: 54a71f1490fac630aed4779b862d7938b8b03ed5..5f13fbc1dbe2ad668ecf7b22dae364072d3c1454
+
+## Commits
+5f13fbc feat: add ISR window and secret-protected tag revalidation
+
+## Files changed
+ .env.example                         |  1 +
+ next.config.ts                       |  2 --
+ src/app/api/revalidate/route.test.ts | 53 +++++++++++++++++++++++++++++++++++
+ src/app/api/revalidate/route.ts      | 54 ++++++++++++++++++++++++++++++++++++
+ src/app/page.tsx                     |  2 ++
+ src/app/services/[slug]/page.tsx     |  3 ++
+ src/app/sitemap.ts                   |  2 ++
+ 7 files changed, 115 insertions(+), 2 deletions(-)
+
+## Diff
+diff --git a/.env.example b/.env.example
+index 1cc4e4d..77f30c3 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1,4 +1,5 @@
+ CMS_PROVIDER=mock
+ CMS_URL=
+ CMS_TOKEN=
+ NEXT_PUBLIC_SITE_URL=http://localhost:3000
++REVALIDATE_SECRET=
+diff --git a/next.config.ts b/next.config.ts
+index a0cf0c7..20c65a4 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,16 +1,14 @@
+ import type { NextConfig } from "next";
+ 
+ const nextConfig: NextConfig = {
+   /* config options here */
+-  cacheComponents: true,
+-  partialPrefetching: true,
+   turbopack: {
+     rules: {
+       "*.css": {
+         loaders: ["@tailwindcss/turbopack"],
+         as: "*.css",
+       },
+     },
+   },
+ };
+ 
+diff --git a/src/app/api/revalidate/route.test.ts b/src/app/api/revalidate/route.test.ts
+new file mode 100644
+index 0000000..fb469f0
+--- /dev/null
++++ b/src/app/api/revalidate/route.test.ts
+@@ -0,0 +1,53 @@
++import { beforeEach, describe, expect, it, vi } from "vitest";
++import { NextRequest } from "next/server";
++
++const { revalidateTag } = vi.hoisted(() => ({
++  revalidateTag: vi.fn(),
++}));
++vi.mock("next/cache", () => ({ revalidateTag }));
++
++import { POST } from "@/app/api/revalidate/route";
++
++function request(body: unknown, secret?: string) {
++  return new NextRequest("http://localhost/api/revalidate", {
++    method: "POST",
++    headers: {
++      "content-type": "application/json",
++      ...(secret ? { "x-revalidate-secret": secret } : {}),
++    },
++    body: JSON.stringify(body),
++  });
++}
++
++describe("POST /api/revalidate", () => {
++  beforeEach(() => {
++    revalidateTag.mockReset();
++    process.env.REVALIDATE_SECRET = "test-secret";
++  });
++
++  it("503s when no secret is configured", async () => {
++    delete process.env.REVALIDATE_SECRET;
++    const res = await POST(request({ tags: ["services"] }, "x"));
++    expect(res.status).toBe(503);
++  });
++
++  it("401s on a wrong secret", async () => {
++    const res = await POST(request({ tags: ["services"] }, "nope"));
++    expect(res.status).toBe(401);
++    expect(revalidateTag).not.toHaveBeenCalled();
++  });
++
++  it("400s on unknown tags", async () => {
++    const res = await POST(request({ tags: ["secrets"] }, "test-secret"));
++    expect(res.status).toBe(400);
++    expect(revalidateTag).not.toHaveBeenCalled();
++  });
++
++  it("revalidates allowed tags", async () => {
++    const res = await POST(
++      request({ tags: ["services", "service:events"] }, "test-secret"),
++    );
++    expect(res.status).toBe(200);
++    expect(revalidateTag).toHaveBeenCalledTimes(2);
++  });
++});
+diff --git a/src/app/api/revalidate/route.ts b/src/app/api/revalidate/route.ts
+new file mode 100644
+index 0000000..232ce3b
+--- /dev/null
++++ b/src/app/api/revalidate/route.ts
+@@ -0,0 +1,54 @@
++import { timingSafeEqual } from "node:crypto";
++import { revalidateTag } from "next/cache";
++import { NextResponse, type NextRequest } from "next/server";
++
++const STATIC_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
++const SERVICE_TAG = /^service:[a-z0-9-]+$/;
++
++function isAllowedTag(tag: unknown): tag is string {
++  return (
++    typeof tag === "string" && (STATIC_TAGS.has(tag) || SERVICE_TAG.test(tag))
++  );
++}
++
++function secretMatches(provided: string, expected: string): boolean {
++  const a = Buffer.from(provided);
++  const b = Buffer.from(expected);
++  return a.length === b.length && timingSafeEqual(a, b);
++}
++
++export async function POST(request: NextRequest) {
++  const expected = process.env.REVALIDATE_SECRET;
++  if (!expected) {
++    return NextResponse.json(
++      { error: "Revalidation is not configured" },
++      { status: 503 },
++    );
++  }
++
++  const provided = request.headers.get("x-revalidate-secret") ?? "";
++  if (!secretMatches(provided, expected)) {
++    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
++  }
++
++  let body: unknown;
++  try {
++    body = await request.json();
++  } catch {
++    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
++  }
++
++  const tags = (body as { tags?: unknown })?.tags;
++  if (!Array.isArray(tags) || tags.length === 0 || !tags.every(isAllowedTag)) {
++    return NextResponse.json(
++      { error: "Provide a non-empty `tags` array of known tags" },
++      { status: 400 },
++    );
++  }
++
++  for (const tag of tags) {
++    revalidateTag(tag, "max");
++  }
++
++  return NextResponse.json({ revalidated: tags });
++}
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index b150c20..e199a33 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,15 +1,17 @@
+ import type { Metadata } from "next";
+ import { HeroSection } from "@/components/home/HeroSection";
+ import { ServiceGrid } from "@/components/home/ServiceGrid";
+ import { fetchServices } from "@/services/cms";
+ 
++export const revalidate = 3600;
++
+ export const metadata: Metadata = {
+   alternates: { canonical: "/" },
+ };
+ 
+ export default async function HomePage() {
+   const services = await fetchServices();
+ 
+   return (
+     <>
+       <HeroSection />
+diff --git a/src/app/services/[slug]/page.tsx b/src/app/services/[slug]/page.tsx
+index 1380767..0bf5179 100644
+--- a/src/app/services/[slug]/page.tsx
++++ b/src/app/services/[slug]/page.tsx
+@@ -1,15 +1,18 @@
+ import type { Metadata } from "next";
+ import Link from "next/link";
+ import { notFound } from "next/navigation";
+ import { fetchServiceBySlug, fetchServices } from "@/services/cms";
+ 
++export const revalidate = 3600;
++export const dynamicParams = true;
++
+ type PageProps = {
+   params: Promise<{ slug: string }>;
+ };
+ 
+ export async function generateStaticParams() {
+   const services = await fetchServices();
+   return services.map((service) => ({ slug: service.slug }));
+ }
+ 
+ export async function generateMetadata({
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+index 1dcb8ff..d5d9c94 100644
+--- a/src/app/sitemap.ts
++++ b/src/app/sitemap.ts
+@@ -1,14 +1,16 @@
+ import type { MetadataRoute } from "next";
+ import { getSiteUrl } from "@/lib/site";
+ import { fetchServices } from "@/services/cms";
+ 
++export const revalidate = 3600;
++
+ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+   const base = getSiteUrl();
+   const services = await fetchServices();
+ 
+   return [
+     {
+       url: base,
+       changeFrequency: "monthly" as const,
+       priority: 1,
+     },

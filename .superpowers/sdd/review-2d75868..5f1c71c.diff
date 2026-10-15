@@ -1,0 +1,320 @@
+# Review package: 2d75868fbad1c997377328ebad9ef0667462cbe3..5f1c71c52d56cb8b6113f2acbe609779f9168821
+
+## Commits
+5f1c71c fix: defer footer copyright year for prerender
+07faedc feat: add institutional hero and CMS-backed service grid
+
+## Files changed
+ src/app/page.tsx                          | 80 ++++++-------------------------
+ src/components/home/HeroSection.tsx       | 53 ++++++++++++++++++++
+ src/components/home/ServiceCardMotion.tsx | 39 +++++++++++++++
+ src/components/home/ServiceGrid.tsx       | 44 +++++++++++++++++
+ src/components/layout/CopyrightYear.tsx   | 13 +++++
+ src/components/layout/Footer.tsx          |  8 +++-
+ 6 files changed, 171 insertions(+), 66 deletions(-)
+
+## Diff
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index c887311..b150c20 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -1,69 +1,19 @@
+-import Image from "next/image";
++import type { Metadata } from "next";
++import { HeroSection } from "@/components/home/HeroSection";
++import { ServiceGrid } from "@/components/home/ServiceGrid";
++import { fetchServices } from "@/services/cms";
++
++export const metadata: Metadata = {
++  alternates: { canonical: "/" },
++};
++
++export default async function HomePage() {
++  const services = await fetchServices();
+ 
+-export default function Home() {
+   return (
+-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+-        <Image
+-          className="dark:invert h-5 w-[100px]"
+-          src="/next.svg"
+-          alt="Next.js logo"
+-          width={100}
+-          height={20}
+-          priority
+-        />
+-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
+-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
+-            To get started, edit the{" "}
+-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
+-              page.tsx
+-            </code>{" "}
+-            file.
+-          </h1>
+-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
+-            Looking for a starting point or more instructions? Head over to{" "}
+-            <a
+-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-              className="font-medium text-zinc-950 dark:text-zinc-50"
+-            >
+-              Templates
+-            </a>{" "}
+-            or the{" "}
+-            <a
+-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-              className="font-medium text-zinc-950 dark:text-zinc-50"
+-            >
+-              Learning
+-            </a>{" "}
+-            center.
+-          </p>
+-        </div>
+-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
+-          <a
+-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
+-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-            target="_blank"
+-            rel="noopener noreferrer"
+-          >
+-            <Image
+-              className="dark:invert h-[14px] w-4"
+-              src="/vercel.svg"
+-              alt="Vercel logomark"
+-              width={16}
+-              height={14}
+-            />
+-            Deploy Now
+-          </a>
+-          <a
+-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
+-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+-            target="_blank"
+-            rel="noopener noreferrer"
+-          >
+-            Documentation
+-          </a>
+-        </div>
+-      </main>
+-    </div>
++    <>
++      <HeroSection />
++      <ServiceGrid services={services} />
++    </>
+   );
+ }
+diff --git a/src/components/home/HeroSection.tsx b/src/components/home/HeroSection.tsx
+new file mode 100644
+index 0000000..6799ac5
+--- /dev/null
++++ b/src/components/home/HeroSection.tsx
+@@ -0,0 +1,53 @@
++"use client";
++
++import { motion } from "framer-motion";
++import { Button } from "@/components/ui/Button";
++
++export function HeroSection() {
++  return (
++    <section className="relative flex min-h-[88vh] items-center bg-inv-navy px-6 pt-24 pb-20 text-inv-white">
++      <div
++        aria-hidden
++        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(58,107,140,0.25),_transparent_55%)]"
++      />
++      <div className="relative mx-auto w-full max-w-6xl">
++        <motion.p
++          initial={{ opacity: 0, y: 12 }}
++          animate={{ opacity: 1, y: 0 }}
++          transition={{ duration: 0.5, ease: "easeOut" }}
++          className="mb-6 font-serif text-sm tracking-[0.2em] text-white/70 uppercase"
++        >
++          Inventure Communications
++        </motion.p>
++        <motion.h1
++          initial={{ opacity: 0, y: 16 }}
++          animate={{ opacity: 1, y: 0 }}
++          transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
++          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl"
++        >
++          Strategic communications for decision-makers
++        </motion.h1>
++        <motion.p
++          initial={{ opacity: 0, y: 16 }}
++          animate={{ opacity: 1, y: 0 }}
++          transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
++          className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg"
++        >
++          We counsel institutions across the Middle East on reputation, media,
++          and public affairs — with clarity, discipline, and regional fluency.
++        </motion.p>
++        <motion.div
++          initial={{ opacity: 0, y: 16 }}
++          animate={{ opacity: 1, y: 0 }}
++          transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
++          className="mt-10 flex flex-wrap items-center gap-6"
++        >
++          <Button href="/#services">Explore our services</Button>
++          <Button href="/#contact" variant="ghost">
++            Contact
++          </Button>
++        </motion.div>
++      </div>
++    </section>
++  );
++}
+diff --git a/src/components/home/ServiceCardMotion.tsx b/src/components/home/ServiceCardMotion.tsx
+new file mode 100644
+index 0000000..1e20daa
+--- /dev/null
++++ b/src/components/home/ServiceCardMotion.tsx
+@@ -0,0 +1,39 @@
++"use client";
++
++import { motion } from "framer-motion";
++import Link from "next/link";
++
++type ServiceCardMotionProps = {
++  href: string;
++  title: string;
++  summary: string;
++  index: number;
++};
++
++export function ServiceCardMotion({
++  href,
++  title,
++  summary,
++  index,
++}: ServiceCardMotionProps) {
++  return (
++    <motion.article
++      initial={{ opacity: 0, y: 16 }}
++      whileInView={{ opacity: 1, y: 0 }}
++      viewport={{ once: true, margin: "-40px" }}
++      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
++      className="group border border-inv-navy/10 bg-inv-white p-8 transition-colors hover:border-inv-accent/40"
++    >
++      <Link href={href} className="block space-y-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inv-accent">
++        <h3 className="font-serif text-2xl tracking-tight text-inv-navy">
++          {title}
++        </h3>
++        <p className="text-sm leading-relaxed text-inv-slate">{summary}</p>
++        <span className="inline-flex items-center gap-2 text-sm font-medium text-inv-accent transition-transform group-hover:translate-x-1">
++          Learn more
++          <span aria-hidden>→</span>
++        </span>
++      </Link>
++    </motion.article>
++  );
++}
+diff --git a/src/components/home/ServiceGrid.tsx b/src/components/home/ServiceGrid.tsx
+new file mode 100644
+index 0000000..fbd5995
+--- /dev/null
++++ b/src/components/home/ServiceGrid.tsx
+@@ -0,0 +1,44 @@
++import { ServiceCardMotion } from "@/components/home/ServiceCardMotion";
++import type { Service } from "@/types/cms";
++
++type ServiceGridProps = {
++  services: Service[];
++};
++
++export function ServiceGrid({ services }: ServiceGridProps) {
++  return (
++    <section
++      id="services"
++      className="bg-inv-mist px-6 py-20 md:py-28"
++      aria-labelledby="services-heading"
++    >
++      <div className="mx-auto max-w-6xl">
++        <div className="mb-12 max-w-2xl">
++          <p className="mb-3 text-xs font-medium tracking-[0.18em] text-inv-accent uppercase">
++            Capabilities
++          </p>
++          <h2
++            id="services-heading"
++            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
++          >
++            Core offerings
++          </h2>
++          <p className="mt-4 text-base text-inv-slate">
++            Integrated communications disciplines for institutional clients.
++          </p>
++        </div>
++        <div className="grid gap-6 md:grid-cols-2">
++          {services.map((service, index) => (
++            <ServiceCardMotion
++              key={service.id}
++              href={`/services/${service.slug}`}
++              title={service.title}
++              summary={service.summary}
++              index={index}
++            />
++          ))}
++        </div>
++      </div>
++    </section>
++  );
++}
+diff --git a/src/components/layout/CopyrightYear.tsx b/src/components/layout/CopyrightYear.tsx
+new file mode 100644
+index 0000000..70b31fc
+--- /dev/null
++++ b/src/components/layout/CopyrightYear.tsx
+@@ -0,0 +1,13 @@
++"use client";
++
++import { useEffect, useState } from "react";
++
++export function CopyrightYear() {
++  const [year, setYear] = useState<number | null>(null);
++
++  useEffect(() => {
++    setYear(new Date().getFullYear());
++  }, []);
++
++  return <>{year ?? "2026"}</>;
++}
+diff --git a/src/components/layout/Footer.tsx b/src/components/layout/Footer.tsx
+index 215d318..b3fe8b0 100644
+--- a/src/components/layout/Footer.tsx
++++ b/src/components/layout/Footer.tsx
+@@ -1,11 +1,13 @@
+ import Link from "next/link";
++import { Suspense } from "react";
++import { CopyrightYear } from "@/components/layout/CopyrightYear";
+ import { NAV_ITEMS } from "@/components/layout/navigation";
+ 
+ export function Footer() {
+   return (
+     <footer
+       id="contact"
+       className="border-t border-inv-navy/10 bg-inv-navy text-inv-white"
+     >
+       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
+         <div className="max-w-sm space-y-3">
+@@ -18,18 +20,22 @@ export function Footer() {
+         </div>
+         <div className="space-y-2 text-sm text-white/70">
+           {NAV_ITEMS.filter((item) => item.label !== "Contact").map((item) => (
+             <p key={item.href}>
+               <Link href={item.href} className="hover:text-inv-white">
+                 {item.label}
+               </Link>
+             </p>
+           ))}
+           <p className="pt-4 text-xs text-white/50">
+-            © {new Date().getFullYear()} Inventure Communications. All rights
++            ©{" "}
++            <Suspense fallback={2026}>
++              <CopyrightYear />
++            </Suspense>{" "}
++            Inventure Communications. All rights
+             reserved.
+           </p>
+         </div>
+       </div>
+     </footer>
+   );
+ }

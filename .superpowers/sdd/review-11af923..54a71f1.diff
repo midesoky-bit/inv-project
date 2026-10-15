@@ -1,0 +1,134 @@
+# Review package: 11af9236be154fb2c6dcaedd97c4094bd056c287..54a71f1490fac630aed4779b862d7938b8b03ed5
+
+## Commits
+54a71f1 feat: add sitemap, robots, and site URL helper
+
+## Files changed
+ src/app/layout.tsx   |  4 ++--
+ src/app/robots.ts    | 11 +++++++++++
+ src/app/sitemap.ts   | 21 +++++++++++++++++++++
+ src/lib/site.test.ts | 21 +++++++++++++++++++++
+ src/lib/site.ts      |  4 ++++
+ 5 files changed, 59 insertions(+), 2 deletions(-)
+
+## Diff
+diff --git a/src/app/layout.tsx b/src/app/layout.tsx
+index febd73e..2c85094 100644
+--- a/src/app/layout.tsx
++++ b/src/app/layout.tsx
+@@ -1,32 +1,32 @@
+ import type { Metadata } from "next";
+ import { IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
+ import { Footer } from "@/components/layout/Footer";
+ import { Header } from "@/components/layout/Header";
++import { getSiteUrl } from "@/lib/site";
+ import "./globals.css";
+ 
+ const ibmPlexSans = IBM_Plex_Sans({
+   subsets: ["latin"],
+   weight: ["400", "500", "600"],
+   variable: "--font-ibm-plex-sans",
+   display: "swap",
+ });
+ 
+ const ibmPlexSerif = IBM_Plex_Serif({
+   subsets: ["latin"],
+   weight: ["400", "500", "600"],
+   variable: "--font-ibm-plex-serif",
+   display: "swap",
+ });
+ 
+-const siteUrl =
+-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
++const siteUrl = getSiteUrl();
+ 
+ export const metadata: Metadata = {
+   metadataBase: new URL(siteUrl),
+   title: {
+     default: "Inventure Communications",
+     template: "%s | Inventure Communications",
+   },
+   description:
+     "Inventure Communications is a Strategic Communications & Public Affairs firm advising institutions across the Middle East on reputation, media, and stakeholder engagement.",
+   keywords: [
+diff --git a/src/app/robots.ts b/src/app/robots.ts
+new file mode 100644
+index 0000000..5490f38
+--- /dev/null
++++ b/src/app/robots.ts
+@@ -0,0 +1,11 @@
++import type { MetadataRoute } from "next";
++import { getSiteUrl } from "@/lib/site";
++
++export default function robots(): MetadataRoute.Robots {
++  const base = getSiteUrl();
++  return {
++    rules: [{ userAgent: "*", allow: "/", disallow: "/api/" }],
++    sitemap: `${base}/sitemap.xml`,
++    host: base,
++  };
++}
+diff --git a/src/app/sitemap.ts b/src/app/sitemap.ts
+new file mode 100644
+index 0000000..1dcb8ff
+--- /dev/null
++++ b/src/app/sitemap.ts
+@@ -0,0 +1,21 @@
++import type { MetadataRoute } from "next";
++import { getSiteUrl } from "@/lib/site";
++import { fetchServices } from "@/services/cms";
++
++export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
++  const base = getSiteUrl();
++  const services = await fetchServices();
++
++  return [
++    {
++      url: base,
++      changeFrequency: "monthly" as const,
++      priority: 1,
++    },
++    ...services.map((service) => ({
++      url: `${base}/services/${service.slug}`,
++      changeFrequency: "monthly" as const,
++      priority: 0.7,
++    })),
++  ];
++}
+diff --git a/src/lib/site.test.ts b/src/lib/site.test.ts
+new file mode 100644
+index 0000000..6236a9f
+--- /dev/null
++++ b/src/lib/site.test.ts
+@@ -0,0 +1,21 @@
++import { afterEach, describe, expect, it } from "vitest";
++import { getSiteUrl } from "@/lib/site";
++
++describe("getSiteUrl", () => {
++  const original = process.env.NEXT_PUBLIC_SITE_URL;
++
++  afterEach(() => {
++    if (original === undefined) delete process.env.NEXT_PUBLIC_SITE_URL;
++    else process.env.NEXT_PUBLIC_SITE_URL = original;
++  });
++
++  it("defaults to localhost", () => {
++    delete process.env.NEXT_PUBLIC_SITE_URL;
++    expect(getSiteUrl()).toBe("http://localhost:3000");
++  });
++
++  it("strips trailing slashes", () => {
++    process.env.NEXT_PUBLIC_SITE_URL = "https://example.com//";
++    expect(getSiteUrl()).toBe("https://example.com");
++  });
++});
+diff --git a/src/lib/site.ts b/src/lib/site.ts
+new file mode 100644
+index 0000000..e836cb0
+--- /dev/null
++++ b/src/lib/site.ts
+@@ -0,0 +1,4 @@
++export function getSiteUrl(): string {
++  const raw = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
++  return raw.replace(/\/+$/, "");
++}
