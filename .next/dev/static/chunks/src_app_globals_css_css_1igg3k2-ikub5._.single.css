@@ -412,6 +412,10 @@
     z-index: 30;
   }
 
+  .m-7 {
+    margin: calc(var(--spacing) * 7);
+  }
+
   .mx-auto {
     margin-inline: auto;
   }
