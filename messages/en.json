@@ -1,0 +1,61 @@
+{
+  "brand": { "name": "Inventure Communications" },
+  "nav": {
+    "services": "Services",
+    "insights": "Insights",
+    "esg": "ESG",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "primary": "Primary",
+    "mobile": "Mobile"
+  },
+  "hero": {
+    "eyebrow": "Inventure Communications",
+    "title": "Strategic communications for decision-makers",
+    "subtitle": "We counsel institutions across the Middle East on reputation, media, and public affairs — with clarity, discipline, and regional fluency.",
+    "ctaServices": "Explore our services",
+    "ctaContact": "Contact"
+  },
+  "services": {
+    "eyebrow": "Capabilities",
+    "title": "Core offerings",
+    "subtitle": "Integrated communications disciplines for institutional clients.",
+    "learnMore": "Learn more",
+    "all": "All services",
+    "label": "Service"
+  },
+  "insights": {
+    "title": "Insights",
+    "comingSoon": "Insights will be published here soon."
+  },
+  "esg": {
+    "title": "Sustainability & ESG",
+    "comingSoon": "ESG commitments will appear here soon.",
+    "subtitle": "Sustainability is integrated into how we operate, advise, and deliver."
+  },
+  "footer": {
+    "tagline": "Strategic Communications & Public Affairs — Middle East.",
+    "rights": "All rights reserved."
+  },
+  "theme": {
+    "label": "Appearance",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "en": "EN",
+    "ar": "العربية"
+  },
+  "a11y": {
+    "skipToContent": "Skip to content"
+  },
+  "errors": {
+    "notFoundTitle": "Page not found",
+    "notFoundBody": "The page you are looking for does not exist.",
+    "errorTitle": "Something went wrong",
+    "errorBody": "An unexpected error occurred."
+  }
+}
