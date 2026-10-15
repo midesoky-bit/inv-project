@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
-import { CopyrightYear } from "@/components/layout/CopyrightYear";
 import { NAV_ITEMS } from "@/components/layout/navigation";
 
 export function Footer() {
@@ -27,11 +25,7 @@ export function Footer() {
             </p>
           ))}
           <p className="pt-4 text-xs text-white/50">
-            ©{" "}
-            <Suspense fallback={2026}>
-              <CopyrightYear />
-            </Suspense>{" "}
-            Inventure Communications. All rights
+            © {new Date().getFullYear()} Inventure Communications. All rights
             reserved.
           </p>
         </div>
