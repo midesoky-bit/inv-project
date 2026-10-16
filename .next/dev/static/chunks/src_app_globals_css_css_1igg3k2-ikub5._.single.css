@@ -457,6 +457,10 @@
     margin-inline: auto;
   }
 
+  .mt-1 {
+    margin-top: var(--spacing);
+  }
+
   .mt-2 {
     margin-top: calc(var(--spacing) * 2);
   }
@@ -561,6 +565,10 @@
     height: calc(var(--spacing) * 72);
   }
 
+  .h-auto {
+    height: auto;
+  }
+
   .min-h-10 {
     min-height: calc(var(--spacing) * 10);
   }
@@ -663,6 +671,10 @@
 
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
   }
 
   .gap-4 {
@@ -949,6 +961,10 @@
 
   .py-5 {
     padding-block: calc(var(--spacing) * 5);
+  }
+
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
   }
 
   .py-8 {
@@ -1632,12 +1648,24 @@
       grid-column: span 3 / span 3;
     }
 
+    .lg\:col-span-4 {
+      grid-column: span 4 / span 4;
+    }
+
     .lg\:col-span-5 {
       grid-column: span 5 / span 5;
     }
 
     .lg\:col-span-7 {
       grid-column: span 7 / span 7;
+    }
+
+    .lg\:col-span-8 {
+      grid-column: span 8 / span 8;
+    }
+
+    .lg\:grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
     .lg\:grid-cols-2 {
@@ -1822,6 +1850,41 @@ body {
 
 .home-huly figure {
   border-radius: 1rem;
+}
+
+@keyframes inv-radar {
+  0% {
+    opacity: .55;
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(2.6);
+  }
+}
+
+@keyframes inv-route {
+  to {
+    stroke-dashoffset: -240px;
+  }
+}
+
+.inv-radar {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: 2.8s ease-out infinite inv-radar;
+}
+
+.inv-route {
+  stroke-dasharray: 4 7;
+  animation: 16s linear infinite inv-route;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inv-radar, .inv-route {
+    animation: none;
+  }
 }
 
 [dir="rtl"] body {

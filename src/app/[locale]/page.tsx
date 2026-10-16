@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PresenceStrip } from "@/components/home/PresenceStrip";
+import { ScrollReveal } from "@/components/home/ScrollReveal";
 import {
   AboutSection,
   AdvantageSection,
@@ -58,16 +59,36 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <div className="home-huly">
       <HeroSection />
-      <AboutSection />
-      <PositioningSection />
-      <PresenceStrip />
-      <ServiceGrid services={services} />
-      <ImpactSection />
-      <CapabilitySection />
-      <AdvantageSection />
-      <EsgSection commitments={esgCommitments} />
-      <ClientsSection />
-      <PrinciplesSection />
+      <ScrollReveal>
+        <AboutSection />
+      </ScrollReveal>
+      <ScrollReveal delay={0.05}>
+        <PositioningSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <PresenceStrip />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ServiceGrid services={services} />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ImpactSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <CapabilitySection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <AdvantageSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <EsgSection commitments={esgCommitments} />
+      </ScrollReveal>
+      <ScrollReveal>
+        <ClientsSection />
+      </ScrollReveal>
+      <ScrollReveal>
+        <PrinciplesSection />
+      </ScrollReveal>
     </div>
   );
 }

@@ -35,20 +35,16 @@ export async function PresenceStrip() {
               <p className="text-xs font-medium tracking-[0.14em] text-accent uppercase">
                 {t("status")}
               </p>
-              <p className="mt-3 font-serif text-2xl text-foreground">
-                {t(market)}
-              </p>
+              <p className="mt-2 font-serif text-2xl text-foreground">{t(market)}</p>
             </li>
           ))}
         </ul>
 
-        <div className="mt-px grid gap-px bg-border md:grid-cols-2">
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
           {points.map((point) => (
-            <div key={point.title} className="bg-surface-muted px-6 py-8">
+            <div key={point.title} className="border border-border bg-surface px-6 py-6">
               <h3 className="font-serif text-xl text-foreground">{point.title}</h3>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted">
-                {point.body}
-              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted">{point.body}</p>
             </div>
           ))}
         </div>
