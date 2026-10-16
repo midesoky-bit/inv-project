@@ -158,19 +158,25 @@ export default async function ServicePage({ params }: PageProps) {
             <h2 className="font-serif text-2xl tracking-tight text-foreground">
               {t("others")}
             </h2>
-            <ul className="mt-8 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {others.map((item) => (
-                <li key={item.id} className="bg-surface">
+                <li key={item.id}>
                   <Link
                     href={`/services/${item.slug}`}
-                    className="block p-6 transition-colors hover:bg-background"
+                    className="group flex h-full flex-col border border-border bg-surface p-6 transition-colors hover:border-accent focus-visible:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
                   >
-                    <p className="font-serif text-xl text-foreground">
+                    <p className="font-serif text-xl text-foreground transition-colors group-hover:text-accent">
                       {item.title}
                     </p>
                     <p className="mt-2 text-sm leading-relaxed text-muted">
                       {item.summary}
                     </p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+                      {t("learnMore")}
+                      <span aria-hidden className="rtl:-scale-x-100">
+                        →
+                      </span>
+                    </span>
                   </Link>
                 </li>
               ))}

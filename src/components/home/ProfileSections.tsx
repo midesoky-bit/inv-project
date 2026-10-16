@@ -138,14 +138,15 @@ export async function ImpactSection() {
           title={t("title")}
           id="impact-heading"
         />
-        <div className="mt-8 grid items-start gap-4 lg:grid-cols-5">
-          <div className="relative h-56 overflow-hidden rounded-2xl border border-border sm:h-72 lg:col-span-2">
+        <div className="mt-8 grid gap-4 lg:grid-cols-5">
+          <div className="relative min-h-72 overflow-hidden rounded-2xl border border-border lg:col-span-2 lg:h-full">
             <Image
               src="/images/forum.webp"
               alt={tImages("forum")}
               fill
               sizes="(min-width: 1024px) 24rem, 100vw"
-              className="object-cover object-[center_68%]"
+              className="object-cover"
+              style={{ objectPosition: "center 65%" }}
             />
           </div>
           <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-3">
