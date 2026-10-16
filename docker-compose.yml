@@ -25,7 +25,7 @@ services:
     environment:
       KEY: ${DIRECTUS_KEY:-inventure-directus-key}
       SECRET: ${DIRECTUS_SECRET:-inventure-directus-secret}
-      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-admin@inventure.local}
+      ADMIN_EMAIL: ${DIRECTUS_ADMIN_EMAIL:-admin@inventure.com}
       ADMIN_PASSWORD: ${DIRECTUS_ADMIN_PASSWORD:-change-me-admin}
       DB_CLIENT: pg
       DB_HOST: postgres

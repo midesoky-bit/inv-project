@@ -56,7 +56,7 @@ export default async function HomePage({ params }: PageProps) {
   ]);
 
   return (
-    <>
+    <div className="home-huly">
       <HeroSection />
       <AboutSection />
       <PositioningSection />
@@ -68,6 +68,6 @@ export default async function HomePage({ params }: PageProps) {
       <EsgSection commitments={esgCommitments} />
       <ClientsSection />
       <PrinciplesSection />
-    </>
+    </div>
   );
 }

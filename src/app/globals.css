@@ -108,6 +108,40 @@ body {
   line-height: 1.65;
 }
 
+.home-huly {
+  background:
+    radial-gradient(ellipse 70% 32% at 50% 0%, rgba(58, 107, 140, 0.35), transparent 55%),
+    var(--brand);
+  color: var(--brand-foreground);
+}
+
+.home-huly .bg-background,
+.home-huly .bg-surface-muted,
+.home-huly .bg-brand {
+  background: transparent;
+}
+
+.home-huly .bg-surface {
+  background: color-mix(in srgb, var(--brand-foreground) 6%, transparent);
+  border-radius: 1rem;
+}
+
+.home-huly .text-foreground {
+  color: var(--brand-foreground);
+}
+
+.home-huly .text-muted {
+  color: color-mix(in srgb, var(--brand-foreground) 72%, transparent);
+}
+
+.home-huly .border-border {
+  border-color: color-mix(in srgb, var(--brand-foreground) 14%, transparent);
+}
+
+.home-huly figure {
+  border-radius: 1rem;
+}
+
 [dir="rtl"] body {
   font-family: var(--font-ibm-plex-sans-arabic), system-ui, sans-serif;
   line-height: 1.7;

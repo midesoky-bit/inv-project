@@ -7,19 +7,19 @@ const baseUrl = (process.env.DIRECTUS_URL ?? "http://localhost:8055").replace(
   /\/$/,
   "",
 );
-const email = process.env.DIRECTUS_ADMIN_EMAIL ?? "admin@inventure.local";
+const email = process.env.DIRECTUS_ADMIN_EMAIL ?? "admin@inventure.com";
 const password = process.env.DIRECTUS_ADMIN_PASSWORD ?? "change-me-admin";
 
 function loadRecords(exportName) {
-  const source = fs.readFileSync(
-    path.join(root, "src/lib/cms/providers/mock.ts"),
-    "utf8",
-  );
+  const source = fs
+    .readFileSync(path.join(root, "src/lib/cms/providers/mock.ts"), "utf8")
+    .replace(/\r\n/g, "\n");
   const marker = `export const ${exportName}`;
   const start = source.indexOf(marker);
   if (start < 0) throw new Error(`Missing ${exportName} in mock.ts`);
   const eq = source.indexOf("=", start);
   const end = source.indexOf(";\n", eq);
+  if (end < 0) throw new Error(`Could not find the end of ${exportName}`);
   return Function(`"use strict"; return (${source.slice(eq + 1, end).trim()});`)();
 }
 
@@ -93,17 +93,11 @@ async function ensureRelation(token, relation) {
 }
 
 async function publicPolicyId(token) {
-  const roles = await api(token, "GET", "/roles?limit=-1");
-  const publicRole = roles.json?.data?.find(
-    (role) => role.admin_access === false && /public/i.test(role.name ?? ""),
-  );
-  if (!publicRole) return null;
-  const access = await api(
-    token,
-    "GET",
-    `/access?filter[role][_eq]=${publicRole.id}&limit=-1`,
-  );
-  return access.json?.data?.[0]?.policy ?? null;
+  const policies = await api(token, "GET", "/policies?limit=-1");
+  const named = policies.json?.data?.find((policy) => policy.name === "$t:public_label");
+  if (named?.id) return named.id;
+  const access = await api(token, "GET", "/access?limit=-1");
+  return access.json?.data?.find((entry) => entry.role == null && entry.user == null)?.policy ?? null;
 }
 
 async function ensurePublicRead(token, collection) {
@@ -136,8 +130,12 @@ async function ensurePublicRead(token, collection) {
 }
 
 async function upsertLanguage(token, code, name, direction) {
-  const existing = await api(token, "GET", `/items/languages/${code}`);
-  if (existing.ok) return;
+  const existing = await api(
+    token,
+    "GET",
+    `/items/languages?filter[code][_eq]=${encodeURIComponent(code)}&limit=1`,
+  );
+  if (existing.json?.data?.length) return;
   const created = await api(token, "POST", "/items/languages", {
     code,
     name,
@@ -177,9 +175,8 @@ async function upsertService(token, record) {
     ]),
   };
   const id = found.json?.data?.[0]?.id;
-  const result = id
-    ? await api(token, "PATCH", `/items/services/${id}`, payload)
-    : await api(token, "POST", "/items/services", payload);
+  if (id) return;
+  const result = await api(token, "POST", "/items/services", payload);
   if (!result.ok) {
     throw new Error(`Service ${record.slug}: ${JSON.stringify(result.json)}`);
   }
@@ -196,9 +193,8 @@ async function upsertEsg(token, record) {
     translations: translationsFor(record, ["title", "summary"]),
   };
   const id = found.json?.data?.[0]?.id;
-  const result = id
-    ? await api(token, "PATCH", `/items/esg_commitments/${id}`, payload)
-    : await api(token, "POST", "/items/esg_commitments", payload);
+  if (id) return;
+  const result = await api(token, "POST", "/items/esg_commitments", payload);
   if (!result.ok) {
     throw new Error(`ESG ${record.order}: ${JSON.stringify(result.json)}`);
   }
@@ -215,7 +211,7 @@ await ensureCollection(token, "languages", {
 await ensureField(token, "languages", {
   field: "code",
   type: "string",
-  schema: { is_primary_key: true, has_auto_increment: false, length: 16, is_nullable: false },
+  schema: { is_unique: true, length: 16, is_nullable: false },
   meta: { interface: "input", required: true, width: "half" },
 });
 await ensureField(token, "languages", {
@@ -297,14 +293,19 @@ await ensureField(token, "services_translations", {
 await ensureField(token, "services_translations", {
   field: "languages_code",
   type: "string",
-  schema: { is_nullable: false },
-  meta: { interface: "select-dropdown-m2o", required: true },
+  schema: { is_nullable: false, length: 16 },
+  meta: { interface: "input", required: true, width: "half" },
 });
 await ensureField(token, "services_translations", {
   field: "services_id",
   type: "integer",
   schema: { is_nullable: false },
   meta: { hidden: true },
+});
+await ensureField(token, "services", {
+  field: "translations",
+  type: "alias",
+  meta: { interface: "translations", special: ["translations"] },
 });
 await ensureRelation(token, {
   collection: "services_translations",
@@ -319,14 +320,6 @@ await ensureRelation(token, {
     many_field: "services_id",
   },
 });
-await ensureRelation(token, {
-  collection: "services_translations",
-  field: "languages_code",
-  related_collection: "languages",
-  schema: { on_delete: "CASCADE" },
-  meta: { one_collection: "languages", many_collection: "services_translations", many_field: "languages_code" },
-});
-
 await ensureCollection(token, "esg_commitments", { icon: "park", display_template: "{{order}}" });
 await ensureField(token, "esg_commitments", {
   field: "order",
@@ -349,14 +342,19 @@ await ensureField(token, "esg_commitments_translations", {
 await ensureField(token, "esg_commitments_translations", {
   field: "languages_code",
   type: "string",
-  schema: { is_nullable: false },
-  meta: { interface: "select-dropdown-m2o", required: true },
+  schema: { is_nullable: false, length: 16 },
+  meta: { interface: "input", required: true, width: "half" },
 });
 await ensureField(token, "esg_commitments_translations", {
   field: "esg_commitments_id",
   type: "integer",
   schema: { is_nullable: false },
   meta: { hidden: true },
+});
+await ensureField(token, "esg_commitments", {
+  field: "translations",
+  type: "alias",
+  meta: { interface: "translations", special: ["translations"] },
 });
 await ensureRelation(token, {
   collection: "esg_commitments_translations",
@@ -371,18 +369,6 @@ await ensureRelation(token, {
     many_field: "esg_commitments_id",
   },
 });
-await ensureRelation(token, {
-  collection: "esg_commitments_translations",
-  field: "languages_code",
-  related_collection: "languages",
-  schema: { on_delete: "CASCADE" },
-  meta: {
-    one_collection: "languages",
-    many_collection: "esg_commitments_translations",
-    many_field: "languages_code",
-  },
-});
-
 for (const collection of [
   "languages",
   "services",

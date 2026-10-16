@@ -138,18 +138,17 @@ export async function ImpactSection() {
           title={t("title")}
           id="impact-heading"
         />
-        <figure className="mt-8 overflow-hidden border border-border">
-          <div className="relative h-64 sm:h-80">
+        <div className="mt-8 grid items-start gap-4 lg:grid-cols-5">
+          <div className="relative h-56 overflow-hidden rounded-2xl border border-border sm:h-72 lg:col-span-2">
             <Image
               src="/images/forum.webp"
               alt={tImages("forum")}
               fill
-              sizes="(min-width: 1152px) 72rem, 100vw"
-              className="object-cover object-[center_70%]"
+              sizes="(min-width: 1024px) 24rem, 100vw"
+              className="object-cover object-[center_68%]"
             />
           </div>
-        </figure>
-        <ol className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ol className="grid gap-4 sm:grid-cols-2 lg:col-span-3">
           {items.map((item) => (
             <li key={item.index} className="border border-border bg-surface p-6">
               <h3 className="font-serif text-xl text-foreground">
@@ -160,9 +159,10 @@ export async function ImpactSection() {
               </p>
             </li>
           ))}
-        </ol>
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
-          <div className="border border-border bg-surface-muted p-6">
+          </ol>
+        </div>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <div className="rounded-2xl border border-border bg-surface p-6">
             <h3 className="font-serif text-2xl text-foreground">
               {t("strengthTitle")}
             </h3>
@@ -170,7 +170,7 @@ export async function ImpactSection() {
               {t("strengthBody")}
             </p>
           </div>
-          <div className="border border-border bg-surface-muted p-6">
+          <div className="rounded-2xl border border-border bg-surface p-6">
             <h3 className="font-serif text-2xl text-foreground">
               {t("thinkTitle")}
             </h3>

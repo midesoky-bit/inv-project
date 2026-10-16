@@ -22,49 +22,8 @@ export function HeroSection() {
   const tImages = useTranslations("images");
 
   return (
-    <section className="relative flex min-h-[70vh] items-center overflow-hidden bg-brand px-6 pt-28 pb-16 text-brand-foreground">
-      <Image
-        src="/images/hero.webp"
-        alt={tImages("hero")}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
-      <div aria-hidden className="absolute inset-0 bg-brand/78" />
-      <div
-        aria-hidden
-        className="inv-hero-glow pointer-events-none absolute -inset-[12%] bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.38),_transparent_58%)]"
-      />
-      <svg
-        aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full text-brand-foreground/25"
-        viewBox="0 0 1200 700"
-        fill="none"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <path
-          className="inv-hero-line"
-          d="M80 560 C220 420, 280 180, 460 220 S760 480, 1120 140"
-          stroke="currentColor"
-          strokeWidth="1.25"
-        />
-        <path
-          className="inv-hero-line"
-          d="M40 180 H520"
-          stroke="currentColor"
-          strokeWidth="1"
-          style={{ animationDelay: "0.15s" }}
-        />
-        <path
-          className="inv-hero-line"
-          d="M860 520 H1160"
-          stroke="currentColor"
-          strokeWidth="1"
-          style={{ animationDelay: "0.3s" }}
-        />
-      </svg>
-      <div className="relative mx-auto w-full max-w-6xl">
+    <section className="px-6 pt-28 pb-6 text-brand-foreground">
+      <div className="mx-auto w-full max-w-6xl">
         <motion.p
           initial={animate ? { opacity: 0, y: 12 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
@@ -79,7 +38,7 @@ export function HeroSection() {
           initial={animate ? { opacity: 0, y: 16 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
           transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
-          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl"
+          className="max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-balance sm:text-6xl"
         >
           {t("title")}
         </motion.h1>
@@ -102,6 +61,16 @@ export function HeroSection() {
             {t("ctaContact")}
           </Button>
         </motion.div>
+        <div className="relative mt-10 h-72 overflow-hidden rounded-2xl border border-brand-foreground/15 sm:h-96">
+          <Image
+            src="/images/hero.webp"
+            alt={tImages("hero")}
+            fill
+            priority
+            sizes="(min-width: 1152px) 72rem, 100vw"
+            className="object-cover object-[center_40%]"
+          />
+        </div>
       </div>
     </section>
   );
