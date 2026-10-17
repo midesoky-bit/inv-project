@@ -145,11 +145,13 @@
   },
   "insights": {
     "title": "<g>الرؤى</g>",
+    "description": "ملاحظات في الاتصال والشؤون العامة.",
     "empty": "ستُضاف المقالات في Directus.",
     "comingSoon": "ستُنشر الرؤى هنا قريبًا."
   },
   "careers": {
     "title": "<g>الوظائف</g>",
+    "description": "وظائف متاحة في Inventure Communications.",
     "empty": "ستُضاف الوظائف في Directus."
   },
   "esg": {

@@ -6,14 +6,8 @@ import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { NAV_LINKS } from "@/components/layout/navigation";
-import type { NavService } from "@/components/layout/DesktopNav";
 
-type MobileNavProps = {
-  services: NavService[];
-};
-
-export function MobileNav({ services }: MobileNavProps) {
-  void services;
+export function MobileNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const t = useTranslations("nav");

@@ -66,6 +66,8 @@ export async function directusFetchServiceBySlug(
 export async function directusFetchInsights(locale: Locale): Promise<Insight[]> {
   const params = new URLSearchParams({
     fields: "id,slug,published_at,translations.title,translations.summary",
+    sort: "-published_at",
+    "filter[status][_eq]": "published",
   });
   params.set("deep[translations][_filter][languages_code][_eq]", locale);
   const rows = await emptyIfMissing<DirectusInsightRow>(
@@ -78,6 +80,7 @@ export async function directusFetchInsights(locale: Locale): Promise<Insight[]> 
 export async function directusFetchCareers(locale: Locale): Promise<Career[]> {
   const params = new URLSearchParams({
     fields: "id,translations.title,translations.summary,translations.location",
+    "filter[status][_eq]": "published",
   });
   params.set("deep[translations][_filter][languages_code][_eq]", locale);
   const rows = await emptyIfMissing<DirectusCareerRow>(

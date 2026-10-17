@@ -4,7 +4,8 @@ import { describe, expect, it } from "vitest";
 const css = readFileSync("src/app/globals.css", "utf8");
 
 function block(selector: string) {
-  const start = css.indexOf(selector);
+  const needle = selector === ".dark" ? "\n.dark {" : selector;
+  const start = css.indexOf(needle);
   const end = css.indexOf("}", start);
   return css.slice(start, end);
 }

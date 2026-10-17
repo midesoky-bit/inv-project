@@ -29,7 +29,7 @@ export async function generateMetadata({
     locale: cmsLocale,
     pathSuffix: "/careers",
     title,
-    description: t("empty"),
+    description: t("description"),
     openGraphTitle: title,
   });
 }

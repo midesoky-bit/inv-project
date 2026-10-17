@@ -145,11 +145,13 @@
   },
   "insights": {
     "title": "<g>Insights</g>",
+    "description": "Notes on communication and public affairs.",
     "empty": "Articles will be added in Directus.",
     "comingSoon": "Insights will be published here soon."
   },
   "careers": {
     "title": "<g>Careers</g>",
+    "description": "Open roles at Inventure Communications.",
     "empty": "Openings will be added in Directus."
   },
   "esg": {

@@ -4,18 +4,7 @@ import { useTranslations } from "next-intl";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { SectionLink } from "@/components/layout/SectionLink";
 
-export type NavService = {
-  slug: string;
-  title: string;
-  summary: string;
-};
-
-type DesktopNavProps = {
-  services: NavService[];
-};
-
-export function DesktopNav({ services }: DesktopNavProps) {
-  void services;
+export function DesktopNav() {
   const t = useTranslations("nav");
 
   return (
