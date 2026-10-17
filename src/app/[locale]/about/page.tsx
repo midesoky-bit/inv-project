@@ -11,6 +11,7 @@ import {
   PositioningSection,
   PrinciplesSection,
 } from "@/components/home/ProfileSections";
+import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
 import { fetchEsgCommitments } from "@/services/cms";
@@ -50,10 +51,24 @@ export default async function AboutPage({ params }: PageProps) {
   setRequestLocale(locale);
 
   const cmsLocale = locale as Locale;
-  const esgCommitments = await fetchEsgCommitments(cmsLocale);
+  const [tNav, esgCommitments] = await Promise.all([
+    getTranslations("nav"),
+    fetchEsgCommitments(cmsLocale),
+  ]);
 
   return (
     <div>
+      <nav aria-label={tNav("primary")}>
+        <ol className="mx-auto flex max-w-6xl items-center gap-2 px-6 pt-28 text-sm text-muted">
+          <li>
+            <Link href="/" className="hover:text-foreground">
+              {tNav("home")}
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li className="text-foreground">{tNav("about")}</li>
+        </ol>
+      </nav>
       <ScrollReveal>
         <AboutSection />
       </ScrollReveal>
