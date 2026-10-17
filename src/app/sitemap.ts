@@ -6,17 +6,21 @@ import { fetchServices } from "@/services/cms";
 
 export const revalidate = 3600;
 
+const STATIC_PATHS = ["", "/about", "/services", "/work", "/insights", "/careers", "/contact"];
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const services = await fetchServices("en");
 
-  const homeEntries: MetadataRoute.Sitemap = routing.locales.map((locale) => ({
-    url: `${getSiteUrl()}${localePath(locale)}`,
-    changeFrequency: "monthly" as const,
-    priority: 1,
-    alternates: {
-      languages: languageAlternates(""),
-    },
-  }));
+  const staticEntries: MetadataRoute.Sitemap = routing.locales.flatMap((locale) =>
+    STATIC_PATHS.map((path) => ({
+      url: `${getSiteUrl()}${localePath(locale, path)}`,
+      changeFrequency: "monthly" as const,
+      priority: path === "" ? 1 : 0.8,
+      alternates: {
+        languages: languageAlternates(path),
+      },
+    })),
+  );
 
   const serviceEntries: MetadataRoute.Sitemap = routing.locales.flatMap(
     (locale) =>
@@ -30,5 +34,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       })),
   );
 
-  return [...homeEntries, ...serviceEntries];
+  return [...staticEntries, ...serviceEntries];
 }
