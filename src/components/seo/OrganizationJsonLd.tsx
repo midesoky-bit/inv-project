@@ -16,7 +16,7 @@ export async function OrganizationJsonLd({ locale }: OrganizationJsonLdProps) {
     "@type": "Organization",
     name: t("name"),
     url: `${siteUrl}${localePath(locale)}`,
-    logo: `${siteUrl}/images/logo.jpg`,
+    logo: `${siteUrl}/images/logo-light.jpg`,
   };
 
   return (

@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AboutTeaser } from "@/components/home/AboutTeaser";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PresenceStrip } from "@/components/home/PresenceStrip";
-import { ServiceIconRow } from "@/components/home/ServiceIconRow";
+import { StatsBar } from "@/components/home/StatsBar";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
 import { fetchServices } from "@/services/cms";
@@ -48,9 +48,9 @@ export default async function HomePage({ params }: PageProps) {
 
   return (
     <div>
-      <HeroSection />
-      <ServiceIconRow services={services} />
+      <HeroSection services={services} />
       <AboutTeaser />
+      <StatsBar />
       <PresenceStrip />
     </div>
   );

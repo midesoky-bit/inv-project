@@ -127,6 +127,14 @@
       { "title": "Institutional Responsibility", "body": "We operate with a strong understanding of governance frameworks and institutional expectations." }
     ]
   },
+  "stats": {
+    "items": [
+      { "value": "10+", "label": "Years of Regional Experience" },
+      { "value": "200+", "label": "Successful Projects" },
+      { "value": "50+", "label": "Strategic Partners" },
+      { "value": "15+", "label": "Countries in the Region" }
+    ]
+  },
   "hero": {
     "eyebrow": "Inventure Communications",
     "title": "Strategic communications for <g>decision-makers</g>",

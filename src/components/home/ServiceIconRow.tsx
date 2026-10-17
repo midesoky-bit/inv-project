@@ -16,7 +16,7 @@ const iconAttrs = {
   className: "text-accent",
 };
 
-function ServiceMark({ icon }: { icon?: string }) {
+export function ServiceMark({ icon }: { icon?: string }) {
   const marks: Record<string, ReactNode> = {
     media: (
       <>

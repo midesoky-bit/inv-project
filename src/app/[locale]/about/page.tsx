@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ScrollReveal } from "@/components/home/ScrollReveal";
+import { StatsBar } from "@/components/home/StatsBar";
 import {
   AboutSection,
   AdvantageSection,
@@ -74,6 +75,7 @@ export default async function AboutPage({ params }: PageProps) {
       <ScrollReveal>
         <AboutSection />
       </ScrollReveal>
+      <StatsBar />
       <ScrollReveal delay={0.05}>
         <PositioningSection />
       </ScrollReveal>

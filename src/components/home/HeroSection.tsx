@@ -3,8 +3,18 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
+import { ServiceMark } from "@/components/home/ServiceIconRow";
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+
+const SLIDES = [
+  { src: "/images/hero.webp", key: "hero" },
+  { src: "/images/forum.webp", key: "forum" },
+  { src: "/images/briefing.webp", key: "briefing" },
+] as const;
+
+type HeroService = { slug: string; title: string; icon?: string };
 
 function useHydrated() {
   return useSyncExternalStore(
@@ -14,18 +24,21 @@ function useHydrated() {
   );
 }
 
-export function HeroSection() {
+export function HeroSection({ services = [] }: { services?: HeroService[] }) {
   const reduceMotion = useReducedMotion();
   const hydrated = useHydrated();
   const animate = hydrated && !reduceMotion;
   const t = useTranslations("hero");
   const tImages = useTranslations("images");
+  const [slide, setSlide] = useState(0);
+  const current = SLIDES[slide] ?? SLIDES[0];
+  const barServices = services.slice(0, 4);
 
   return (
-    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-[#0B1D36] px-6 pt-24 pb-20 text-brand-foreground">
+    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-[#0B1D36] px-6 pt-24 pb-36 text-brand-foreground">
       <Image
-        src="/images/hero.webp"
-        alt={tImages("hero")}
+        src={current.src}
+        alt={tImages(current.key)}
         fill
         priority
         sizes="100vw"
@@ -112,6 +125,49 @@ export function HeroSection() {
             {t("ctaContact")}
           </Button>
         </motion.div>
+      </div>
+      <div className="absolute inset-x-0 bottom-0 z-10 bg-[#0B1D36] text-brand-foreground">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 sm:flex-row sm:items-stretch sm:gap-0">
+          <div className="flex items-center gap-3 py-4 text-sm tracking-[0.14em] sm:pe-6">
+            {SLIDES.map((item, index) => (
+              <span key={item.src} className="flex items-center gap-3">
+                {index > 0 ? (
+                  <span aria-hidden className="text-brand-foreground/35">
+                    —
+                  </span>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setSlide(index)}
+                  aria-current={slide === index ? "true" : undefined}
+                  className={
+                    slide === index
+                      ? "text-brand-foreground"
+                      : "text-brand-foreground/45 transition-colors hover:text-brand-foreground"
+                  }
+                >
+                  {String(index + 1).padStart(2, "0")}
+                </button>
+              </span>
+            ))}
+          </div>
+          <ul className="flex flex-1 items-stretch overflow-x-auto">
+            {barServices.map((service) => (
+              <li
+                key={service.slug}
+                className="flex min-w-44 flex-1 items-center border-s border-white/15"
+              >
+                <Link
+                  href={`/services/${service.slug}`}
+                  className="flex items-center gap-3 px-4 py-4 text-sm text-brand-foreground/90 transition-colors hover:text-brand-foreground"
+                >
+                  <ServiceMark icon={service.icon} />
+                  <span>{service.title}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

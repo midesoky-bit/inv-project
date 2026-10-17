@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Logo from "@/Images/logo";
 import { Link } from "@/i18n/navigation";
 
 type BrandLogoProps = {
@@ -7,20 +7,11 @@ type BrandLogoProps = {
 };
 
 export function BrandLogo({ name, size = "header" }: BrandLogoProps) {
-  const frame =
-    size === "header"
-      ? "h-10 w-[5.6rem] sm:h-12 sm:w-[6.7rem]"
-      : "h-16 w-[9rem]";
+  const className = size === "header" ? "h-9 w-auto sm:h-11" : "h-14 w-auto";
 
   return (
-    <Link href="/" className={`inline-flex shrink-0 bg-white ${frame}`}>
-      <Image
-        src="/images/logo.jpg"
-        alt={name}
-        width={1024}
-        height={428}
-        className="h-full w-full object-contain"
-      />
+    <Link href="/" aria-label={name} className="inline-flex shrink-0">
+      <Logo className={className} />
     </Link>
   );
 }
