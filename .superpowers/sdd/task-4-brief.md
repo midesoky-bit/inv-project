@@ -1,210 +1,58 @@
-### Task 4: HeroSection, ServiceGrid, and homepage
+### Task 4: About page
 
 **Files:**
-- Create: `src/components/home/HeroSection.tsx`
-- Create: `src/components/home/ServiceCardMotion.tsx` (leaf client motion)
-- Create: `src/components/home/ServiceGrid.tsx`
-- Modify: `src/app/page.tsx`
+- Create: `src/app/[locale]/about/page.tsx`
+- Test: `src/app/[locale]/about/page.test.ts`
 
 **Interfaces:**
-- Consumes: `fetchServices()`, `Button`, `Service` type
-- Produces: homepage composition with Hero + ServiceGrid
+- Consumes: `AboutSection`, `PositioningSection`, `ImpactSection`, `CapabilitySection`, `AdvantageSection`, `ClientsSection`, `PrinciplesSection`, `EsgSection`, `fetchEsgCommitments`, `ScrollReveal`, `buildPageMetadata`
+- Produces: `src/app/[locale]/about/page.tsx` default export. ESG is rendered here and is not a `NAV_LINKS` entry.
 
-- [ ] **Step 1: Implement HeroSection (client leaf for motion)**
+- [ ] **Step 1: Write the failing test**
 
-Create `src/components/home/HeroSection.tsx`:
+```ts
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { NAV_LINKS } from "@/components/layout/navigation";
 
-```tsx
-"use client";
+const page = readFileSync("src/app/[locale]/about/page.tsx", "utf8");
 
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-
-export function HeroSection() {
-  return (
-    <section className="relative flex min-h-[88vh] items-center bg-inv-navy px-6 pt-24 pb-20 text-inv-white">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(58,107,140,0.25),_transparent_55%)]"
-      />
-      <div className="relative mx-auto w-full max-w-6xl">
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-6 font-serif text-sm tracking-[0.2em] text-white/70 uppercase"
-        >
-          Inventure Communications
-        </motion.p>
-        <motion.h1
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
-          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl"
-        >
-          Strategic communications for decision-makers
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
-          className="mt-6 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg"
-        >
-          We counsel institutions across the Middle East on reputation, media,
-          and public affairs — with clarity, discipline, and regional fluency.
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
-          className="mt-10 flex flex-wrap items-center gap-6"
-        >
-          <Button href="/#services">Explore our services</Button>
-          <Button href="/#contact" variant="ghost">
-            Contact
-          </Button>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
+describe("about page", () => {
+  it("hosts the profile sections and keeps ESG off the menu", () => {
+    expect(page).toContain("<EsgSection");
+    expect(page).toContain("<ImpactSection");
+    expect(page).toContain("<PrinciplesSection");
+    expect(NAV_LINKS.some((item) => item.messageKey === "esg")).toBe(false);
+  });
+});
 ```
 
-- [ ] **Step 2: Implement ServiceGrid + motion leaf**
+- [ ] **Step 2: Run test to verify it fails**
 
-Create `src/components/home/ServiceCardMotion.tsx`:
+Run: `npx vitest run src/app/[locale]/about/page.test.ts`
 
-```tsx
-"use client";
+Expected: FAIL because the file does not exist.
 
-import { motion } from "framer-motion";
-import Link from "next/link";
+- [ ] **Step 3: Create the route**
 
-type ServiceCardMotionProps = {
-  href: string;
-  title: string;
-  summary: string;
-  index: number;
-};
+Follow `src/app/[locale]/page.tsx` for `generateStaticParams`, `generateMetadata`, and `setRequestLocale`. Metadata title is the about title. The page renders, inside `ScrollReveal` where the home page did:
 
-export function ServiceCardMotion({
-  href,
-  title,
-  summary,
-  index,
-}: ServiceCardMotionProps) {
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
-      transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
-      className="group border border-inv-navy/10 bg-inv-white p-8 transition-colors hover:border-inv-accent/40"
-    >
-      <Link href={href} className="block space-y-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-inv-accent">
-        <h3 className="font-serif text-2xl tracking-tight text-inv-navy">
-          {title}
-        </h3>
-        <p className="text-sm leading-relaxed text-inv-slate">{summary}</p>
-        <span className="inline-flex items-center gap-2 text-sm font-medium text-inv-accent transition-transform group-hover:translate-x-1">
-          Learn more
-          <span aria-hidden>→</span>
-        </span>
-      </Link>
-    </motion.article>
-  );
-}
-```
+`AboutSection`, `PositioningSection`, `ImpactSection`, `CapabilitySection`, `AdvantageSection`, `ClientsSection`, `PrinciplesSection`, and `EsgSection commitments={esgCommitments}`.
 
-Create `src/components/home/ServiceGrid.tsx`:
+`fetchEsgCommitments(locale)` supplies the commitments.
 
-```tsx
-import { ServiceCardMotion } from "@/components/home/ServiceCardMotion";
-import type { Service } from "@/types/cms";
+The page’s main heading is `about.title`. Change that string to `An integrated <g>communications</g> platform` in English and `منصة متكاملة <g>للاتصال</g>` in Arabic. In `AboutSection`, render the title with `t.rich("title", { g: (chunks) => <span className="text-accent">{chunks}</span> })`.
 
-type ServiceGridProps = {
-  services: Service[];
-};
+- [ ] **Step 4: Run test to verify it passes**
 
-export function ServiceGrid({ services }: ServiceGridProps) {
-  return (
-    <section
-      id="services"
-      className="bg-inv-mist px-6 py-20 md:py-28"
-      aria-labelledby="services-heading"
-    >
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-12 max-w-2xl">
-          <p className="mb-3 text-xs font-medium tracking-[0.18em] text-inv-accent uppercase">
-            Capabilities
-          </p>
-          <h2
-            id="services-heading"
-            className="font-serif text-3xl tracking-tight text-inv-navy md:text-4xl"
-          >
-            Core offerings
-          </h2>
-          <p className="mt-4 text-base text-inv-slate">
-            Integrated communications disciplines for institutional clients.
-          </p>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {services.map((service, index) => (
-            <ServiceCardMotion
-              key={service.id}
-              href={`/services/${service.slug}`}
-              title={service.title}
-              summary={service.summary}
-              index={index}
-            />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-```
+Run: `npx vitest run src/app/[locale]/about/page.test.ts`
 
-- [ ] **Step 3: Wire homepage** (Amendment C2: homepage canonical)
-
-Replace `src/app/page.tsx`:
-
-```tsx
-import type { Metadata } from "next";
-import { HeroSection } from "@/components/home/HeroSection";
-import { ServiceGrid } from "@/components/home/ServiceGrid";
-import { fetchServices } from "@/services/cms";
-
-export const metadata: Metadata = {
-  alternates: { canonical: "/" },
-};
-
-export default async function HomePage() {
-  const services = await fetchServices();
-
-  return (
-    <>
-      <HeroSection />
-      <ServiceGrid services={services} />
-    </>
-  );
-}
-```
-
-- [ ] **Step 4: Build verify**
-
-```powershell
-npm run build
-```
-
-Expected: successful build; homepage route present.
+Expected: PASS
 
 - [ ] **Step 5: Commit**
 
-```powershell
-git add src/components/home src/app/page.tsx
-git commit -m "feat: add institutional hero and CMS-backed service grid"
+```bash
+git add src/app/[locale]/about/page.tsx src/app/[locale]/about/page.test.ts
+git commit -m "feat: move the profile sections onto the about page"
 ```
-
----
 

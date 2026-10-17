@@ -1,396 +1,118 @@
-### Task 3: Design tokens, utilities, Button, Header, Footer, layout SEO
+### Task 3: Short homepage
 
 **Files:**
-- Create: `src/lib/utils.ts`
-- Create: `src/components/ui/Button.tsx`
-- Create: `src/components/layout/navigation.ts`
-- Create: `src/components/layout/MobileNav.tsx`
-- Create: `src/components/layout/Header.tsx`
-- Create: `src/components/layout/Footer.tsx`
-- Modify: `src/app/globals.css`
-- Modify: `src/app/layout.tsx`
-- Delete or replace: default `src/app/page.tsx` starter chrome as needed (homepage filled in Task 4)
+- Create: `src/components/home/ServiceIconRow.tsx`
+- Create: `src/components/home/AboutTeaser.tsx`
+- Modify: `src/components/home/HeroSection.tsx`
+- Modify: `src/app/[locale]/page.tsx`
+- Modify: `messages/en.json` and `messages/ar.json` hero titles
+- Test: `src/app/[locale]/home-composition.test.ts`
 
 **Interfaces:**
-- Consumes: design tokens from spec
-- Produces: `cn()`, `Button`, `NAV_ITEMS`, `MobileNav`, `Header`, `Footer`, global metadata + fonts (no root canonical — homepage sets its own in Task 4)
+- Consumes: `fetchServices(locale)`, `Service.slug`, `Service.title`, `Service.icon`, `Button`, `PresenceStrip`, hero translations
+- Produces: `ServiceIconRow({ services }: { services: { slug: string; title: string; icon?: string }[] })` and `AboutTeaser()`. Home page renders hero, icon row, about teaser, and `PresenceStrip` only.
 
-- [ ] **Step 1: Add `cn` utility**
-
-Create `src/lib/utils.ts`:
+- [ ] **Step 1: Write the failing test**
 
 ```ts
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
 
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
-```
+const page = readFileSync("src/app/[locale]/page.tsx", "utf8");
 
-Install helpers:
-
-```powershell
-npm install clsx tailwind-merge
-```
-
-- [ ] **Step 2: Write globals with tokens**
-
-Replace `src/app/globals.css` with:
-
-```css
-@import "tailwindcss";
-
-:root {
-  --inv-navy: #0b1d36;
-  --inv-navy-mid: #132a4a;
-  --inv-slate: #5c6b7a;
-  --inv-mist: #f3f5f7;
-  --inv-white: #ffffff;
-  --inv-accent: #3a6b8c;
-  --background: var(--inv-white);
-  --foreground: var(--inv-navy);
-}
-
-@theme inline {
-  --color-inv-navy: var(--inv-navy);
-  --color-inv-navy-mid: var(--inv-navy-mid);
-  --color-inv-slate: var(--inv-slate);
-  --color-inv-mist: var(--inv-mist);
-  --color-inv-white: var(--inv-white);
-  --color-inv-accent: var(--inv-accent);
-  --font-sans: var(--font-ibm-plex-sans);
-  --font-serif: var(--font-ibm-plex-serif);
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-ibm-plex-sans), system-ui, sans-serif;
-}
-
-::selection {
-  background: color-mix(in srgb, var(--inv-accent) 35%, white);
-}
-```
-
-- [ ] **Step 3: Implement Button**
-
-Create `src/components/ui/Button.tsx`:
-
-```tsx
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-
-type ButtonProps = {
-  href: string;
-  children: React.ReactNode;
-  variant?: "primary" | "ghost";
-  className?: string;
-};
-
-export function Button({
-  href,
-  children,
-  variant = "primary",
-  className,
-}: ButtonProps) {
-  return (
-    <Link
-      href={href}
-      className={cn(
-        "inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inv-accent",
-        variant === "primary" &&
-          "bg-inv-white text-inv-navy hover:bg-inv-mist",
-        variant === "ghost" &&
-          "bg-transparent text-inv-white underline-offset-4 hover:underline",
-        className,
-      )}
-    >
-      {children}
-    </Link>
-  );
-}
-```
-
-- [ ] **Step 4a: Shared nav items** (Amendment A)
-
-Create `src/components/layout/navigation.ts`:
-
-```ts
-export const NAV_ITEMS = [
-  { href: "/#services", label: "Services" },
-  { href: "/#insights", label: "Insights" },
-  { href: "/#esg", label: "ESG" },
-  { href: "/#contact", label: "Contact" },
-] as const;
-```
-
-- [ ] **Step 4b: Mobile nav (client leaf)** (Amendment A)
-
-Create `src/components/layout/MobileNav.tsx`:
-
-```tsx
-"use client";
-
-import Link from "next/link";
-import { useEffect, useId, useState } from "react";
-import { NAV_ITEMS } from "@/components/layout/navigation";
-
-export function MobileNav() {
-  const [open, setOpen] = useState(false);
-  const panelId = useId();
-
-  useEffect(() => {
-    if (!open) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
-  }, [open]);
-
-  return (
-    <>
-      <button
-        type="button"
-        aria-label={open ? "Close menu" : "Open menu"}
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-inv-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-inv-accent md:hidden"
-      >
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 22 22"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          aria-hidden
-        >
-          {open ? (
-            <path d="M4 4l14 14M18 4L4 18" />
-          ) : (
-            <path d="M3 6h16M3 11h16M3 16h16" />
-          )}
-        </svg>
-      </button>
-
-      {open ? (
-        <nav
-          id={panelId}
-          aria-label="Mobile"
-          className="absolute inset-x-0 top-full border-b border-white/10 bg-inv-navy md:hidden"
-        >
-          <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 text-base text-white/85 transition-colors hover:text-inv-white"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : null}
-    </>
-  );
-}
-```
-
-- [ ] **Step 4c: Header** (Amendment A)
-
-Replace `src/components/layout/Header.tsx`:
-
-```tsx
-import Link from "next/link";
-import { MobileNav } from "@/components/layout/MobileNav";
-import { NAV_ITEMS } from "@/components/layout/navigation";
-
-export function Header() {
-  return (
-    <header className="absolute inset-x-0 top-0 z-20 border-b border-white/10">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
-        <Link
-          href="/"
-          className="font-serif text-lg tracking-tight text-inv-white"
-        >
-          Inventure Communications
-        </Link>
-        <nav aria-label="Primary" className="hidden gap-8 md:flex">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm text-white/80 transition-colors hover:text-inv-white"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        <MobileNav />
-      </div>
-    </header>
-  );
-}
-```
-
-- [ ] **Step 4d: Footer** (Amendment A)
-
-Replace `src/components/layout/Footer.tsx`:
-
-```tsx
-import Link from "next/link";
-import { NAV_ITEMS } from "@/components/layout/navigation";
-
-export function Footer() {
-  return (
-    <footer
-      id="contact"
-      className="border-t border-inv-navy/10 bg-inv-navy text-inv-white"
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
-        <div className="max-w-sm space-y-3">
-          <p className="font-serif text-xl tracking-tight">
-            Inventure Communications
-          </p>
-          <p className="text-sm text-white/70">
-            Strategic Communications & Public Affairs — Middle East.
-          </p>
-        </div>
-        <div className="space-y-2 text-sm text-white/70">
-          {NAV_ITEMS.filter((item) => item.label !== "Contact").map((item) => (
-            <p key={item.href}>
-              <Link href={item.href} className="hover:text-inv-white">
-                {item.label}
-              </Link>
-            </p>
-          ))}
-          <p className="pt-4 text-xs text-white/50">
-            © {new Date().getFullYear()} Inventure Communications. All rights
-            reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-}
-```
-
-- [ ] **Step 4e: Verify nav** (Amendment A)
-
-```powershell
-npx tsc --noEmit
-```
-
-Expected: no errors. Manual check at ≤767px: menu toggles, Escape closes, link tap closes.
-
-- [ ] **Step 5: Implement global layout with Metadata API** (Amendment C1: no root canonical)
-
-Replace `src/app/layout.tsx`:
-
-```tsx
-import type { Metadata } from "next";
-import { IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
-import { Footer } from "@/components/layout/Footer";
-import { Header } from "@/components/layout/Header";
-import "./globals.css";
-
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-ibm-plex-sans",
-  display: "swap",
+describe("home composition", () => {
+  it("keeps the intro blocks and drops the long profile", () => {
+    expect(page).toContain("<HeroSection />");
+    expect(page).toContain("<ServiceIconRow");
+    expect(page).toContain("<AboutTeaser />");
+    expect(page).toContain("<PresenceStrip />");
+    expect(page).not.toContain("<ServiceGrid");
+    expect(page).not.toContain("<EsgSection");
+    expect(page).not.toContain("<ImpactSection");
+    expect(page).not.toContain("200+");
+  });
 });
+```
 
-const ibmPlexSerif = IBM_Plex_Serif({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-ibm-plex-serif",
-  display: "swap",
-});
+- [ ] **Step 2: Run test to verify it fails**
 
-const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+Run: `npx vitest run src/app/[locale]/home-composition.test.ts`
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Inventure Communications",
-    template: "%s | Inventure Communications",
-  },
-  description:
-    "Inventure Communications is a Strategic Communications & Public Affairs firm advising institutions across the Middle East on reputation, media, and stakeholder engagement.",
-  keywords: [
-    "Strategic Communications",
-    "Public Affairs",
-    "Middle East",
-    "Media Production",
-    "Corporate Communications",
-    "ESG Communications",
-  ],
-  authors: [{ name: "Inventure Communications" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: siteUrl,
-    siteName: "Inventure Communications",
-    title: "Inventure Communications — Strategic Communications & Public Affairs",
-    description:
-      "Institutional communications counsel for decision-makers across the Middle East.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Inventure Communications",
-    description:
-      "Strategic Communications & Public Affairs for institutional audiences in the Middle East.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+Expected: FAIL because `ServiceIconRow` and `AboutTeaser` are absent and `ServiceGrid` is present.
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+- [ ] **Step 3: Implement the short home**
+
+Change hero titles to rich text.
+
+English: `"title": "Strategic communications for <g>decision-makers</g>"`
+
+Arabic: `"title": "اتصالات استراتيجية <g>لصناع القرار</g>"`
+
+In `HeroSection`, render the title with:
+
+```tsx
+{t.rich("title", {
+  g: (chunks) => <span className="text-accent">{chunks}</span>,
+})}
+```
+
+`ServiceIconRow.tsx`:
+
+```tsx
+import { Link } from "@/i18n/navigation";
+
+type Item = { slug: string; title: string; icon?: string };
+
+export function ServiceIconRow({ services }: { services: Item[] }) {
   return (
-    <html lang="en">
-      <body
-        className={`${ibmPlexSans.variable} ${ibmPlexSerif.variable} min-h-screen antialiased`}
-      >
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
-    </html>
+    <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-6 py-10 sm:grid-cols-3 lg:grid-cols-4">
+      {services.map((service) => (
+        <li key={service.slug}>
+          <Link
+            href={`/services/${service.slug}`}
+            className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-5 text-foreground transition-transform hover:-translate-y-1"
+          >
+            <span className="text-sm font-medium tracking-[0.14em] text-accent uppercase">
+              {service.icon ?? "•"}
+            </span>
+            <span className="font-serif text-lg">{service.title}</span>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }
 ```
 
-Note: Task 7 later swaps the inline `siteUrl` for `getSiteUrl()`.
+`AboutTeaser.tsx` is an async server component. It uses `getTranslations("about")`, shows `eyebrow`, `title`, `paragraphs[0]`, `Image` `/images/about.webp`, and a `Button` `href="/about"` whose label is `t("readMore")` after adding `"readMore": "Our story"` and Arabic `"اقرأ قصتنا"`.
 
-- [ ] **Step 6: Verify typecheck**
+Replace the home page body with:
 
-```powershell
-npx tsc --noEmit
+```tsx
+const services = await fetchServices(cmsLocale);
+
+return (
+  <div>
+    <HeroSection />
+    <ServiceIconRow services={services} />
+    <AboutTeaser />
+    <PresenceStrip />
+  </div>
+);
 ```
 
-Expected: no errors (homepage may still be starter until Task 4).
+Remove the unused profile imports and the ESG fetch from this page.
 
-- [ ] **Step 7: Commit**
+- [ ] **Step 4: Run tests**
 
-```powershell
-git add src/lib/utils.ts src/components src/app/globals.css src/app/layout.tsx package.json package-lock.json
-git commit -m "feat: add institutional layout, tokens, mobile nav, and SEO metadata"
+Run: `npx vitest run src/app/[locale]/home-composition.test.ts src/i18n/messages.parity.test.ts`
+
+Expected: PASS
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/components/home/ServiceIconRow.tsx src/components/home/AboutTeaser.tsx src/components/home/HeroSection.tsx src/app/[locale]/page.tsx src/app/[locale]/home-composition.test.ts messages/en.json messages/ar.json
+git commit -m "feat: shorten the homepage to the reference intro"
 ```
-
----
 

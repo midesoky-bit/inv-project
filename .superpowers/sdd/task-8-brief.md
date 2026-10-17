@@ -1,198 +1,66 @@
-### Task 8: ISR segment config and tag revalidation endpoint (Amendment D)
+### Task 8: Contact, footer, and sitemap
 
 **Files:**
-- Modify: `src/app/page.tsx`, `src/app/services/[slug]/page.tsx`
-- Create: `src/app/api/revalidate/route.ts`
-- Create: `src/app/api/revalidate/route.test.ts`
-- Modify: `.env.example`, `.env.local`
+- Create: `src/app/[locale]/contact/page.tsx`
+- Modify: `src/components/layout/Footer.tsx`
+- Modify: `src/app/sitemap.ts`
+- Test: `src/app/sitemap.test.ts`
 
 **Interfaces:**
-- Consumes: `REVALIDATE_SECRET` env var
-- Produces: `POST /api/revalidate` accepting `{ "tags": string[] }` with header `x-revalidate-secret`
+- Consumes: `NAV_LINKS`, `getSiteUrl`, `localePath`, `languageAlternates`, `routing.locales`, `fetchServices`
+- Produces: sitemap entries for `""`, `/about`, `/services`, `/work`, `/insights`, `/careers`, `/contact`, plus each service slug. Footer drops `id="contact"` and links the seven routes with `Link`, not only `SectionLink`.
 
-- [ ] **Step 1: Page-level ISR window**
-
-Add to `src/app/page.tsx` and `src/app/services/[slug]/page.tsx`:
+- [ ] **Step 1: Write the failing test**
 
 ```ts
-export const revalidate = 3600;
-```
+import { describe, expect, it, vi } from "vitest";
 
-For the service route, also add:
+vi.mock("@/services/cms", () => ({
+  fetchServices: vi.fn(async () => []),
+}));
+vi.mock("@/lib/site", () => ({ getSiteUrl: () => "https://inventure.example" }));
 
-```ts
-export const dynamicParams = true;
-```
+import sitemap from "@/app/sitemap";
 
-- [ ] **Step 2: Env vars**
-
-Append to `.env.example` and `.env.local`:
-
-```env
-REVALIDATE_SECRET=
-```
-
-Generate a value for real environments:
-
-```powershell
-node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
-```
-
-- [ ] **Step 3: Write failing handler test**
-
-Create `src/app/api/revalidate/route.test.ts`:
-
-```ts
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import { NextRequest } from "next/server";
-
-const revalidateTag = vi.fn();
-vi.mock("next/cache", () => ({ revalidateTag }));
-
-import { POST } from "@/app/api/revalidate/route";
-
-function request(body: unknown, secret?: string) {
-  return new NextRequest("http://localhost/api/revalidate", {
-    method: "POST",
-    headers: {
-      "content-type": "application/json",
-      ...(secret ? { "x-revalidate-secret": secret } : {}),
-    },
-    body: JSON.stringify(body),
-  });
-}
-
-describe("POST /api/revalidate", () => {
-  beforeEach(() => {
-    revalidateTag.mockReset();
-    process.env.REVALIDATE_SECRET = "test-secret";
-  });
-
-  it("503s when no secret is configured", async () => {
-    delete process.env.REVALIDATE_SECRET;
-    const res = await POST(request({ tags: ["services"] }, "x"));
-    expect(res.status).toBe(503);
-  });
-
-  it("401s on a wrong secret", async () => {
-    const res = await POST(request({ tags: ["services"] }, "nope"));
-    expect(res.status).toBe(401);
-    expect(revalidateTag).not.toHaveBeenCalled();
-  });
-
-  it("400s on unknown tags", async () => {
-    const res = await POST(request({ tags: ["secrets"] }, "test-secret"));
-    expect(res.status).toBe(400);
-    expect(revalidateTag).not.toHaveBeenCalled();
-  });
-
-  it("revalidates allowed tags", async () => {
-    const res = await POST(
-      request({ tags: ["services", "service:events"] }, "test-secret"),
-    );
-    expect(res.status).toBe(200);
-    expect(revalidateTag).toHaveBeenCalledTimes(2);
+describe("sitemap", () => {
+  it("includes the reference pages in both locales", async () => {
+    const urls = (await sitemap()).map((entry) => entry.url);
+    expect(urls).toContain("https://inventure.example/en/contact");
+    expect(urls).toContain("https://inventure.example/ar/work");
+    expect(urls).toContain("https://inventure.example/en/careers");
   });
 });
 ```
 
-- [ ] **Step 4: Run — expect FAIL**
+- [ ] **Step 2: Run test to verify it fails**
 
-```powershell
-npm test
-```
+Run: `npx vitest run src/app/sitemap.test.ts`
 
-Expected: FAIL (route module not found).
+Expected: FAIL because those URLs are absent.
 
-- [ ] **Step 5: Implement the route**
+- [ ] **Step 3: Add the contact page, footer links, and static paths**
 
-Create `src/app/api/revalidate/route.ts`:
+`contact/page.tsx` renders a heading `Contact` / `تواصل` with the whole word inside `text-accent`, then `footer.email` as a `mailto:` link, `footer.web` as an `https://` link, and the four `presence` market names. Add `contact.heading` in both catalogs for that heading.
+
+Footer: remove `id="contact"`. Map every `NAV_LINKS` item through `Link` from `@/i18n/navigation`.
+
+In `sitemap.ts`, add:
 
 ```ts
-import { timingSafeEqual } from "node:crypto";
-import { revalidateTag } from "next/cache";
-import { NextResponse, type NextRequest } from "next/server";
-
-const STATIC_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
-const SERVICE_TAG = /^service:[a-z0-9-]+$/;
-
-function isAllowedTag(tag: unknown): tag is string {
-  return (
-    typeof tag === "string" && (STATIC_TAGS.has(tag) || SERVICE_TAG.test(tag))
-  );
-}
-
-function secretMatches(provided: string, expected: string): boolean {
-  const a = Buffer.from(provided);
-  const b = Buffer.from(expected);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
-
-export async function POST(request: NextRequest) {
-  const expected = process.env.REVALIDATE_SECRET;
-  if (!expected) {
-    return NextResponse.json(
-      { error: "Revalidation is not configured" },
-      { status: 503 },
-    );
-  }
-
-  const provided = request.headers.get("x-revalidate-secret") ?? "";
-  if (!secretMatches(provided, expected)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-  }
-
-  const tags = (body as { tags?: unknown })?.tags;
-  if (!Array.isArray(tags) || tags.length === 0 || !tags.every(isAllowedTag)) {
-    return NextResponse.json(
-      { error: "Provide a non-empty `tags` array of known tags" },
-      { status: 400 },
-    );
-  }
-
-  for (const tag of tags) {
-    revalidateTag(tag, "max");
-  }
-
-  return NextResponse.json({ revalidated: tags });
-}
+const STATIC_PATHS = ["", "/about", "/services", "/work", "/insights", "/careers", "/contact"];
 ```
 
-**Next version note:** `revalidateTag(tag, "max")` is the Next 16 signature. If Task 1 installed Next 15, call `revalidateTag(tag)` with one argument. Check `package.json` and adjust.
+Emit one entry per locale per path, using `localePath(locale, path)` and `languageAlternates(path)`. Keep the existing service entries.
 
-- [ ] **Step 6: Run tests — expect PASS**
+- [ ] **Step 4: Run the full check**
 
-```powershell
-npm test
+Run: `npx vitest run && npm run typecheck && npm run lint:direction`
+
+Expected: all three succeed. `lint:direction` prints no physical-direction violations.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/app/[locale]/contact/page.tsx src/components/layout/Footer.tsx src/app/sitemap.ts src/app/sitemap.test.ts
+git commit -m "feat: add contact and list the new pages in the sitemap"
 ```
-
-- [ ] **Step 7: Manual smoke**
-
-```powershell
-npm run build
-npm run start
-# in a second terminal (set REVALIDATE_SECRET in .env.local first):
-curl.exe -X POST http://localhost:3000/api/revalidate `
-  -H "content-type: application/json" `
-  -H "x-revalidate-secret: <your secret>" `
-  -d "{\"tags\":[\"services\"]}"
-```
-
-Expected: `{"revalidated":["services"]}`.
-
-- [ ] **Step 8: Commit**
-
-```powershell
-git add src/app/page.tsx "src/app/services/[slug]/page.tsx" src/app/api .env.example
-git commit -m "feat: add ISR window and secret-protected tag revalidation"
-```
-
----
-
