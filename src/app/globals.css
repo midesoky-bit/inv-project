@@ -109,37 +109,42 @@ body {
 }
 
 .home-huly {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.home-huly figure,
+.home-huly .bg-surface {
+  border-radius: 1rem;
+}
+
+.dark .home-huly {
   background:
     radial-gradient(ellipse 70% 32% at 50% 0%, rgba(58, 107, 140, 0.35), transparent 55%),
     var(--brand);
   color: var(--brand-foreground);
 }
 
-.home-huly .bg-background,
-.home-huly .bg-surface-muted,
-.home-huly .bg-brand {
+.dark .home-huly .bg-background,
+.dark .home-huly .bg-surface-muted,
+.dark .home-huly .bg-brand {
   background: transparent;
 }
 
-.home-huly .bg-surface {
+.dark .home-huly .bg-surface {
   background: color-mix(in srgb, var(--brand-foreground) 6%, transparent);
-  border-radius: 1rem;
 }
 
-.home-huly .text-foreground {
+.dark .home-huly .text-foreground {
   color: var(--brand-foreground);
 }
 
-.home-huly .text-muted {
+.dark .home-huly .text-muted {
   color: color-mix(in srgb, var(--brand-foreground) 72%, transparent);
 }
 
-.home-huly .border-border {
+.dark .home-huly .border-border {
   border-color: color-mix(in srgb, var(--brand-foreground) 14%, transparent);
-}
-
-.home-huly figure {
-  border-radius: 1rem;
 }
 
 
@@ -188,9 +193,9 @@ body {
 }
 
 .inv-hero-line {
-  stroke-dasharray: 520;
-  stroke-dashoffset: 520;
-  animation: inv-line-draw 1.8s ease-out forwards;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: inv-line-draw 2.4s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -10,16 +10,16 @@ export async function Footer() {
   return (
     <footer
       id="contact"
-      className="border-t border-brand-foreground/10 bg-brand text-brand-foreground"
+      className="border-t border-border bg-surface-muted text-foreground"
     >
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm space-y-3">
           <p className="font-serif text-xl tracking-tight">{tBrand("name")}</p>
-          <p className="text-sm text-brand-foreground/70">{tFooter("tagline")}</p>
+          <p className="text-sm text-muted">{tFooter("tagline")}</p>
           <p className="text-sm">
             <a
               href={`mailto:${tFooter("email")}`}
-              className="text-brand-foreground/80 hover:text-brand-foreground"
+              className="text-foreground/80 hover:text-foreground"
             >
               {tFooter("email")}
             </a>
@@ -27,26 +27,26 @@ export async function Footer() {
           <p className="text-sm">
             <a
               href={`https://${tFooter("web")}`}
-              className="text-brand-foreground/80 hover:text-brand-foreground"
+              className="text-foreground/80 hover:text-foreground"
             >
               {tFooter("web")}
             </a>
           </p>
         </div>
-        <div className="space-y-2 text-sm text-brand-foreground/70">
+        <div className="space-y-2 text-sm text-muted">
           {NAV_LINKS.filter((item) => item.messageKey !== "contact").map(
             (item) => (
               <p key={item.href}>
                 <SectionLink
                   href={item.href}
-                  className="hover:text-brand-foreground"
+                  className="hover:text-foreground"
                 >
                   {tNav(item.messageKey)}
                 </SectionLink>
               </p>
             ),
           )}
-          <p className="pt-4 text-xs text-brand-foreground/50">
+          <p className="pt-4 text-xs text-muted">
             © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
           </p>
         </div>

@@ -18,17 +18,17 @@ export async function Header() {
   }));
 
   return (
-    <header className="fixed inset-x-0 top-0 z-30 border-b border-brand-foreground/10 bg-brand text-brand-foreground">
+    <header className="fixed inset-x-0 top-0 z-30 border-b border-border bg-background text-foreground">
       <div className="relative mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
         <Link
           href="/"
-          className="font-serif text-lg tracking-tight text-brand-foreground"
+          className="font-serif text-lg tracking-tight text-foreground"
         >
           {tBrand("name")}
         </Link>
         <div className="flex items-center gap-4 md:gap-6">
           <DesktopNav services={navServices} />
-          <ThemeSwitcher className="hidden md:block" />
+          <ThemeSwitcher />
           <LanguageSwitcher className="hidden md:block" />
           <MobileNav services={navServices} />
         </div>

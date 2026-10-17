@@ -57,8 +57,8 @@ export function DesktopNav({ services }: DesktopNavProps) {
                 href={item.href}
                 className={
                   isOpen
-                    ? "text-sm text-brand-foreground"
-                    : "text-sm text-brand-foreground/80 transition-colors hover:text-brand-foreground"
+                    ? "text-sm text-foreground"
+                    : "text-sm text-foreground/80 transition-colors hover:text-foreground"
                 }
               >
                 {t(item.messageKey)}
@@ -71,14 +71,14 @@ export function DesktopNav({ services }: DesktopNavProps) {
                     animate={{ opacity: 1, y: 0 }}
                     exit={reduceMotion ? undefined : { opacity: 0, y: -4 }}
                     transition={{ duration: 0.16, ease: "easeOut" }}
-                    className="absolute start-0 top-full z-40 mt-3 w-64 border border-brand-foreground/15 bg-brand py-2 shadow-lg"
+                    className="absolute start-0 top-full z-40 mt-3 w-64 border border-border bg-surface py-2 shadow-lg"
                   >
                     {services.map((service) => (
                       <li key={service.slug}>
                         <Link
                           href={`/services/${service.slug}`}
                           onClick={() => setOpen(null)}
-                          className="block px-4 py-2 text-sm text-brand-foreground/85 transition-colors hover:bg-brand-foreground/10 hover:text-brand-foreground"
+                          className="block px-4 py-2 text-sm text-foreground/85 transition-colors hover:bg-foreground/5 hover:text-foreground"
                         >
                           {service.title}
                         </Link>

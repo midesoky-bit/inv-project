@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
-import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
 import type { NavService } from "@/components/layout/DesktopNav";
@@ -37,7 +36,7 @@ export function MobileNav({ services }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-brand-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
       >
         <svg
           width="22"
@@ -66,7 +65,7 @@ export function MobileNav({ services }: MobileNavProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full border-b border-brand-foreground/10 bg-brand text-brand-foreground md:hidden"
+            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground md:hidden"
           >
             <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
               {NAV_LINKS.map((item, index) => (
@@ -83,18 +82,18 @@ export function MobileNav({ services }: MobileNavProps) {
                   <SectionLink
                     href={item.href}
                     onNavigate={() => setOpen(false)}
-                    className="block py-3 text-base text-brand-foreground/85 transition-colors hover:text-brand-foreground"
+                    className="block py-3 text-base text-foreground/85 transition-colors hover:text-foreground"
                   >
                     {t(item.messageKey)}
                   </SectionLink>
                   {item.messageKey === "services" ? (
-                    <ul className="mb-2 border-s border-brand-foreground/15 ps-4">
+                    <ul className="mb-2 border-s border-border ps-4">
                       {services.map((service) => (
                         <li key={service.slug}>
                           <Link
                             href={`/services/${service.slug}`}
                             onClick={() => setOpen(false)}
-                            className="block py-1.5 text-sm text-brand-foreground/80 hover:text-brand-foreground"
+                            className="block py-1.5 text-sm text-foreground/80 hover:text-foreground"
                           >
                             {service.title}
                           </Link>
@@ -105,8 +104,7 @@ export function MobileNav({ services }: MobileNavProps) {
                 </motion.li>
               ))}
             </ul>
-            <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-brand-foreground/10 px-6 py-4">
-              <ThemeSwitcher />
+            <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-border px-6 py-4">
               <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
             </div>
           </motion.nav>
