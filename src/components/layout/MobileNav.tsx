@@ -6,6 +6,7 @@ import { useEffect, useId, useState } from "react";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { usePathname } from "@/i18n/navigation";
 import { isNavActive, NAV_LINKS, navLinkClass } from "@/components/layout/navigation";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -95,7 +96,7 @@ export function MobileNav() {
             transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
             className="absolute inset-x-0 top-full z-30 border-b border-border bg-background text-foreground xl:hidden"
           >
-            <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
+            <ul className={`flex flex-col ${PAGE_GUTTER} py-4`}>
               {NAV_LINKS.map((item, index) => {
                 const active = isNavActive(pathname, item.href);
                 return (

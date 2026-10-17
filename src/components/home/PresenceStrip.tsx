@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 const MARKETS = ["egypt", "saudi", "uae", "qatar"] as const;
 
@@ -11,9 +12,9 @@ export async function PresenceStrip() {
   return (
     <section
       aria-labelledby="presence-heading"
-      className="scroll-mt-24 border-y border-border bg-background px-6 py-14 md:py-20"
+      className={`scroll-mt-24 border-y border-border bg-background ${PAGE_GUTTER} py-14 md:py-20`}
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
           {t("label")}
         </p>

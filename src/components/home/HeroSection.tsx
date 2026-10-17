@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ServiceMark } from "@/components/home/ServiceIconRow";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 const SLIDES = [
   { src: "/images/hero.webp", key: "hero" },
@@ -24,7 +25,7 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
   const barServices = services.slice(0, 4);
 
   return (
-    <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-[#0B1D36] px-6 pt-24 pb-36 text-brand-foreground">
+    <section className="relative mt-20 flex min-h-[calc(88vh-5rem)] items-center overflow-hidden bg-brand text-brand-foreground">
       {SLIDES.map((item, index) => (
         <motion.div
           key={item.src}
@@ -40,74 +41,57 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
             fill
             priority={index === 0}
             sizes="100vw"
-            className="object-cover object-[center_42%]"
+            className="object-cover object-[72%_center] rtl:object-[28%_center]"
           />
         </motion.div>
       ))}
-      <div aria-hidden className="absolute inset-0 bg-[#0B1D36]/62" />
       <div
         aria-hidden
-        className="inv-hero-glow pointer-events-none absolute -inset-[12%] bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.38),_transparent_58%)]"
+        className="absolute inset-0 bg-gradient-to-r from-brand from-[18%] via-brand/88 via-[46%] to-brand/28 to-[78%] lg:hidden rtl:bg-gradient-to-l"
       />
-      <svg
+      <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 h-full w-full text-white/75"
-        viewBox="0 0 1200 700"
-        fill="none"
-        preserveAspectRatio="xMidYMid slice"
+        className="pointer-events-none absolute inset-0 hidden lg:grid lg:grid-cols-2"
       >
-        <path
-          className="inv-hero-line"
-          d="M80 560 C220 420, 280 180, 460 220 S760 480, 1120 140"
-          stroke="currentColor"
-          strokeWidth="1.25"
-          pathLength={1}
-        />
-        <path
-          className="inv-hero-line text-accent"
-          d="M40 180 H520"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          pathLength={1}
-          style={{ animationDelay: "0.15s" }}
-        />
-        <path
-          className="inv-hero-line"
-          d="M860 520 H1160"
-          stroke="currentColor"
-          strokeWidth="1"
-          pathLength={1}
-          style={{ animationDelay: "0.3s" }}
-        />
-      </svg>
-      <div className="relative mx-auto w-full max-w-6xl">
-        <p className="mb-6 font-serif text-sm tracking-[0.2em] text-brand-foreground/70 uppercase">
-          {t.rich("eyebrow", {
-            bdi: (chunks) => <bdi>{chunks}</bdi>,
-          })}
-        </p>
-        <span aria-hidden className="mb-5 block h-0.5 w-14 bg-accent" />
-        <h1 className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl">
-          {t.rich("title", {
-            g: (chunks) => <span className="text-accent">{chunks}</span>,
-          })}
-        </h1>
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-brand-foreground/80 sm:text-lg">
-          {t("subtitle")}
-        </p>
-        <div className="mt-10 flex flex-wrap items-center gap-6">
-          <Button href="/services">{t("ctaServices")}</Button>
-          <Button
-            href="/contact"
-            variant="ghost"
-            className="text-brand-foreground hover:text-brand-foreground"
-          >
-            {t("ctaContact")}
-          </Button>
+        <div className="bg-gradient-to-r from-brand from-30% via-brand/88 via-70% to-transparent rtl:bg-gradient-to-l" />
+        <div className="bg-gradient-to-l from-brand/25 to-transparent rtl:bg-gradient-to-r" />
+      </div>
+
+      <div className={`relative ${PAGE_GUTTER} w-full pb-28 pt-10 lg:pb-32 lg:pt-12`}>
+        <div className="grid items-center gap-10 lg:grid-cols-2">
+          <div className="max-w-xl">
+            <div className="flex items-center gap-3">
+              <span aria-hidden className="h-0.5 w-10 bg-accent" />
+              <p className="text-xs font-medium tracking-[0.16em] text-accent uppercase">
+                {t.rich("eyebrow", {
+                  bdi: (chunks) => <bdi>{chunks}</bdi>,
+                })}
+              </p>
+            </div>
+            <h1 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[3.35rem]">
+              {t.rich("title", {
+                g: (chunks) => <span className="text-accent">{chunks}</span>,
+              })}
+            </h1>
+            <p className="mt-6 text-base leading-relaxed text-brand-foreground/80">
+              {t("subtitle")}
+            </p>
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <Button href="/services">{t("ctaServices")}</Button>
+              <Button
+                href="/contact"
+                variant="ghost"
+                className="text-brand-foreground hover:text-brand-foreground"
+              >
+                {t("ctaContact")}
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 z-10 bg-[#0B1D36] text-brand-foreground">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 sm:flex-row sm:items-stretch sm:gap-0">
+
+      <div className="absolute inset-x-0 bottom-0 z-10 bg-brand text-brand-foreground">
+        <div className={`flex flex-col gap-2 ${PAGE_GUTTER} sm:flex-row sm:items-stretch sm:gap-0`}>
           <div className="flex items-center gap-3 py-4 text-sm tracking-[0.14em] sm:pe-6">
             {SLIDES.map((item, index) => (
               <span key={item.src} className="flex items-center gap-3">

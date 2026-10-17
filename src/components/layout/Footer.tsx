@@ -4,6 +4,7 @@ import { NAV_LINKS, navLinkClass } from "@/components/layout/navigation";
 import { SOCIAL_NETWORKS } from "@/components/layout/social";
 import { Link } from "@/i18n/navigation";
 import { type Locale } from "@/i18n/routing";
+import { PAGE_GUTTER } from "@/lib/layout";
 import { fetchServices } from "@/services/cms";
 
 const MARKETS = ["egypt", "saudi", "uae", "qatar"] as const;
@@ -22,7 +23,7 @@ export async function Footer() {
 
   return (
     <footer className="border-t border-border bg-surface-muted text-foreground">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-x-8 gap-y-12 px-6 pt-14 pb-12 lg:grid-cols-12">
+      <div className={`grid grid-cols-2 gap-x-8 gap-y-12 ${PAGE_GUTTER} pt-14 pb-12 lg:grid-cols-12`}>
         <div className="col-span-2 max-w-sm space-y-4 lg:col-span-4">
           <BrandLogo name={tBrand("name")} size="footer" />
           <p className="text-sm leading-relaxed text-muted">{tFooter("tagline")}</p>
@@ -141,7 +142,7 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <p className="mx-auto max-w-6xl px-6 py-5 text-xs text-muted">
+        <p className={`${PAGE_GUTTER} py-5 text-xs text-muted`}>
           © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
         </p>
       </div>

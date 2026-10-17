@@ -10,6 +10,7 @@ import {
   type WorkFilter,
   type WorkItem,
 } from "@/components/work/work-items";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 type WorkGalleryProps = {
   items: WorkItem[];
@@ -34,9 +35,9 @@ export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
     <section
       id="gallery"
       aria-labelledby="work-heading"
-      className="scroll-mt-24 bg-background px-4 py-8 sm:px-6 md:py-12 lg:px-8"
+      className={`scroll-mt-24 bg-background ${PAGE_GUTTER} py-8 md:py-12`}
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <div className="flex flex-wrap gap-2">
           {WORK_FILTERS.map((key) => {
             const selected = filter === key;

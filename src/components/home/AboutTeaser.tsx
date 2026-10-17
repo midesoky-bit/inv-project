@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Button } from "@/components/ui/Button";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 export async function AboutTeaser() {
   const t = await getTranslations("about");
@@ -10,9 +11,9 @@ export async function AboutTeaser() {
   return (
     <section
       aria-labelledby="about-teaser-heading"
-      className="scroll-mt-24 bg-background px-6 py-10 md:py-14"
+      className={`scroll-mt-24 bg-background ${PAGE_GUTTER} py-10 md:py-14`}
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-6 sm:grid-cols-2 sm:gap-10">
+      <div className="grid items-center gap-6 sm:grid-cols-2 sm:gap-10">
         <div>
           <p className="mb-2 text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {t("eyebrow")}

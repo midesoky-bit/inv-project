@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ServiceCardMotion } from "@/components/home/ServiceCardMotion";
 import { serviceVisual } from "@/lib/service-visuals";
+import { PAGE_GUTTER } from "@/lib/layout";
 import type { Service } from "@/types/cms";
 
 type ServicesHeadingProps = {
@@ -48,7 +49,7 @@ export async function ServiceGrid({ services }: ServiceGridProps) {
   return (
     <section
       id="services"
-      className="relative z-10 mx-auto -mt-28 max-w-6xl scroll-mt-24 px-4 pb-10 sm:px-6 md:pb-16 lg:px-8"
+      className={`relative z-10 scroll-mt-24 ${PAGE_GUTTER} py-10 md:py-16`}
       aria-labelledby="services-page-heading"
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

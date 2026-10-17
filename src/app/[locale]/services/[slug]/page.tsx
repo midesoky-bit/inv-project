@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { PAGE_GUTTER } from "@/lib/layout";
 import { buildPageMetadata } from "@/lib/metadata";
 import { serviceVisual } from "@/lib/service-visuals";
 import { fetchServiceBySlug, fetchServices } from "@/services/cms";
@@ -66,7 +67,7 @@ export default async function ServicePage({ params }: PageProps) {
 
   return (
     <article className="bg-background">
-      <header className="relative flex min-h-[52vh] items-end overflow-hidden bg-brand text-brand-foreground">
+      <header className="relative mt-20 flex min-h-[52vh] items-end overflow-hidden bg-brand text-brand-foreground">
         <Image
           src={visual.src}
           alt={tImages(visual.altKey)}
@@ -75,8 +76,11 @@ export default async function ServicePage({ params }: PageProps) {
           sizes="100vw"
           className="object-cover"
         />
-        <div aria-hidden className="absolute inset-0 bg-brand/72" />
-        <div className="relative mx-auto w-full max-w-6xl px-6 pt-32 pb-16">
+        <div
+          aria-hidden
+          className="absolute inset-0 bg-gradient-to-r from-brand from-[18%] via-brand/88 via-[46%] to-brand/28 to-[78%] rtl:bg-gradient-to-l"
+        />
+        <div className={`relative ${PAGE_GUTTER} pt-12 pb-16`}>
           <p className="text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {t("eyebrow")}
           </p>
@@ -92,7 +96,7 @@ export default async function ServicePage({ params }: PageProps) {
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-6 py-14 md:py-20 lg:grid-cols-12">
+      <section className={`grid gap-8 ${PAGE_GUTTER} py-14 md:py-20 lg:grid-cols-12`}>
         <div className="lg:col-span-5">
           <p className="text-base leading-relaxed text-muted">
             {service.description}
@@ -130,8 +134,8 @@ export default async function ServicePage({ params }: PageProps) {
       </section>
 
       {others.length > 0 ? (
-        <aside className="border-t border-border bg-surface-muted px-6 py-16">
-          <div className="mx-auto max-w-6xl">
+        <aside className={`border-t border-border bg-surface-muted ${PAGE_GUTTER} py-16`}>
+          <div>
             <h2 className="font-serif text-2xl tracking-tight text-foreground">
               {t("others")}
             </h2>

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 type Item = { slug: string; title: string; icon?: string };
 
@@ -82,7 +83,7 @@ export function ServiceMark({
 
 export function ServiceIconRow({ services }: { services: Item[] }) {
   return (
-    <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-4 px-6 py-10 sm:grid-cols-3 lg:grid-cols-4">
+    <ul className={`grid grid-cols-2 gap-4 ${PAGE_GUTTER} py-10 sm:grid-cols-3 lg:grid-cols-4`}>
       {services.map((service) => (
         <li key={service.slug}>
           <Link

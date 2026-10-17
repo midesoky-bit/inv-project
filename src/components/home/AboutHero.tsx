@@ -2,10 +2,9 @@ import { getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
+import { PAGE_GUTTER } from "@/lib/layout";
 
 type Stat = { value: string; label: string };
-
-const GUTTER = "px-4 sm:px-5 lg:px-8 xl:px-10";
 
 export async function AboutHero() {
   const tAbout = await getTranslations("about");
@@ -38,7 +37,7 @@ export async function AboutHero() {
         <div className="bg-gradient-to-l from-brand/30 to-transparent rtl:bg-gradient-to-r" />
       </div>
 
-      <div className={`relative ${GUTTER}`}>
+      <div className={`relative ${PAGE_GUTTER}`}>
         <div className="grid min-h-[24rem] items-start gap-10 pt-8 pb-6 lg:grid-cols-2 lg:min-h-[26rem] lg:pt-10 lg:pb-8">
           <div className="max-w-xl">
             <nav aria-label={tNav("breadcrumb")}>

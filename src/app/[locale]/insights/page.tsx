@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
+import { PAGE_GUTTER } from "@/lib/layout";
 import { buildPageMetadata } from "@/lib/metadata";
 import { fetchInsights } from "@/services/cms";
 
@@ -47,7 +48,7 @@ export default async function InsightsPage({ params }: PageProps) {
   return (
     <section
       aria-labelledby="insights-heading"
-      className="mx-auto w-full max-w-6xl px-6 pt-28 pb-16"
+      className={`${PAGE_GUTTER} pt-28 pb-16`}
     >
       <h1
         id="insights-heading"

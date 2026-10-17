@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import Image from "next/image";
+import { PAGE_GUTTER } from "@/lib/layout";
 import { cn } from "@/lib/utils";
 
 type TitledItem = { title: string; body?: string };
@@ -123,10 +124,10 @@ export async function AboutSection() {
   return (
     <section
       id="about"
-      className="scroll-mt-24 bg-background px-6 py-14 md:py-20"
+      className={`scroll-mt-24 bg-background ${PAGE_GUTTER} py-14 md:py-20`}
       aria-labelledby="about-heading"
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <div className="max-w-2xl">
           <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {t("eyebrow")}
@@ -182,9 +183,9 @@ export async function PositioningSection() {
   return (
     <section
       id="story"
-      className="scroll-mt-24 border-t border-border bg-surface-muted px-6 py-14 md:py-20 dark:border-t-0"
+      className={`scroll-mt-24 border-t border-border bg-surface-muted ${PAGE_GUTTER} py-14 md:py-20 dark:border-t-0`}
     >
-      <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12 lg:items-center">
+      <div className="grid items-start gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
           <SectionIntro eyebrow={t("eyebrow")} title={t("title")} />
           <div className="mt-6 max-w-xl space-y-5">
@@ -221,10 +222,10 @@ export async function ImpactSection() {
   return (
     <section
       id="impact"
-      className="scroll-mt-24 border-t border-border bg-background px-6 py-14 md:py-16"
+      className={`scroll-mt-24 border-t border-border bg-background ${PAGE_GUTTER} py-14 md:py-16`}
       aria-labelledby="impact-heading"
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <div className="grid items-end gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <SectionIntro
@@ -262,8 +263,8 @@ export async function CapabilitySection() {
   const [lead, ...supporting] = paragraphs;
 
   return (
-    <section className="border-t border-border bg-surface-muted px-6 py-14 md:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section className={`border-t border-border bg-surface-muted ${PAGE_GUTTER} py-14 md:py-20`}>
+      <div>
         <SectionIntro title={t("title")} />
         <div className="mt-8 grid items-start gap-8 lg:grid-cols-12">
           <div className="space-y-5 lg:col-span-7">
@@ -303,8 +304,8 @@ export async function AdvantageSection() {
   const items = (t.raw("items") as string[]).map((title) => ({ title }));
 
   return (
-    <section className="border-t border-border bg-brand px-6 py-14 text-brand-foreground md:py-16">
-      <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12">
+    <section className={`border-t border-border bg-brand ${PAGE_GUTTER} py-14 text-brand-foreground md:py-16`}>
+      <div className="grid items-start gap-10 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <SectionIntro
             eyebrow={t("eyebrow")}
@@ -330,8 +331,8 @@ export async function ClientsSection() {
   const items = t.raw("items") as string[];
 
   return (
-    <section className="border-t border-border bg-background px-6 py-14 md:py-20">
-      <div className="mx-auto max-w-6xl">
+    <section className={`border-t border-border bg-background ${PAGE_GUTTER} py-14 md:py-20`}>
+      <div>
         <h2 className="font-serif text-3xl tracking-tight text-foreground md:text-4xl">
           {t("title")}
         </h2>
@@ -354,8 +355,8 @@ export async function PrinciplesSection() {
   const items = t.raw("items") as TitledItem[];
 
   return (
-    <section className="border-t border-border bg-surface-muted px-6 py-14 md:py-16">
-      <div className="mx-auto max-w-6xl">
+    <section className={`border-t border-border bg-surface-muted ${PAGE_GUTTER} py-14 md:py-16`}>
+      <div>
         <SectionIntro eyebrow={t("eyebrow")} title={t("title")} />
         <TopicList items={items} />
       </div>
@@ -374,10 +375,10 @@ export async function EsgSection({
   return (
     <section
       id="esg"
-      className="scroll-mt-24 border-t border-border bg-background px-6 py-14 md:py-20"
+      className={`scroll-mt-24 border-t border-border bg-background ${PAGE_GUTTER} py-14 md:py-20`}
       aria-labelledby="esg-heading"
     >
-      <div className="mx-auto max-w-6xl">
+      <div>
         <SectionIntro title={t("title")} id="esg-heading" />
         <p className="mt-6 max-w-2xl text-base leading-relaxed text-muted">
           {t("subtitle")}
