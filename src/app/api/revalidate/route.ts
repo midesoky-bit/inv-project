@@ -2,10 +2,10 @@ import { timingSafeEqual } from "node:crypto";
 import { revalidateTag } from "next/cache";
 import { NextResponse, type NextRequest } from "next/server";
 
-const BARE_TAGS = new Set(["services", "insights", "esg", "case-studies"]);
+const BARE_TAGS = new Set(["services", "insights", "esg", "case-studies", "careers"]);
 const LOCALES = ["en", "ar"] as const;
 const LOCALE_SCOPED_TAG =
-  /^(services|insights|esg|case-studies):(en|ar)$/;
+  /^(services|insights|esg|case-studies|careers):(en|ar)$/;
 const SERVICE_LOCALE_TAG = /^service:(en|ar):[a-z0-9-]+$/;
 
 function isAllowedTag(tag: unknown): tag is string {

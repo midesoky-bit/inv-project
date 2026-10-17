@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 import { cmsFetch } from "@/lib/cms/client";
 import type {
+  Career,
   CaseStudy,
   EsgCommitment,
   Insight,
@@ -40,6 +41,11 @@ export async function supabaseFetchInsights(locale: Locale): Promise<Insight[]> 
     tags: [`insights:${locale}`],
     headers: { apikey: process.env.CMS_TOKEN ?? "" },
   });
+}
+
+export async function supabaseFetchCareers(locale: Locale): Promise<Career[]> {
+  void locale;
+  return [];
 }
 
 export async function supabaseFetchEsgCommitments(

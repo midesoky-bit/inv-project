@@ -37,6 +37,13 @@ export type Insight = {
   publishedAt: string;
 };
 
+export type Career = {
+  id: string;
+  title: string;
+  summary: string;
+  location: string;
+};
+
 export type EsgCommitment = {
   id: string;
   title: string;

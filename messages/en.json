@@ -144,8 +144,13 @@
     "partnerships": "Partnerships"
   },
   "insights": {
-    "title": "Insights",
+    "title": "<g>Insights</g>",
+    "empty": "Articles will be added in Directus.",
     "comingSoon": "Insights will be published here soon."
+  },
+  "careers": {
+    "title": "<g>Careers</g>",
+    "empty": "Openings will be added in Directus."
   },
   "esg": {
     "title": "Sustainability & ESG",

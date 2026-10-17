@@ -1,4 +1,4 @@
-import type { EsgCommitment, Service } from "@/types/cms";
+import type { Career, EsgCommitment, Insight, Service } from "@/types/cms";
 
 export type DirectusTranslation = {
   languages_code?: string;
@@ -6,6 +6,7 @@ export type DirectusTranslation = {
   summary?: string | null;
   description?: string | null;
   highlights?: string[] | null;
+  location?: string | null;
 };
 
 export type DirectusServiceRow = {
@@ -50,6 +51,45 @@ export function mapDirectusEsg(row: DirectusEsgRow): EsgCommitment {
     order: row.order ?? 0,
     title: translation?.title ?? "",
     summary: translation?.summary ?? "",
+  };
+}
+
+export type DirectusInsightRow = {
+  id: string | number;
+  slug: string;
+  published_at?: string | null;
+  translations?:
+    | { title?: string | null; summary?: string | null }[]
+    | { title?: string | null; summary?: string | null }
+    | null;
+};
+
+export type DirectusCareerRow = {
+  id: string | number;
+  translations?:
+    | { title?: string | null; summary?: string | null; location?: string | null }[]
+    | { title?: string | null; summary?: string | null; location?: string | null }
+    | null;
+};
+
+export function mapDirectusInsight(row: DirectusInsightRow): Insight {
+  const translation = firstTranslation(row.translations);
+  return {
+    id: String(row.id),
+    slug: row.slug,
+    title: translation?.title ?? "",
+    summary: translation?.summary ?? "",
+    publishedAt: row.published_at ?? "",
+  };
+}
+
+export function mapDirectusCareer(row: DirectusCareerRow): Career {
+  const translation = firstTranslation(row.translations);
+  return {
+    id: String(row.id),
+    title: translation?.title ?? "",
+    summary: translation?.summary ?? "",
+    location: translation?.location ?? "",
   };
 }
 

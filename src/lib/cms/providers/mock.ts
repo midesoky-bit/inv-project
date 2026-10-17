@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 import { toEsgCommitment, toService } from "@/lib/cms/localize";
 import type {
+  Career,
   CaseStudy,
   EsgCommitment,
   EsgCommitmentRecord,
@@ -291,6 +292,11 @@ export async function mockFetchServiceBySlug(
 }
 
 export async function mockFetchInsights(locale: Locale): Promise<Insight[]> {
+  void locale;
+  return [];
+}
+
+export async function mockFetchCareers(locale: Locale): Promise<Career[]> {
   void locale;
   return [];
 }

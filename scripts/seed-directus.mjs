@@ -473,12 +473,165 @@ for (const collection of [
   await ensurePublicRead(token, collection);
 }
 
+const statusField = {
+  field: "status",
+  type: "string",
+  schema: { default_value: "published", is_nullable: false },
+  meta: {
+    interface: "select-dropdown",
+    width: "half",
+    options: {
+      choices: [
+        { text: "Published", value: "published" },
+        { text: "Draft", value: "draft" },
+      ],
+    },
+  },
+};
+
+await ensureCollection(token, "insights", {
+  icon: "article",
+  display_template: "{{slug}}",
+});
+await ensureField(token, "insights", {
+  field: "slug",
+  type: "string",
+  schema: { is_unique: true, is_nullable: false },
+  meta: { interface: "input", required: true, width: "half" },
+});
+await ensureField(token, "insights", statusField);
+await ensureField(token, "insights", {
+  field: "published_at",
+  type: "timestamp",
+  schema: { is_nullable: true },
+  meta: { interface: "datetime", width: "half" },
+});
+await ensureCollection(token, "insights_translations", { hidden: true, icon: "translate" });
+await ensureField(token, "insights_translations", {
+  field: "title",
+  type: "string",
+  schema: { is_nullable: false },
+  meta: { interface: "input", required: true },
+});
+await ensureField(token, "insights_translations", {
+  field: "summary",
+  type: "text",
+  meta: { interface: "input-multiline" },
+});
+await ensureField(token, "insights_translations", {
+  field: "body",
+  type: "text",
+  meta: { interface: "input-multiline" },
+});
+await ensureField(token, "insights_translations", {
+  field: "languages_code",
+  type: "string",
+  schema: { is_nullable: false, length: 16 },
+  meta: { interface: "input", required: true, width: "half" },
+});
+await ensureField(token, "insights_translations", {
+  field: "insights_id",
+  type: "integer",
+  schema: { is_nullable: false },
+  meta: { hidden: true },
+});
+await ensureField(token, "insights", {
+  field: "translations",
+  type: "alias",
+  meta: { interface: "translations", special: ["translations"] },
+});
+await ensureRelation(token, {
+  collection: "insights_translations",
+  field: "insights_id",
+  related_collection: "insights",
+  schema: { on_delete: "CASCADE" },
+  meta: {
+    one_field: "translations",
+    junction_field: "languages_code",
+    one_collection: "insights",
+    many_collection: "insights_translations",
+    many_field: "insights_id",
+  },
+});
+
+await ensureCollection(token, "careers", {
+  icon: "badge",
+  display_template: "{{slug}}",
+});
+await ensureField(token, "careers", {
+  field: "slug",
+  type: "string",
+  schema: { is_unique: true, is_nullable: false },
+  meta: { interface: "input", required: true, width: "half" },
+});
+await ensureField(token, "careers", statusField);
+await ensureCollection(token, "careers_translations", { hidden: true, icon: "translate" });
+await ensureField(token, "careers_translations", {
+  field: "title",
+  type: "string",
+  schema: { is_nullable: false },
+  meta: { interface: "input", required: true },
+});
+await ensureField(token, "careers_translations", {
+  field: "summary",
+  type: "text",
+  meta: { interface: "input-multiline" },
+});
+await ensureField(token, "careers_translations", {
+  field: "location",
+  type: "string",
+  meta: { interface: "input", width: "half" },
+});
+await ensureField(token, "careers_translations", {
+  field: "languages_code",
+  type: "string",
+  schema: { is_nullable: false, length: 16 },
+  meta: { interface: "input", required: true, width: "half" },
+});
+await ensureField(token, "careers_translations", {
+  field: "careers_id",
+  type: "integer",
+  schema: { is_nullable: false },
+  meta: { hidden: true },
+});
+await ensureField(token, "careers", {
+  field: "translations",
+  type: "alias",
+  meta: { interface: "translations", special: ["translations"] },
+});
+await ensureRelation(token, {
+  collection: "careers_translations",
+  field: "careers_id",
+  related_collection: "careers",
+  schema: { on_delete: "CASCADE" },
+  meta: {
+    one_field: "translations",
+    junction_field: "languages_code",
+    one_collection: "careers",
+    many_collection: "careers_translations",
+    many_field: "careers_id",
+  },
+});
+
+for (const collection of [
+  "insights",
+  "insights_translations",
+  "careers",
+  "careers_translations",
+]) {
+  await ensurePublicRead(token, collection);
+}
+
 await upsertLanguage(token, "en", "English", "ltr");
 await upsertLanguage(token, "ar", "Arabic", "rtl");
 await ensureLanguageLink(token, "services_translations", "services_id");
 await ensureLanguageLink(token, "esg_commitments_translations", "esg_commitments_id");
+await ensureLanguageLink(token, "insights_translations", "insights_id");
+await ensureLanguageLink(token, "careers_translations", "careers_id");
 await ensureTranslationsInterface(token, "services");
 await ensureTranslationsInterface(token, "esg_commitments");
+await ensureTranslationsInterface(token, "insights");
+await ensureTranslationsInterface(token, "careers");
 
 for (const record of services) await upsertService(token, record);
 for (const record of esg) await upsertEsg(token, record);

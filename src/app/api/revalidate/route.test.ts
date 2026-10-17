@@ -59,6 +59,14 @@ describe("POST /api/revalidate", () => {
     expect(revalidateTag).toHaveBeenCalledWith("services:ar", "max");
   });
 
+  it("expands a bare careers tag", async () => {
+    const res = await POST(request({ tags: ["careers"] }, "test-secret"));
+    expect(res.status).toBe(200);
+    expect(await res.json()).toEqual({
+      revalidated: ["careers:en", "careers:ar"],
+    });
+  });
+
   it("revalidates locale-scoped tags", async () => {
     const res = await POST(
       request(
