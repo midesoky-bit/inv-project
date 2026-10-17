@@ -3,7 +3,7 @@ import type { SVGProps } from "react";
 /**
  * Inventure Communications logo.
  *
- * The logo is always rendered left-to-right, even on RTL (Arabic) pages. Inside an
+ * The logo is always rendered in Latin reading order, even on RTL (Arabic) pages. Inside an
  * <html dir="rtl"> page, SVG text inherits `direction: rtl`, which flips the text anchor
  * and pushes the tagline out of alignment. Forcing direction="ltr" on the SVG and the
  * text keeps it exactly as designed in every locale.
@@ -92,7 +92,7 @@ export function Logo({ className, ...props }: SVGProps<SVGSVGElement>) {
         <path d="M1688 485L1757 405V497L1688 572Z" />
       </g>
 
-      {/* Tagline (always LTR, left-aligned with the wordmark, spans its full width) */}
+      {/* Tagline (always LTR, aligned with the wordmark, spans its full width) */}
       <text
         className="inv-navy"
         x="92"

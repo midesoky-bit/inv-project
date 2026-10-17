@@ -5,34 +5,8 @@ import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
+import { serviceVisual } from "@/lib/service-visuals";
 import { fetchServiceBySlug, fetchServices } from "@/services/cms";
-
-const SERVICE_VISUALS = {
-  forum: { src: "/images/forum.webp", alt: "forum" },
-  analytics: { src: "/images/analytics.webp", alt: "analytics" },
-  towers: { src: "/images/hero.webp", alt: "hero" },
-  briefing: { src: "/images/briefing.webp", alt: "briefing" },
-  office: { src: "/images/about.webp", alt: "about" },
-} as const;
-
-function serviceVisual(slug: string) {
-  if (slug === "events-exhibitions" || slug === "media-production") {
-    return SERVICE_VISUALS.forum;
-  }
-  if (
-    slug === "digital-media-platforms" ||
-    slug === "media-content-management"
-  ) {
-    return SERVICE_VISUALS.analytics;
-  }
-  if (slug === "capital-markets-financial-communications") {
-    return SERVICE_VISUALS.towers;
-  }
-  if (slug === "public-relations-partnerships") {
-    return SERVICE_VISUALS.office;
-  }
-  return SERVICE_VISUALS.briefing;
-}
 
 export const revalidate = 3600;
 export const dynamicParams = true;
@@ -95,7 +69,7 @@ export default async function ServicePage({ params }: PageProps) {
       <header className="relative flex min-h-[52vh] items-end overflow-hidden bg-brand text-brand-foreground">
         <Image
           src={visual.src}
-          alt={tImages(visual.alt)}
+          alt={tImages(visual.altKey)}
           fill
           priority
           sizes="100vw"

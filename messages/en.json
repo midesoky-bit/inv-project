@@ -53,8 +53,11 @@
   },
   "about": {
     "eyebrow": "About us",
+    "heroEyebrow": "About Inventure",
     "title": "An integrated <g>communications</g> platform",
+    "heroTitle": "Building meaningful <g>connections</g>",
     "readMore": "Our story",
+    "values": ["People", "Ideas", "Partnerships", "Impact"],
     "paragraphs": [
       "Inventure Communications operates across media, public relations, public affairs, and institutional engagement.",
       "We work with governments, regional organizations, and leading institutions to shape narratives, align stakeholders, and support decision-making in complex environments—delivering outcomes that are clear, measurable, and relevant.",
@@ -144,6 +147,9 @@
   },
   "services": {
     "eyebrow": "Capabilities",
+    "heroEyebrow": "Our Services",
+    "heroTitle": "Integrated Communication<br></br>for a <g>Changing World</g>",
+    "intro": "We provide end-to-end strategic communication solutions that help organizations build reputation, engage stakeholders and create measurable impact.",
     "title": "Core <g>offerings</g>",
     "subtitle": "Integrated communications disciplines for institutional clients.",
     "learnMore": "Learn more",
@@ -153,14 +159,17 @@
     "others": "Other capabilities"
   },
   "work": {
-    "title": "Our <g>work</g>",
-    "intro": "Photographs from the disciplines we deliver.",
+    "heroEyebrow": "Our Work",
+    "heroTitle": "Events that Inspire<br></br><g>Change</g>",
+    "intro": "We conceptualize, manage and deliver high-profile events that bring people together, spark dialogue and drive real outcomes.",
+    "explore": "Explore our work",
+    "values": ["Ideas", "Dialogue", "Action"],
     "all": "All",
-    "events": "Events and media production",
-    "digital": "Digital and content",
-    "affairs": "Public affairs",
-    "capital": "Capital markets",
-    "partnerships": "Partnerships"
+    "conferences": "Conferences",
+    "forums": "Forums",
+    "summits": "Summits",
+    "exhibitions": "Exhibitions",
+    "campaigns": "Media Campaigns"
   },
   "insights": {
     "title": "<g>Insights</g>",
@@ -191,6 +200,10 @@
   },
   "footer": {
     "tagline": "Strategic Communications & Public Affairs — Middle East.",
+    "explore": "Explore",
+    "markets": "Markets",
+    "emailLabel": "Email",
+    "webLabel": "Website",
     "rights": "All rights reserved.",
     "email": "info@inventurecommunications.com",
     "web": "inventurecommunications.com"
@@ -221,6 +234,7 @@
   "images": {
     "hero": "Glass office towers seen from below",
     "about": "Team working in an open office",
+    "aboutSkyline": "Glass towers against a bright sky",
     "briefing": "Briefing around a conference table",
     "forum": "Audience at an institutional forum",
     "analytics": "Performance dashboard on a laptop"

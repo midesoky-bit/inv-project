@@ -1,0 +1,28 @@
+export const SERVICE_VISUALS = {
+  forum: { src: "/images/forum.webp", altKey: "forum" },
+  analytics: { src: "/images/analytics.webp", altKey: "analytics" },
+  towers: { src: "/images/hero.webp", altKey: "hero" },
+  briefing: { src: "/images/briefing.webp", altKey: "briefing" },
+  office: { src: "/images/about.webp", altKey: "about" },
+} as const;
+
+export type ServiceVisual = (typeof SERVICE_VISUALS)[keyof typeof SERVICE_VISUALS];
+
+export function serviceVisual(slug: string): ServiceVisual {
+  if (slug === "events-exhibitions" || slug === "media-production") {
+    return SERVICE_VISUALS.forum;
+  }
+  if (
+    slug === "digital-media-platforms" ||
+    slug === "media-content-management"
+  ) {
+    return SERVICE_VISUALS.analytics;
+  }
+  if (slug === "capital-markets-financial-communications") {
+    return SERVICE_VISUALS.towers;
+  }
+  if (slug === "public-relations-partnerships") {
+    return SERVICE_VISUALS.office;
+  }
+  return SERVICE_VISUALS.briefing;
+}

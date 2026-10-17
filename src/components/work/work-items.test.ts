@@ -5,16 +5,16 @@ describe("work gallery", () => {
   it("has the five existing photos", () => {
     expect(WORK_ITEMS.map((item) => item.src)).toEqual([
       "/images/forum.webp",
-      "/images/analytics.webp",
       "/images/briefing.webp",
-      "/images/hero.webp",
       "/images/about.webp",
+      "/images/hero.webp",
+      "/images/analytics.webp",
     ]);
   });
 
-  it("filters to capital markets", () => {
-    expect(filterWork("capital").map((item) => item.src)).toEqual([
-      "/images/hero.webp",
+  it("filters to media campaigns", () => {
+    expect(filterWork("campaigns").map((item) => item.src)).toEqual([
+      "/images/analytics.webp",
     ]);
   });
 });

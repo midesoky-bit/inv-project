@@ -4,27 +4,20 @@ import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import {
+  WORK_FILTERS,
   filterWork,
+  type WorkFilter,
   type WorkItem,
 } from "@/components/work/work-items";
 
-const FILTERS = [
-  "all",
-  "events",
-  "digital",
-  "affairs",
-  "capital",
-  "partnerships",
-] as const satisfies readonly ("all" | WorkItem["filter"])[];
-
 type WorkGalleryProps = {
   items: WorkItem[];
-  labels: Record<WorkItem["filter"] | "all", string>;
-  captions: Record<string, string>;
+  labels: Record<"all" | WorkFilter, string>;
+  alts: Record<WorkItem["src"], string>;
 };
 
-export function WorkGallery({ items, labels, captions }: WorkGalleryProps) {
-  const [filter, setFilter] = useState<"all" | WorkItem["filter"]>("all");
+export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
+  const [filter, setFilter] = useState<"all" | WorkFilter>("all");
   const visible = filterWork(filter).flatMap((catalogItem) => {
     const match = items.find(
       (item) =>
@@ -37,12 +30,13 @@ export function WorkGallery({ items, labels, captions }: WorkGalleryProps) {
 
   return (
     <section
+      id="gallery"
       aria-labelledby="work-heading"
-      className="bg-surface-muted px-6 py-14 md:py-20"
+      className="scroll-mt-24 bg-background px-4 py-8 sm:px-6 md:py-12 lg:px-8"
     >
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-wrap gap-2">
-          {FILTERS.map((key) => {
+          {WORK_FILTERS.map((key) => {
             const selected = filter === key;
             return (
               <button
@@ -50,10 +44,10 @@ export function WorkGallery({ items, labels, captions }: WorkGalleryProps) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setFilter(key)}
-                className={`rounded-full px-4 py-2 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+                className={`rounded-full px-5 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                   selected
                     ? "bg-accent text-accent-foreground"
-                    : "border border-border bg-transparent text-foreground"
+                    : "border border-border bg-background text-foreground hover:border-accent"
                 }`}
               >
                 {labels[key]}
@@ -61,7 +55,7 @@ export function WorkGallery({ items, labels, captions }: WorkGalleryProps) {
             );
           })}
         </div>
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {visible.map((item) => (
             <li key={item.src}>
               <Link
@@ -69,18 +63,15 @@ export function WorkGallery({ items, labels, captions }: WorkGalleryProps) {
                 className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 <figure>
-                  <div className="relative aspect-[4/3] overflow-hidden bg-brand">
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-brand">
                     <Image
                       src={item.src}
-                      alt={captions[item.serviceSlug] ?? ""}
+                      alt={alts[item.src]}
                       fill
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover"
+                      sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                     />
                   </div>
-                  <figcaption className="mt-3 text-start text-sm font-medium text-foreground">
-                    {captions[item.serviceSlug] ?? ""}
-                  </figcaption>
                 </figure>
               </Link>
             </li>

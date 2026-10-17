@@ -13,10 +13,15 @@ const iconAttrs = {
   strokeLinecap: "round" as const,
   strokeLinejoin: "round" as const,
   "aria-hidden": true,
-  className: "text-accent",
 };
 
-export function ServiceMark({ icon }: { icon?: string }) {
+export function ServiceMark({
+  icon,
+  className = "text-accent",
+}: {
+  icon?: string;
+  className?: string;
+}) {
   const marks: Record<string, ReactNode> = {
     media: (
       <>
@@ -65,7 +70,7 @@ export function ServiceMark({ icon }: { icon?: string }) {
   };
 
   return (
-    <svg {...iconAttrs}>
+    <svg {...iconAttrs} className={className}>
       {icon && marks[icon] ? (
         marks[icon]
       ) : (

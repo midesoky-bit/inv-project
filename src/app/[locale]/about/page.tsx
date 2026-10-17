@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { AboutHero } from "@/components/home/AboutHero";
 import { ScrollReveal } from "@/components/home/ScrollReveal";
-import { StatsBar } from "@/components/home/StatsBar";
 import {
-  AboutSection,
   AdvantageSection,
   CapabilitySection,
   ClientsSection,
@@ -12,7 +11,6 @@ import {
   PositioningSection,
   PrinciplesSection,
 } from "@/components/home/ProfileSections";
-import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
 import { fetchEsgCommitments } from "@/services/cms";
@@ -52,30 +50,24 @@ export default async function AboutPage({ params }: PageProps) {
   setRequestLocale(locale);
 
   const cmsLocale = locale as Locale;
-  const [tNav, esgCommitments] = await Promise.all([
-    getTranslations("nav"),
+  const [tAbout, esgCommitments] = await Promise.all([
+    getTranslations("about"),
     fetchEsgCommitments(cmsLocale),
   ]);
+  const paragraphs = (tAbout.raw("paragraphs") as string[]).slice(1);
 
   return (
     <div>
-      <nav aria-label={tNav("breadcrumb")}>
-        <ol className="mx-auto flex max-w-6xl items-center gap-2 px-6 pt-28 text-sm text-muted">
-          <li>
-            <Link href="/" className="hover:text-foreground">
-              {tNav("home")}
-            </Link>
-          </li>
-          <li aria-hidden="true">/</li>
-          <li className="text-foreground" aria-current="page">
-            {tNav("about")}
-          </li>
-        </ol>
-      </nav>
-      <ScrollReveal>
-        <AboutSection />
-      </ScrollReveal>
-      <StatsBar />
+      <AboutHero />
+      <section id="story" className="scroll-mt-24 bg-background px-6 py-14 md:py-20">
+        <div className="mx-auto max-w-3xl space-y-5">
+          {paragraphs.map((paragraph) => (
+            <p key={paragraph} className="text-base leading-relaxed text-muted">
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </section>
       <ScrollReveal delay={0.05}>
         <PositioningSection />
       </ScrollReveal>
