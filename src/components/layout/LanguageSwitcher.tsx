@@ -2,12 +2,29 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { getPathname, usePathname } from "@/i18n/navigation";
-import { routing, type Locale } from "@/i18n/routing";
+import type { Locale } from "@/i18n/routing";
 
 type LanguageSwitcherProps = {
   className?: string;
   onLocaleChange?: () => void;
 };
+
+function LanguageIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden
+      className="size-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.75"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" strokeLinecap="round" />
+      <path d="M12 3c2.5 2.8 3.8 5.8 3.8 9S14.5 18.2 12 21c-2.5-2.8-3.8-5.8-3.8-9S9.5 5.8 12 3Z" />
+    </svg>
+  );
+}
 
 export function LanguageSwitcher({
   className,
@@ -16,10 +33,9 @@ export function LanguageSwitcher({
   const locale = useLocale() as Locale;
   const pathname = usePathname();
   const t = useTranslations("language");
+  const nextLocale: Locale = locale === "ar" ? "en" : "ar";
 
-  function switchLocale(nextLocale: Locale) {
-    if (nextLocale === locale) return;
-
+  function switchLocale() {
     const nextPath = getPathname({ href: pathname, locale: nextLocale });
     const nextUrl = `${nextPath}${window.location.search}${window.location.hash}`;
     onLocaleChange?.();
@@ -27,34 +43,13 @@ export function LanguageSwitcher({
   }
 
   return (
-    <div role="group" aria-label={t("label")} className={className}>
-      <ul className="flex items-center gap-2 text-sm">
-        {routing.locales.map((code, index) => {
-          const active = locale === code;
-          return (
-            <li key={code} className="flex items-center gap-2">
-              {index > 0 ? (
-                <span className="text-foreground/35" aria-hidden>
-                  |
-                </span>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => switchLocale(code)}
-                aria-current={active ? "true" : undefined}
-                lang={code === "ar" ? "ar" : "en"}
-                className={
-                  active
-                    ? "text-foreground"
-                    : "cursor-pointer text-foreground/70 transition-colors hover:text-foreground"
-                }
-              >
-                {t(code)}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <button
+      type="button"
+      onClick={switchLocale}
+      aria-label={nextLocale === "ar" ? t("switchToAr") : t("switchToEn")}
+      className={`inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 ${className ?? ""}`}
+    >
+      <LanguageIcon />
+    </button>
   );
 }

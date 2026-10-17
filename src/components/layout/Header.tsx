@@ -17,7 +17,7 @@ export async function Header() {
           <DesktopNav />
           <HeaderTools />
           <ThemeSwitcher />
-          <LanguageSwitcher className="hidden xl:block" />
+          <LanguageSwitcher />
           <MobileNav />
         </div>
       </div>

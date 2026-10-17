@@ -3,7 +3,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { usePathname } from "@/i18n/navigation";
 import { isNavActive, NAV_LINKS } from "@/components/layout/navigation";
@@ -93,9 +92,6 @@ export function MobileNav() {
                 );
               })}
             </ul>
-            <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-border px-6 py-4">
-              <LanguageSwitcher onLocaleChange={() => setOpen(false)} />
-            </div>
           </motion.nav>
         ) : null}
       </AnimatePresence>

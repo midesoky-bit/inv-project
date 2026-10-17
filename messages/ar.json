@@ -198,7 +198,9 @@
   "language": {
     "label": "اللغة",
     "en": "EN",
-    "ar": "العربية"
+    "ar": "العربية",
+    "switchToEn": "التبديل إلى الإنجليزية",
+    "switchToAr": "التبديل إلى العربية"
   },
   "seo": {
     "titleDefault": "Inventure Communications",
