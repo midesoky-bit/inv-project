@@ -19,7 +19,7 @@ export function isNavActive(pathname: string, href: string) {
 }
 
 const UNDERLINE =
-  "relative inline-flex items-center pb-1 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none after:pointer-events-none after:absolute after:bottom-0 after:start-0 after:h-0.5 after:w-0 after:bg-accent after:transition-[width] after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:after:transition-none hover:after:w-full focus-visible:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring";
+  "relative inline-flex items-center pb-1 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none after:pointer-events-none after:absolute after:bottom-0 after:start-0 after:h-0.5 after:w-0 after:bg-accent after:transition-[width] after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:after:transition-none hover:after:w-full group-hover:after:w-full focus-visible:after:w-full group-focus-visible:after:w-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring";
 
 type NavLinkClassOptions = {
   active?: boolean;
@@ -41,15 +41,15 @@ export function navLinkClass({
     tone === "default" &&
       (active
         ? "text-foreground"
-        : "text-foreground/80 hover:text-foreground focus-visible:text-foreground"),
+        : "text-foreground/80 hover:text-foreground group-hover:text-foreground focus-visible:text-foreground group-focus-visible:text-foreground"),
     tone === "accent" &&
       (active
         ? "text-accent"
-        : "text-foreground/80 hover:text-accent focus-visible:text-accent"),
+        : "text-foreground/80 hover:text-accent group-hover:text-accent focus-visible:text-accent group-focus-visible:text-accent"),
     tone === "onBrand" &&
       (active
         ? "text-brand-foreground"
-        : "text-brand-foreground/80 hover:text-brand-foreground focus-visible:text-brand-foreground"),
+        : "text-brand-foreground/80 hover:text-brand-foreground group-hover:text-brand-foreground focus-visible:text-brand-foreground group-focus-visible:text-brand-foreground"),
     className,
   );
 }

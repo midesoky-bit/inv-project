@@ -1978,6 +1978,26 @@
     .group-hover\:text-accent:is(:where(.group):hover *) {
       color: var(--accent);
     }
+
+    .group-hover\:text-brand-foreground:is(:where(.group):hover *) {
+      color: var(--brand-foreground);
+    }
+
+    .group-hover\:text-foreground:is(:where(.group):hover *) {
+      color: var(--foreground);
+    }
+  }
+
+  .group-focus-visible\:text-accent:is(:where(.group):focus-visible *) {
+    color: var(--accent);
+  }
+
+  .group-focus-visible\:text-brand-foreground:is(:where(.group):focus-visible *) {
+    color: var(--brand-foreground);
+  }
+
+  .group-focus-visible\:text-foreground:is(:where(.group):focus-visible *) {
+    color: var(--foreground);
   }
 
   .after\:pointer-events-none:after {
@@ -2065,6 +2085,18 @@
     content: var(--tw-content);
     --tw-ease: cubic-bezier(.22,1,.36,1);
     transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+  }
+
+  @media (hover: hover) {
+    .group-hover\:after\:w-full:is(:where(.group):hover *):after {
+      content: var(--tw-content);
+      width: 100%;
+    }
+  }
+
+  .group-focus-visible\:after\:w-full:is(:where(.group):focus-visible *):after {
+    content: var(--tw-content);
+    width: 100%;
   }
 
   .focus-within\:border-accent:focus-within {

@@ -113,7 +113,7 @@ export function MobileNav() {
                     href={item.href}
                     onNavigate={() => setOpen(false)}
                     aria-current={active ? "page" : undefined}
-                    className="group flex w-full items-center py-3"
+                    className="group flex w-full items-center py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
                   >
                     <span className={navLinkClass({ active, size: "base" })}>
                       {t(item.messageKey)}
