@@ -58,7 +58,7 @@ export default async function AboutPage({ params }: PageProps) {
 
   return (
     <div>
-      <nav aria-label={tNav("primary")}>
+      <nav aria-label={tNav("breadcrumb")}>
         <ol className="mx-auto flex max-w-6xl items-center gap-2 px-6 pt-28 text-sm text-muted">
           <li>
             <Link href="/" className="hover:text-foreground">
@@ -66,7 +66,9 @@ export default async function AboutPage({ params }: PageProps) {
             </Link>
           </li>
           <li aria-hidden="true">/</li>
-          <li className="text-foreground">{tNav("about")}</li>
+          <li className="text-foreground" aria-current="page">
+            {tNav("about")}
+          </li>
         </ol>
       </nav>
       <ScrollReveal>
