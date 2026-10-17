@@ -58,14 +58,14 @@ export function HeaderTools() {
   return (
     <div className="flex items-center gap-1">
       {open ? (
-        <form onSubmit={submit} className="hidden sm:block">
+        <form onSubmit={submit} className="ms-4 hidden sm:block">
           <input
             name="q"
             type="search"
             autoFocus
             aria-label={t("search")}
             placeholder={t("searchPlaceholder")}
-            className="h-9 w-36 rounded-full border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:w-44"
+            className="h-9 w-40 rounded-full border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
           />
         </form>
       ) : null}

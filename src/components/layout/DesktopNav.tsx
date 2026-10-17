@@ -11,7 +11,7 @@ export function DesktopNav() {
 
   return (
     <nav aria-label={t("primary")} className="hidden xl:block">
-      <ul className="flex items-center gap-8">
+      <ul className="flex items-center gap-5">
         {NAV_LINKS.map((item) => {
           const active = isNavActive(pathname, item.href);
           return (
