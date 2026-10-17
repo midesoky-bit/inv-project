@@ -21,7 +21,9 @@ export async function AboutTeaser() {
             id="about-teaser-heading"
             className="font-serif text-3xl tracking-tight text-balance text-foreground md:text-4xl"
           >
-            {t("title")}
+            {t.rich("title", {
+              g: (chunks) => <span className="text-accent">{chunks}</span>,
+            })}
           </h2>
           <p className="mt-6 text-base leading-relaxed text-muted">{paragraphs[0]}</p>
           <div className="mt-8">
