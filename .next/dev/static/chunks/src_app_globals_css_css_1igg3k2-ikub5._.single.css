@@ -1822,7 +1822,7 @@
   --inv-slate: #5c6b7a;
   --inv-mist: #f3f5f7;
   --inv-white: #fff;
-  --inv-accent: #1fa971;
+  --inv-accent: #3a6b8c;
   --background: #fff;
   --foreground: #0b1d36;
   --surface: #fff;
@@ -1841,9 +1841,9 @@
   --brand: #0b1d36;
   --brand-mid: #132a4a;
   --brand-foreground: #fff;
-  --accent: #1fa971;
+  --accent: #3a6b8c;
   --accent-foreground: #fff;
-  --ring: #1fa971;
+  --ring: #3a6b8c;
   --overlay: #0b1d368c;
 }
 
@@ -1860,9 +1860,9 @@
   --brand: #0b1d36;
   --brand-mid: #1a3654;
   --brand-foreground: #f3f5f7;
-  --accent: #1fa971;
-  --accent-foreground: #fff;
-  --ring: #1fa971;
+  --accent: #6ba3c4;
+  --accent-foreground: #0a1628;
+  --ring: #6ba3c4;
   --overlay: #000000a6;
 }
 
