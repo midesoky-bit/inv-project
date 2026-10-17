@@ -133,6 +133,16 @@
     "includes": "What this includes",
     "others": "Other capabilities"
   },
+  "work": {
+    "title": "Our <g>work</g>",
+    "intro": "Photographs from the disciplines we deliver.",
+    "all": "All",
+    "events": "Events and media production",
+    "digital": "Digital and content",
+    "affairs": "Public affairs",
+    "capital": "Capital markets",
+    "partnerships": "Partnerships"
+  },
   "insights": {
     "title": "Insights",
     "comingSoon": "Insights will be published here soon."
