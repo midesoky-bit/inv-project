@@ -184,7 +184,7 @@ export async function PositioningSection() {
       id="story"
       className="scroll-mt-24 border-t border-border bg-surface-muted px-6 py-14 md:py-20 dark:border-t-0"
     >
-      <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12">
+      <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12 lg:items-center">
         <div className="lg:col-span-7">
           <SectionIntro eyebrow={t("eyebrow")} title={t("title")} />
           <div className="mt-6 max-w-xl space-y-5">
