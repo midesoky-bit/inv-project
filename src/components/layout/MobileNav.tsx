@@ -36,7 +36,7 @@ export function MobileNav({ services }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring xl:hidden"
       >
         <svg
           width="22"
@@ -65,7 +65,7 @@ export function MobileNav({ services }: MobileNavProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground md:hidden"
+            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground xl:hidden"
           >
             <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
               {NAV_LINKS.map((item, index) => (

@@ -19,7 +19,7 @@ export function DesktopNav({ services }: DesktopNavProps) {
   const t = useTranslations("nav");
 
   return (
-    <nav aria-label={t("primary")} className="hidden md:block">
+    <nav aria-label={t("primary")} className="hidden xl:block">
       <ul className="flex items-center gap-8">
         {NAV_LINKS.map((item) => (
           <li key={item.href}>
