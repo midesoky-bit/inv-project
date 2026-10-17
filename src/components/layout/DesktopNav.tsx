@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
-import { isNavActive, NAV_LINKS } from "@/components/layout/navigation";
+import { isNavActive, NAV_LINKS, navLinkClass } from "@/components/layout/navigation";
 import { SectionLink } from "@/components/layout/SectionLink";
 
 export function DesktopNav() {
@@ -19,11 +19,7 @@ export function DesktopNav() {
               <SectionLink
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={
-                  active
-                    ? "border-b-2 border-accent pb-1 text-sm text-foreground"
-                    : "border-b-2 border-transparent pb-1 text-sm text-foreground/80 transition-colors hover:text-foreground"
-                }
+                className={navLinkClass({ active })}
               >
                 {t(item.messageKey)}
               </SectionLink>

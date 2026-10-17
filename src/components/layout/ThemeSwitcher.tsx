@@ -72,9 +72,15 @@ export function ThemeSwitcher({ className }: ThemeSwitcherProps) {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       aria-label={isDark ? t("switchToLight") : t("switchToDark")}
-      className={`inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 ${className ?? ""}`}
+      className={`inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none ${className ?? ""}`}
     >
-      {isDark ? <MoonIcon /> : <SunIcon />}
+      <span
+        className={`inline-flex transition-transform duration-300 ease-out motion-reduce:transition-none ${
+          isDark ? "-rotate-12" : "rotate-0"
+        }`}
+      >
+        {isDark ? <MoonIcon /> : <SunIcon />}
+      </span>
     </button>
   );
 }

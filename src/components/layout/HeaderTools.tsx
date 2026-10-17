@@ -75,7 +75,7 @@ export function HeaderTools() {
           aria-expanded={open}
           aria-controls={searchId}
           onClick={() => setOpen((value) => !value)}
-          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
+          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none"
         >
           {open ? <CloseIcon /> : <SearchIcon />}
         </button>
@@ -96,7 +96,12 @@ export function HeaderTools() {
       </form>
       <ul
         aria-label={t("social")}
-        className={cn("flex items-center", open && "max-xl:invisible max-xl:w-0 max-xl:overflow-hidden")}
+        className={cn(
+          "flex items-center overflow-hidden transition-[max-width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+          open
+            ? "max-xl:max-w-0 max-xl:opacity-0 max-xl:pointer-events-none"
+            : "max-w-[12rem] opacity-100",
+        )}
       >
         {SOCIAL_NETWORKS.map(({ label, url, Icon }) => (
           <li key={label}>
@@ -105,7 +110,7 @@ export function HeaderTools() {
               target="_blank"
               rel="noreferrer"
               aria-label={t(label)}
-              className="inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
+              className="inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none"
             >
               <Icon />
             </a>

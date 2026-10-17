@@ -47,7 +47,7 @@ export function LanguageSwitcher({
       type="button"
       onClick={switchLocale}
       aria-label={nextLocale === "ar" ? t("switchToAr") : t("switchToEn")}
-      className={`inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 ${className ?? ""}`}
+      className={`inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none ${className ?? ""}`}
     >
       <LanguageIcon />
     </button>

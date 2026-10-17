@@ -1,4 +1,4 @@
-import { Link } from "@/i18n/navigation";
+import { SectionLink } from "@/components/layout/SectionLink";
 import { cn } from "@/lib/utils";
 
 type ButtonProps = {
@@ -15,7 +15,7 @@ export function Button({
   className,
 }: ButtonProps) {
   return (
-    <Link
+    <SectionLink
       href={href}
       className={cn(
         "inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
@@ -39,6 +39,6 @@ export function Button({
           <path d="M4 10h12M11 5l5 5-5 5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ) : null}
-    </Link>
+    </SectionLink>
   );
 }

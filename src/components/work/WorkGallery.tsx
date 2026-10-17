@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useState } from "react";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
@@ -17,6 +18,7 @@ type WorkGalleryProps = {
 };
 
 export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
+  const reduceMotion = useReducedMotion();
   const [filter, setFilter] = useState<"all" | WorkFilter>("all");
   const visible = filterWork(filter).flatMap((catalogItem) => {
     const match = items.find(
@@ -44,7 +46,7 @@ export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
                 type="button"
                 aria-pressed={selected}
                 onClick={() => setFilter(key)}
-                className={`rounded-full px-5 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+                className={`rounded-full px-5 py-2 text-sm font-medium transition-colors motion-reduce:transition-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
                   selected
                     ? "bg-accent text-accent-foreground"
                     : "border border-border bg-background text-foreground hover:border-accent"
@@ -56,8 +58,16 @@ export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
           })}
         </div>
         <ul className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <AnimatePresence mode="popLayout" initial={false}>
           {visible.map((item) => (
-            <li key={item.src}>
+            <motion.li
+              key={item.src}
+              layout={!reduceMotion}
+              initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduceMotion ? undefined : { opacity: 0, y: 8 }}
+              transition={{ duration: reduceMotion ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
+            >
               <Link
                 href={`/services/${item.serviceSlug}`}
                 className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -69,13 +79,14 @@ export function WorkGallery({ items, labels, alts }: WorkGalleryProps) {
                       alt={alts[item.src]}
                       fill
                       sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
                   </div>
                 </figure>
               </Link>
-            </li>
+            </motion.li>
           ))}
+          </AnimatePresence>
         </ul>
       </div>
     </section>

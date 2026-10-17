@@ -148,7 +148,7 @@ export default async function ServicePage({ params }: PageProps) {
                     <p className="mt-2 text-sm leading-relaxed text-muted">
                       {item.summary}
                     </p>
-                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+                    <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-accent transition-transform group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0 rtl:group-hover:-translate-x-1 rtl:motion-reduce:group-hover:translate-x-0">
                       {t("learnMore")}
                       <span aria-hidden className="rtl:-scale-x-100">
                         →

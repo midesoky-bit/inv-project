@@ -1,6 +1,6 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { BrandLogo } from "@/components/layout/BrandLogo";
-import { NAV_LINKS } from "@/components/layout/navigation";
+import { NAV_LINKS, navLinkClass } from "@/components/layout/navigation";
 import { SOCIAL_NETWORKS } from "@/components/layout/social";
 import { Link } from "@/i18n/navigation";
 import { type Locale } from "@/i18n/routing";
@@ -34,7 +34,7 @@ export async function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={tHeader(label)}
-                  className="inline-flex size-9 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 hover:text-accent"
+                  className="inline-flex size-9 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 hover:text-accent motion-reduce:transition-none"
                 >
                   <Icon />
                 </a>
@@ -55,7 +55,7 @@ export async function Footer() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="text-foreground/80 transition-colors hover:text-accent"
+                  className={navLinkClass({ tone: "accent" })}
                 >
                   {tNav(item.messageKey)}
                 </Link>
@@ -69,7 +69,13 @@ export async function Footer() {
             id="footer-services-heading"
             className="text-xs font-medium tracking-[0.16em] text-muted uppercase"
           >
-            <Link href="/services" className="transition-colors hover:text-accent">
+            <Link
+              href="/services"
+              className={navLinkClass({
+                tone: "accent",
+                className: "text-xs font-medium tracking-[0.16em] text-muted uppercase",
+              })}
+            >
               {tNav("services")}
             </Link>
           </h2>
@@ -78,7 +84,7 @@ export async function Footer() {
               <li key={service.id}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="text-foreground/80 transition-colors hover:text-accent"
+                  className={navLinkClass({ tone: "accent" })}
                 >
                   {service.title}
                 </Link>
@@ -99,7 +105,7 @@ export async function Footer() {
               <dd className="mt-1">
                 <a
                   href={`mailto:${tFooter("email")}`}
-                  className="text-foreground/80 transition-colors hover:text-accent"
+                  className={navLinkClass({ tone: "accent" })}
                 >
                   {tFooter("email")}
                 </a>
@@ -112,7 +118,7 @@ export async function Footer() {
               <dd className="mt-1">
                 <a
                   href={`https://${tFooter("web")}`}
-                  className="text-foreground/80 transition-colors hover:text-accent"
+                  className={navLinkClass({ tone: "accent" })}
                 >
                   {tFooter("web")}
                 </a>

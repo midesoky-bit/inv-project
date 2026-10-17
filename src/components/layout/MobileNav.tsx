@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { usePathname } from "@/i18n/navigation";
-import { isNavActive, NAV_LINKS } from "@/components/layout/navigation";
+import { isNavActive, NAV_LINKS, navLinkClass } from "@/components/layout/navigation";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -15,12 +15,29 @@ export function MobileNav() {
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 80rem)").matches) setOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  useEffect(() => {
     if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [open]);
 
   return (
@@ -31,7 +48,7 @@ export function MobileNav() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring xl:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transition-none xl:hidden"
       >
         <svg
           width="22"
@@ -52,15 +69,31 @@ export function MobileNav() {
 
       <AnimatePresence>
         {open ? (
+          <motion.button
+            key="mobile-backdrop"
+            type="button"
+            aria-label={t("closeMenu")}
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.2 }}
+            onClick={() => setOpen(false)}
+            className="fixed inset-0 top-20 z-20 bg-foreground/25 xl:hidden"
+          />
+        ) : null}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {open ? (
           <motion.nav
             key="mobile-panel"
             id={panelId}
             aria-label={t("mobile")}
             initial={reduceMotion ? false : { opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
-            transition={{ duration: 0.22, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground xl:hidden"
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
+            className="absolute inset-x-0 top-full z-30 border-b border-border bg-background text-foreground xl:hidden"
           >
             <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
               {NAV_LINKS.map((item, index) => {
@@ -80,13 +113,11 @@ export function MobileNav() {
                     href={item.href}
                     onNavigate={() => setOpen(false)}
                     aria-current={active ? "page" : undefined}
-                    className={
-                      active
-                        ? "block border-b-2 border-accent py-3 text-base text-foreground"
-                        : "block border-b-2 border-transparent py-3 text-base text-foreground/85 transition-colors hover:text-foreground"
-                    }
+                    className="group flex w-full items-center py-3"
                   >
-                    {t(item.messageKey)}
+                    <span className={navLinkClass({ active, size: "base" })}>
+                      {t(item.messageKey)}
+                    </span>
                   </SectionLink>
                 </motion.li>
                 );

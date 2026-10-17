@@ -200,6 +200,10 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .inv-hero-glow,
   .inv-hero-line {
     animation: none;

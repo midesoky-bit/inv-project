@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useState, useSyncExternalStore } from "react";
+import { useState } from "react";
 import { ServiceMark } from "@/components/home/ServiceIconRow";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
@@ -16,34 +16,34 @@ const SLIDES = [
 
 type HeroService = { slug: string; title: string; icon?: string };
 
-function useHydrated() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
-
 export function HeroSection({ services = [] }: { services?: HeroService[] }) {
   const reduceMotion = useReducedMotion();
-  const hydrated = useHydrated();
-  const animate = hydrated && !reduceMotion;
   const t = useTranslations("hero");
   const tImages = useTranslations("images");
   const [slide, setSlide] = useState(0);
-  const current = SLIDES[slide] ?? SLIDES[0];
   const barServices = services.slice(0, 4);
 
   return (
     <section className="relative flex min-h-[88vh] items-center overflow-hidden bg-[#0B1D36] px-6 pt-24 pb-36 text-brand-foreground">
-      <Image
-        src={current.src}
-        alt={tImages(current.key)}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-[center_42%]"
-      />
+      {SLIDES.map((item, index) => (
+        <motion.div
+          key={item.src}
+          className="pointer-events-none absolute inset-0"
+          initial={false}
+          animate={{ opacity: slide === index ? 1 : 0 }}
+          transition={{ duration: reduceMotion ? 0 : 0.8, ease: "easeInOut" }}
+          aria-hidden={slide !== index}
+        >
+          <Image
+            src={item.src}
+            alt={slide === index ? tImages(item.key) : ""}
+            fill
+            priority={index === 0}
+            sizes="100vw"
+            className="object-cover object-[center_42%]"
+          />
+        </motion.div>
+      ))}
       <div aria-hidden className="absolute inset-0 bg-[#0B1D36]/62" />
       <div
         aria-hidden
@@ -81,41 +81,21 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
         />
       </svg>
       <div className="relative mx-auto w-full max-w-6xl">
-        <motion.p
-          initial={animate ? { opacity: 0, y: 12 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="mb-6 font-serif text-sm tracking-[0.2em] text-brand-foreground/70 uppercase"
-        >
+        <p className="mb-6 font-serif text-sm tracking-[0.2em] text-brand-foreground/70 uppercase">
           {t.rich("eyebrow", {
             bdi: (chunks) => <bdi>{chunks}</bdi>,
           })}
-        </motion.p>
+        </p>
         <span aria-hidden className="mb-5 block h-0.5 w-14 bg-accent" />
-        <motion.h1
-          initial={animate ? { opacity: 0, y: 16 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
-          className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl"
-        >
+        <h1 className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl">
           {t.rich("title", {
             g: (chunks) => <span className="text-accent">{chunks}</span>,
           })}
-        </motion.h1>
-        <motion.p
-          initial={animate ? { opacity: 0, y: 16 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.55, delay: 0.12, ease: "easeOut" }}
-          className="mt-6 max-w-xl text-base leading-relaxed text-brand-foreground/80 sm:text-lg"
-        >
+        </h1>
+        <p className="mt-6 max-w-xl text-base leading-relaxed text-brand-foreground/80 sm:text-lg">
           {t("subtitle")}
-        </motion.p>
-        <motion.div
-          initial={animate ? { opacity: 0, y: 16 } : false}
-          animate={animate ? { opacity: 1, y: 0 } : undefined}
-          transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
-          className="mt-10 flex flex-wrap items-center gap-6"
-        >
+        </p>
+        <div className="mt-10 flex flex-wrap items-center gap-6">
           <Button href="/services">{t("ctaServices")}</Button>
           <Button
             href="/contact"
@@ -124,7 +104,7 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
           >
             {t("ctaContact")}
           </Button>
-        </motion.div>
+        </div>
       </div>
       <div className="absolute inset-x-0 bottom-0 z-10 bg-[#0B1D36] text-brand-foreground">
         <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 sm:flex-row sm:items-stretch sm:gap-0">
@@ -143,7 +123,7 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
                   className={
                     slide === index
                       ? "text-brand-foreground"
-                      : "text-brand-foreground/45 transition-colors hover:text-brand-foreground"
+                      : "text-brand-foreground/45 transition-colors hover:text-brand-foreground motion-reduce:transition-none"
                   }
                 >
                   {String(index + 1).padStart(2, "0")}
@@ -159,7 +139,7 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
               >
                 <Link
                   href={`/services/${service.slug}`}
-                  className="flex items-center gap-3 px-4 py-4 text-sm text-brand-foreground/90 transition-colors hover:text-brand-foreground"
+                  className="relative flex h-full w-full items-center gap-3 px-4 py-4 text-sm text-brand-foreground/90 transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-brand-foreground motion-reduce:transition-none after:pointer-events-none after:absolute after:inset-x-0 after:top-0 after:h-0.5 after:origin-top after:scale-y-0 after:bg-accent after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-y-100 focus-visible:after:scale-y-100 motion-reduce:after:transition-none"
                 >
                   <ServiceMark icon={service.icon} />
                   <span>{service.title}</span>

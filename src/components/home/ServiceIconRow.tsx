@@ -87,7 +87,7 @@ export function ServiceIconRow({ services }: { services: Item[] }) {
         <li key={service.slug}>
           <Link
             href={`/services/${service.slug}`}
-            className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-5 text-foreground transition-transform hover:-translate-y-1"
+            className="flex h-full flex-col gap-3 rounded-2xl border border-border bg-surface p-5 text-foreground transition-transform hover:-translate-y-1 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
           >
             <ServiceMark icon={service.icon} />
             <span className="font-serif text-lg">{service.title}</span>

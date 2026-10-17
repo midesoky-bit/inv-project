@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { AboutTeaser } from "@/components/home/AboutTeaser";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PresenceStrip } from "@/components/home/PresenceStrip";
+import { ScrollReveal } from "@/components/home/ScrollReveal";
 import { StatsBar } from "@/components/home/StatsBar";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
@@ -49,9 +50,15 @@ export default async function HomePage({ params }: PageProps) {
   return (
     <div>
       <HeroSection services={services} />
-      <AboutTeaser />
-      <StatsBar />
-      <PresenceStrip />
+      <ScrollReveal>
+        <AboutTeaser />
+      </ScrollReveal>
+      <ScrollReveal delay={0.05}>
+        <StatsBar />
+      </ScrollReveal>
+      <ScrollReveal delay={0.08}>
+        <PresenceStrip />
+      </ScrollReveal>
     </div>
   );
 }

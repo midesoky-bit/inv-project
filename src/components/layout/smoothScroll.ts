@@ -1,7 +1,13 @@
 const DURATION_MS = 700;
 
+export const SECTION_TARGET_EVENT = "inv:section-target";
+
 function prefersReducedMotion() {
   return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+function notifySectionTarget() {
+  window.dispatchEvent(new Event(SECTION_TARGET_EVENT));
 }
 
 export function smoothScrollToId(id: string) {
@@ -18,9 +24,10 @@ export function smoothScrollToId(id: string) {
   if (window.location.hash !== nextHash) {
     window.history.pushState(null, "", nextHash);
   }
+  notifySectionTarget();
 
   if (prefersReducedMotion() || Math.abs(top - window.scrollY) < 2) {
-    window.scrollTo(0, top);
+    window.scrollTo({ top, behavior: "auto" });
     return true;
   }
 
@@ -31,7 +38,7 @@ export function smoothScrollToId(id: string) {
   const step = (now: number) => {
     const progress = Math.min(1, (now - started) / DURATION_MS);
     const eased = 1 - (1 - progress) ** 3;
-    window.scrollTo(0, start + distance * eased);
+    window.scrollTo({ top: start + distance * eased, behavior: "auto" });
     if (progress < 1) requestAnimationFrame(step);
   };
 
