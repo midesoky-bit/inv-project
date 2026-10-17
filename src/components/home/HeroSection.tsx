@@ -103,13 +103,13 @@ export function HeroSection() {
           className="mt-10 flex flex-wrap items-center gap-6"
         >
           <Button
-            href="/#services"
+            href="/services"
             className="bg-brand-foreground text-brand hover:bg-brand-foreground/90"
           >
             {t("ctaServices")}
           </Button>
           <Button
-            href="/#contact"
+            href="/contact"
             variant="ghost"
             className="text-brand-foreground hover:text-brand-foreground"
           >
