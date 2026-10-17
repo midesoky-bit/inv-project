@@ -20,3 +20,4 @@
 {"timestamp":"10:31:10.879","source":"Browser","level":"INFO","message":"Download the React DevTools for a better development experience: https://react.dev/link/react-devtools"}
 {"timestamp":"11:34:37.888","source":"Browser","level":"WARN","message":"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\"smooth\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior"}
 {"timestamp":"11:34:37.897","source":"Server","level":"WARN","message":"[browser] \"Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior=\\\"smooth\\\"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior\""}
+{"timestamp":"15:44:39.291","source":"Server","level":"LOG","message":"✓ Compiled in 37ms"}
