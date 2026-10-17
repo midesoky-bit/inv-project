@@ -182,7 +182,7 @@ export async function PositioningSection() {
   return (
     <section
       id="story"
-      className="scroll-mt-24 border-t border-border bg-surface-muted px-6 py-14 md:py-20"
+      className="scroll-mt-24 border-t border-border bg-surface-muted px-6 py-14 md:py-20 dark:border-t-0"
     >
       <div className="mx-auto grid max-w-6xl items-start gap-10 lg:grid-cols-12">
         <div className="lg:col-span-7">

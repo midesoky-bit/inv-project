@@ -15,7 +15,7 @@ export async function AboutHero() {
   const stats = tStats.raw("items") as Stat[];
 
   return (
-    <section className="relative mt-20 overflow-hidden bg-white text-[#0B1D36]">
+    <section className="relative mt-20 overflow-hidden bg-white text-[#0B1D36] after:absolute after:inset-x-0 after:bottom-0 after:z-[11] after:h-px after:bg-[#0B1D36] after:content-['']">
       <Image
         src="/images/about-skyline.jpg"
         alt={tImages("aboutSkyline")}
@@ -87,7 +87,7 @@ export async function AboutHero() {
           ))}
         </ul>
       </div>
-      <div className="relative z-10 bg-[#0B1D36] text-white md:[clip-path:polygon(0_1.75rem,22%_1.75rem,calc(22%+1.75rem)_0,100%_0,100%_100%,0_100%)] md:rtl:[clip-path:polygon(100%_1.75rem,78%_1.75rem,calc(78%-1.75rem)_0,0_0,0_100%,100%_100%)]">
+      <div className="relative z-10 bg-[#0B1D36] text-white md:-mb-px md:[clip-path:polygon(0_1.75rem,22%_1.75rem,calc(22%+1.75rem)_0,100%_0,100%_100%,0_100%)] md:rtl:[clip-path:polygon(100%_1.75rem,78%_1.75rem,calc(78%-1.75rem)_0,0_0,0_100%,100%_100%)]">
         <div className="flex items-center px-6 py-5 md:min-h-[6.5rem] md:px-0 md:py-4">
           <span aria-hidden className="hidden w-[calc(22%+3rem)] shrink-0 md:block" />
           <span aria-hidden className="hidden h-12 w-0.5 shrink-0 bg-accent md:block" />
