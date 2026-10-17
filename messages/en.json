@@ -42,6 +42,7 @@
   "about": {
     "eyebrow": "About us",
     "title": "An integrated communications and strategic influence platform",
+    "readMore": "Our story",
     "paragraphs": [
       "Inventure Communications operates across media, public relations, public affairs, and institutional engagement.",
       "We work with governments, regional organizations, and leading institutions to shape narratives, align stakeholders, and support decision-making in complex environments—delivering outcomes that are clear, measurable, and relevant.",
@@ -116,7 +117,7 @@
   },
   "hero": {
     "eyebrow": "Inventure Communications",
-    "title": "Strategic communications for decision-makers",
+    "title": "Strategic communications for <g>decision-makers</g>",
     "subtitle": "We counsel institutions across the Middle East on reputation, media, and public affairs — with clarity, discipline, and regional fluency.",
     "ctaServices": "Explore our services",
     "ctaContact": "Contact"

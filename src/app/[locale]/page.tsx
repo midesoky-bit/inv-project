@@ -1,22 +1,12 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { AboutTeaser } from "@/components/home/AboutTeaser";
 import { HeroSection } from "@/components/home/HeroSection";
 import { PresenceStrip } from "@/components/home/PresenceStrip";
-import { ScrollReveal } from "@/components/home/ScrollReveal";
-import {
-  AboutSection,
-  AdvantageSection,
-  CapabilitySection,
-  ClientsSection,
-  EsgSection,
-  ImpactSection,
-  PositioningSection,
-  PrinciplesSection,
-} from "@/components/home/ProfileSections";
-import { ServiceGrid } from "@/components/home/ServiceGrid";
+import { ServiceIconRow } from "@/components/home/ServiceIconRow";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
-import { fetchEsgCommitments, fetchServices } from "@/services/cms";
+import { fetchServices } from "@/services/cms";
 
 export const revalidate = 3600;
 
@@ -36,13 +26,16 @@ export async function generateMetadata({
   const cmsLocale = locale as Locale;
   const tHero = await getTranslations("hero");
   const tBrand = await getTranslations("brand");
+  const heroTitle = tHero.markup("title", {
+    g: (chunks) => chunks,
+  });
 
   return buildPageMetadata({
     locale: cmsLocale,
     pathSuffix: "",
-    title: `${tBrand("name")} — ${tHero("title")}`,
+    title: `${tBrand("name")} — ${heroTitle}`,
     description: tHero("subtitle"),
-    openGraphTitle: `${tBrand("name")} — ${tHero("title")}`,
+    openGraphTitle: `${tBrand("name")} — ${heroTitle}`,
   });
 }
 
@@ -51,44 +44,14 @@ export default async function HomePage({ params }: PageProps) {
   setRequestLocale(locale);
 
   const cmsLocale = locale as Locale;
-  const [services, esgCommitments] = await Promise.all([
-    fetchServices(cmsLocale),
-    fetchEsgCommitments(cmsLocale),
-  ]);
+  const services = await fetchServices(cmsLocale);
 
   return (
-    <div className="home-huly">
+    <div>
       <HeroSection />
-      <ScrollReveal>
-        <AboutSection />
-      </ScrollReveal>
-      <ScrollReveal delay={0.05}>
-        <PositioningSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <PresenceStrip />
-      </ScrollReveal>
-      <ScrollReveal>
-        <ServiceGrid services={services} />
-      </ScrollReveal>
-      <ScrollReveal>
-        <ImpactSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <CapabilitySection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <AdvantageSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <EsgSection commitments={esgCommitments} />
-      </ScrollReveal>
-      <ScrollReveal>
-        <ClientsSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <PrinciplesSection />
-      </ScrollReveal>
+      <ServiceIconRow services={services} />
+      <AboutTeaser />
+      <PresenceStrip />
     </div>
   );
 }
