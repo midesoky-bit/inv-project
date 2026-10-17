@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { BrandLogo } from "@/components/layout/BrandLogo";
 import { NAV_LINKS } from "@/components/layout/navigation";
 import { Link } from "@/i18n/navigation";
 
@@ -11,7 +12,7 @@ export async function Footer() {
     <footer className="border-t border-border bg-surface-muted text-foreground">
       <div className="mx-auto flex max-w-6xl flex-col gap-8 px-6 py-14 md:flex-row md:items-start md:justify-between">
         <div className="max-w-sm space-y-3">
-          <p className="font-serif text-xl tracking-tight">{tBrand("name")}</p>
+          <BrandLogo name={tBrand("name")} size="footer" />
           <p className="text-sm text-muted">{tFooter("tagline")}</p>
           <p className="text-sm">
             <a
