@@ -29,16 +29,27 @@ Wait until `directus` is healthy. The site listens on port 3000. Directus listen
 
 ## 3. Load the content
 
-Copy the `scripts` folder onto the server next to your project folder. The script reads `scripts/seed-data.json` and creates the collections, public read access, and the English and Arabic records. Run it from the folder that contains `scripts/`.
+This folder already includes `scripts/seed-directus.mjs` and `scripts/seed-data.json`. Copy the whole `deploy` folder to the server. You do not need the rest of the source tree.
+
+From this folder, after Directus is healthy:
 
 ```bash
-DIRECTUS_URL=http://localhost:8055 \
-DIRECTUS_ADMIN_EMAIL=admin@inventure.com \
-DIRECTUS_ADMIN_PASSWORD=the-password-from-deploy-env \
-node scripts/seed-directus.mjs
+cd deploy
+docker run --rm --network host \
+  -v "$PWD":/app -w /app \
+  -e DIRECTUS_URL=http://127.0.0.1:8055 \
+  -e DIRECTUS_ADMIN_EMAIL=admin@inventure.com \
+  -e DIRECTUS_ADMIN_PASSWORD='the-password-from-this-env' \
+  node:22-alpine node scripts/seed-directus.mjs
 ```
 
-Use the email and password from `deploy/.env`. The script is safe to run again.
+Use the email and password from `.env`. The script creates the collections, public read access, and the English and Arabic records. It is safe to run again. When it finishes it prints `Seeded 7 services and 3 ESG commitments`.
+
+Then drop any empty page cache:
+
+```bash
+docker compose restart web
+```
 
 ## 4. Check
 
