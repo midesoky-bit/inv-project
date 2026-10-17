@@ -88,6 +88,114 @@ async function ensureRelation(token, relation) {
   }
 }
 
+const LANGUAGE_DIRECTION_OPTIONS = {
+  choices: [
+    { text: "LTR", value: "ltr" },
+    { text: "RTL", value: "rtl" },
+  ],
+};
+
+async function createLanguagesCollection(token) {
+  const created = await api(token, "POST", "/collections", {
+    collection: "languages",
+    schema: {},
+    meta: { icon: "translate", display_template: "{{name}}" },
+    fields: [
+      {
+        field: "code",
+        type: "string",
+        schema: {
+          is_primary_key: true,
+          has_auto_increment: false,
+          length: 16,
+          is_nullable: false,
+        },
+        meta: { interface: "input", required: true, width: "half" },
+      },
+      {
+        field: "name",
+        type: "string",
+        schema: { is_nullable: false },
+        meta: { interface: "input", required: true, width: "half" },
+      },
+      {
+        field: "direction",
+        type: "string",
+        schema: { default_value: "ltr" },
+        meta: {
+          interface: "select-dropdown",
+          options: LANGUAGE_DIRECTION_OPTIONS,
+        },
+      },
+    ],
+  });
+  if (!created.ok) {
+    throw new Error(`Create languages: ${JSON.stringify(created.json)}`);
+  }
+}
+
+async function ensureLanguagesCollection(token) {
+  const existing = await api(token, "GET", "/collections/languages");
+  if (!existing.ok) {
+    await createLanguagesCollection(token);
+    return;
+  }
+
+  const code = await api(token, "GET", "/fields/languages/code");
+  if (code.ok && code.json?.data?.schema?.is_primary_key) return;
+
+  const items = await api(
+    token,
+    "GET",
+    "/items/languages?fields=code,name,direction&limit=-1",
+  );
+  const rows = items.ok ? (items.json?.data ?? []) : [];
+  const removed = await api(token, "DELETE", "/collections/languages");
+  if (!removed.ok) {
+    throw new Error(`Could not rebuild languages: ${JSON.stringify(removed.json)}`);
+  }
+  await createLanguagesCollection(token);
+  for (const row of rows) {
+    if (!row.code) continue;
+    await upsertLanguage(token, row.code, row.name ?? row.code, row.direction ?? "ltr");
+  }
+}
+
+async function ensureLanguageLink(token, collection, parentField) {
+  await ensureRelation(token, {
+    collection,
+    field: "languages_code",
+    related_collection: "languages",
+    schema: { on_delete: "RESTRICT" },
+    meta: {
+      many_collection: collection,
+      many_field: "languages_code",
+      one_collection: "languages",
+      one_field: null,
+      junction_field: parentField,
+    },
+  });
+}
+
+async function ensureTranslationsInterface(token, collection) {
+  const updated = await api(token, "PATCH", `/fields/${collection}/translations`, {
+    meta: {
+      interface: "translations",
+      special: ["translations"],
+      options: {
+        languageField: "code",
+        languageDirectionField: "direction",
+        defaultLanguage: "en",
+      },
+    },
+  });
+  if (!updated.ok) {
+    throw new Error(
+      `Translations interface ${collection}: ${JSON.stringify(updated.json)}`,
+    );
+  }
+}
+
 async function publicPolicyId(token) {
   const policies = await api(token, "GET", "/policies?limit=-1");
   const named = policies.json?.data?.find((policy) => policy.name === "$t:public_label");
@@ -199,16 +307,7 @@ async function upsertEsg(token, record) {
 const { services, esg } = loadSeedData();
 const token = await waitForLogin();
 
-await ensureCollection(token, "languages", {
-  icon: "translate",
-  display_template: "{{name}}",
-});
-await ensureField(token, "languages", {
-  field: "code",
-  type: "string",
-  schema: { is_unique: true, length: 16, is_nullable: false },
-  meta: { interface: "input", required: true, width: "half" },
-});
+await ensureLanguagesCollection(token);
 await ensureField(token, "languages", {
   field: "name",
   type: "string",
@@ -221,7 +320,7 @@ await ensureField(token, "languages", {
   schema: { default_value: "ltr" },
   meta: {
     interface: "select-dropdown",
-    options: { choices: [{ text: "LTR", value: "ltr" }, { text: "RTL", value: "rtl" }] },
+    options: LANGUAGE_DIRECTION_OPTIONS,
   },
 });
 
@@ -376,6 +475,10 @@ for (const collection of [
 
 await upsertLanguage(token, "en", "English", "ltr");
 await upsertLanguage(token, "ar", "Arabic", "rtl");
+await ensureLanguageLink(token, "services_translations", "services_id");
+await ensureLanguageLink(token, "esg_commitments_translations", "esg_commitments_id");
+await ensureTranslationsInterface(token, "services");
+await ensureTranslationsInterface(token, "esg_commitments");
 
 for (const record of services) await upsertService(token, record);
 for (const record of esg) await upsertEsg(token, record);

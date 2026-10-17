@@ -43,7 +43,7 @@ docker run --rm --network host \
   node:22-alpine node scripts/seed-directus.mjs
 ```
 
-Use the email and password from `.env`. The script creates the collections, public read access, and the English and Arabic records. It is safe to run again. When it finishes it prints `Seeded 7 services and 3 ESG commitments`.
+Use the email and password from `.env`. The script creates the collections, public read access, and the English and Arabic records. It also links each translation to its language so the Translations panel in Directus shows the fields. It is safe to run again. When it finishes it prints `Seeded 7 services and 3 ESG commitments`.
 
 Then drop any empty page cache:
 
