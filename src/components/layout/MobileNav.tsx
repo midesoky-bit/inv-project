@@ -6,7 +6,6 @@ import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { NAV_LINKS } from "@/components/layout/navigation";
-import { Link } from "@/i18n/navigation";
 import type { NavService } from "@/components/layout/DesktopNav";
 
 type MobileNavProps = {
@@ -14,6 +13,7 @@ type MobileNavProps = {
 };
 
 export function MobileNav({ services }: MobileNavProps) {
+  void services;
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const t = useTranslations("nav");
@@ -86,21 +86,6 @@ export function MobileNav({ services }: MobileNavProps) {
                   >
                     {t(item.messageKey)}
                   </SectionLink>
-                  {item.messageKey === "services" ? (
-                    <ul className="mb-2 border-s border-border ps-4">
-                      {services.map((service) => (
-                        <li key={service.slug}>
-                          <Link
-                            href={`/services/${service.slug}`}
-                            onClick={() => setOpen(false)}
-                            className="block py-1.5 text-sm text-foreground/80 hover:text-foreground"
-                          >
-                            {service.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
                 </motion.li>
               ))}
             </ul>

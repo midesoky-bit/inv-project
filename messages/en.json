@@ -1,10 +1,13 @@
 {
   "brand": { "name": "Inventure Communications" },
   "nav": {
+    "home": "Home",
     "about": "About",
     "services": "Services",
+    "work": "Our Work",
     "approach": "Approach",
     "insights": "Insights",
+    "careers": "Careers",
     "esg": "ESG",
     "contact": "Contact",
     "openMenu": "Open menu",

@@ -1,10 +1,13 @@
 {
   "brand": { "name": "Inventure Communications" },
   "nav": {
+    "home": "الرئيسية",
     "about": "من نحن",
     "services": "الخدمات",
+    "work": "أعمالنا",
     "approach": "منهجنا",
     "insights": "رؤى",
+    "careers": "الوظائف",
     "esg": "ESG",
     "contact": "تواصل",
     "openMenu": "فتح القائمة",
