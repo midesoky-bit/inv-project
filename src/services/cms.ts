@@ -4,6 +4,7 @@ import * as directus from "@/lib/cms/providers/directus";
 import * as mock from "@/lib/cms/providers/mock";
 import * as supabase from "@/lib/cms/providers/supabase";
 import type {
+  Career,
   CaseStudy,
   EsgCommitment,
   Insight,
@@ -43,6 +44,17 @@ export async function fetchInsights(locale: Locale): Promise<Insight[]> {
       return supabase.supabaseFetchInsights(locale);
     default:
       return mock.mockFetchInsights(locale);
+  }
+}
+
+export async function fetchCareers(locale: Locale = "en"): Promise<Career[]> {
+  switch (getCmsProvider()) {
+    case "directus":
+      return directus.directusFetchCareers(locale);
+    case "supabase":
+      return supabase.supabaseFetchCareers(locale);
+    default:
+      return mock.mockFetchCareers(locale);
   }
 }
 

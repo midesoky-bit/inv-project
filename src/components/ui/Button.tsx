@@ -20,9 +20,9 @@ export function Button({
       className={cn(
         "inline-flex items-center justify-center px-6 py-3 text-sm font-medium tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring",
         variant === "primary" &&
-          "bg-brand text-brand-foreground hover:bg-brand/90",
+          "rounded-full bg-accent text-accent-foreground hover:bg-accent/90",
         variant === "ghost" &&
-          "bg-transparent text-foreground underline-offset-4 hover:underline",
+          "rounded-full border border-current bg-transparent text-foreground",
         className,
       )}
     >

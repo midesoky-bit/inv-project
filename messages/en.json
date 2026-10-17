@@ -1,16 +1,20 @@
 {
   "brand": { "name": "Inventure Communications" },
   "nav": {
+    "home": "Home",
     "about": "About",
     "services": "Services",
+    "work": "Our Work",
     "approach": "Approach",
     "insights": "Insights",
+    "careers": "Careers",
     "esg": "ESG",
     "contact": "Contact",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "primary": "Primary",
     "mobile": "Mobile",
+    "breadcrumb": "Breadcrumb",
     "aboutDetail": "An integrated platform across media, public affairs, and institutional engagement.",
     "servicesDetail": "Seven disciplines, from media production to capital markets.",
     "approachDetail": "How strategy, media, and public affairs operate as one system.",
@@ -38,7 +42,8 @@
   },
   "about": {
     "eyebrow": "About us",
-    "title": "An integrated communications and strategic influence platform",
+    "title": "An integrated <g>communications</g> platform",
+    "readMore": "Our story",
     "paragraphs": [
       "Inventure Communications operates across media, public relations, public affairs, and institutional engagement.",
       "We work with governments, regional organizations, and leading institutions to shape narratives, align stakeholders, and support decision-making in complex environments—delivering outcomes that are clear, measurable, and relevant.",
@@ -113,14 +118,14 @@
   },
   "hero": {
     "eyebrow": "Inventure Communications",
-    "title": "Strategic communications for decision-makers",
+    "title": "Strategic communications for <g>decision-makers</g>",
     "subtitle": "We counsel institutions across the Middle East on reputation, media, and public affairs — with clarity, discipline, and regional fluency.",
     "ctaServices": "Explore our services",
     "ctaContact": "Contact"
   },
   "services": {
     "eyebrow": "Capabilities",
-    "title": "Core offerings",
+    "title": "Core <g>offerings</g>",
     "subtitle": "Integrated communications disciplines for institutional clients.",
     "learnMore": "Learn more",
     "all": "All services",
@@ -128,9 +133,26 @@
     "includes": "What this includes",
     "others": "Other capabilities"
   },
+  "work": {
+    "title": "Our <g>work</g>",
+    "intro": "Photographs from the disciplines we deliver.",
+    "all": "All",
+    "events": "Events and media production",
+    "digital": "Digital and content",
+    "affairs": "Public affairs",
+    "capital": "Capital markets",
+    "partnerships": "Partnerships"
+  },
   "insights": {
-    "title": "Insights",
+    "title": "<g>Insights</g>",
+    "description": "Notes on communication and public affairs.",
+    "empty": "Articles will be added in Directus.",
     "comingSoon": "Insights will be published here soon."
+  },
+  "careers": {
+    "title": "<g>Careers</g>",
+    "description": "Open roles at Inventure Communications.",
+    "empty": "Openings will be added in Directus."
   },
   "esg": {
     "title": "Sustainability & ESG",
@@ -144,6 +166,9 @@
       "Align communication outputs with recognized sustainability principles",
       "Work with partners and suppliers who demonstrate responsible practices"
     ]
+  },
+  "contact": {
+    "heading": "Contact"
   },
   "footer": {
     "tagline": "Strategic Communications & Public Affairs — Middle East.",

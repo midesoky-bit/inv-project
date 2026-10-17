@@ -1,100 +1,97 @@
-### Task 6: Final verification (Amendment E)
+### Task 6: Our Work gallery
 
 **Files:**
-- Modify: `README.md` (brief run instructions only)
-- Optionally modify: `package.json` (`"typecheck": "tsc --noEmit"`)
+- Create: `src/components/work/work-items.ts`
+- Create: `src/components/work/WorkGallery.tsx`
+- Create: `src/app/[locale]/work/page.tsx`
+- Modify: `messages/en.json` and `messages/ar.json`
+- Test: `src/components/work/work-items.test.ts`
 
 **Interfaces:**
-- Consumes: full app
-- Produces: verified build + documented bootstrap commands
+- Consumes: service slugs `events-exhibitions`, `digital-media-platforms`, `public-affairs-government-relations`, `capital-markets-financial-communications`, `public-relations-partnerships`
+- Produces:
 
-- [ ] **Step 1: Run unit tests**
+```ts
+export type WorkItem = {
+  src: "/images/forum.webp" | "/images/analytics.webp" | "/images/briefing.webp" | "/images/hero.webp" | "/images/about.webp";
+  filter: "events" | "digital" | "affairs" | "capital" | "partnerships";
+  serviceSlug: string;
+};
 
-```powershell
-npm test
+export const WORK_ITEMS: readonly WorkItem[];
+export function filterWork(filter: "all" | WorkItem["filter"]): WorkItem[];
 ```
 
-Expected: PASS.
+`WorkGallery` is a client component. Props: `{ items: WorkItem[]; labels: Record<WorkItem["filter"] | "all", string>; captions: Record<string, string> }`. `captions` is keyed by `serviceSlug`.
 
-- [ ] **Step 2: Typecheck and lint** (Amendment E)
+- [ ] **Step 1: Write the failing test**
 
-```powershell
-npx tsc --noEmit
-npm run lint
+```ts
+import { describe, expect, it } from "vitest";
+import { WORK_ITEMS, filterWork } from "@/components/work/work-items";
+
+describe("work gallery", () => {
+  it("has the five existing photos", () => {
+    expect(WORK_ITEMS.map((item) => item.src)).toEqual([
+      "/images/forum.webp",
+      "/images/analytics.webp",
+      "/images/briefing.webp",
+      "/images/hero.webp",
+      "/images/about.webp",
+    ]);
+  });
+
+  it("filters to capital markets", () => {
+    expect(filterWork("capital").map((item) => item.src)).toEqual([
+      "/images/hero.webp",
+    ]);
+  });
+});
 ```
 
-Expected: both clean. Optionally add `"typecheck": "tsc --noEmit"` to `package.json` scripts.
+- [ ] **Step 2: Run test to verify it fails**
 
-- [ ] **Step 3: Production build**
+Run: `npx vitest run src/components/work/work-items.test.ts`
 
-```powershell
-npm run build
+Expected: FAIL because the module does not exist.
+
+- [ ] **Step 3: Add the catalog, gallery, and page**
+
+```ts
+export const WORK_ITEMS = [
+  { src: "/images/forum.webp", filter: "events", serviceSlug: "events-exhibitions" },
+  { src: "/images/analytics.webp", filter: "digital", serviceSlug: "digital-media-platforms" },
+  { src: "/images/briefing.webp", filter: "affairs", serviceSlug: "public-affairs-government-relations" },
+  { src: "/images/hero.webp", filter: "capital", serviceSlug: "capital-markets-financial-communications" },
+  { src: "/images/about.webp", filter: "partnerships", serviceSlug: "public-relations-partnerships" },
+] as const satisfies readonly WorkItem[];
+
+export function filterWork(filter: "all" | WorkItem["filter"]) {
+  if (filter === "all") return [...WORK_ITEMS];
+  return WORK_ITEMS.filter((item) => item.filter === filter);
+}
 ```
 
-Expected: PASS with homepage + service routes + sitemap/robots.
+Add a `work` message object in both catalogs:
 
-- [ ] **Step 4: Crawl surface check** (Amendment E)
+English: `title` “Our <g>work</g>”, `intro` “Photographs from the disciplines we deliver.”, filters `all` “All”, `events` “Events and media production”, `digital` “Digital and content”, `affairs` “Public affairs”, `capital` “Capital markets”, `partnerships` “Partnerships”.
 
-```powershell
-npm run start
-curl.exe http://localhost:3000/sitemap.xml
-curl.exe http://localhost:3000/robots.txt
-```
+Arabic: `title` “<g>أعمالنا</g>”, `intro` “صور من التخصصات التي نقدّمها.” The work page renders `title` with `t.rich` and a `text-accent` span., filters “الكل”, “الفعاليات والإنتاج الإعلامي”, “الرقمي والمحتوى”, “الشؤون العامة”, “أسواق رأس المال”, “الشراكات”.
 
-Expected: sitemap lists `/` plus four `/services/*` URLs; robots allows `/`, disallows `/api/`, references sitemap.
+`WorkGallery` holds `useState<"all" | WorkItem["filter"]>("all")`. Buttons call `setFilter`. The grid maps `filterWork(filter)` to a `Link` `/services/${item.serviceSlug}` wrapping `Image` with `alt={captions[item.serviceSlug] ?? ""}`.
 
-- [ ] **Step 5: Canonical and nav spot-check** (Amendment E)
+The work page fetches services, builds `captions` from `slug -> title`, and passes labels from `getTranslations("work")`. The intro band uses `forum.webp` only as the page hero, which is separate from the gallery item.
 
-View source of `/services/events` and confirm a self-referencing canonical. Open at mobile width and confirm the menu works from a service page; Contact scrolls to the footer.
+- [ ] **Step 4: Run tests**
 
-- [ ] **Step 6: Write concise README**
+Run: `npx vitest run src/components/work/work-items.test.ts src/i18n/messages.parity.test.ts`
 
-Replace or create `README.md`:
+Expected: PASS
 
-```md
-# Inventure Communications
-
-Institutional corporate website (Next.js App Router) with a CMS-agnostic content layer.
-
-## Stack
-
-Next.js, TypeScript, Tailwind CSS, Framer Motion, native fetch ISR/SSG.
-
-## Setup
+- [ ] **Step 5: Commit**
 
 ```bash
-npm install
-cp .env.example .env.local
-npm run dev
+git add src/components/work/work-items.ts src/components/work/work-items.test.ts src/components/work/WorkGallery.tsx src/app/[locale]/work/page.tsx messages/en.json messages/ar.json
+git commit -m "feat: add the work gallery from existing photos"
 ```
-
-## CMS
-
-Set `CMS_PROVIDER` to `mock` (default), `directus`, or `supabase`. Configure `CMS_URL` and `CMS_TOKEN` for remote providers.
-
-Set `REVALIDATE_SECRET` for `POST /api/revalidate` (header `x-revalidate-secret`, body `{ "tags": ["services"] }`).
-
-## Scripts
-
-- `npm run dev` — local development
-- `npm run build` — production build
-- `npm test` — unit tests
-- `npm run typecheck` — TypeScript check (if script added)
-```
-
-- [ ] **Step 7: Commit**
-
-```powershell
-git add README.md package.json
-git commit -m "docs: add bootstrap README and verify build"
-```
-
----
-
-## Plan self-review
-
-1. **Spec coverage:** Scaffold, CMS abstraction + mock/directus/supabase stubs, tokens/fonts, layout SEO, Header/Footer/mobile nav, Hero, ServiceGrid, `services/[slug]` SSG/metadata, sitemap/robots, ISR revalidate API, env example, build verification — all mapped. Insights/ESG pages correctly omitted.
-2. **Amendments A–E:** Integrated into Tasks 3–6 and new Tasks 7–8. Execution order: 1→2→3→4→5→7→8→6.
-3. **Placeholders:** None remaining; `fetchServices` switch pattern made explicit; `revalidateTag` arity noted for Next 15 vs 16.
-4. **Type consistency:** `Service` fields consistent across mock, CMS API, ServiceGrid, and detail page.
 

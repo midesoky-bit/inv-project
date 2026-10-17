@@ -1,82 +1,81 @@
-### Task 1: Scaffold Next.js App Router project
+### Task 1: Green accent and buttons
 
 **Files:**
-- Create: `package.json`, `tsconfig.json`, `next.config.ts`, `postcss.config.mjs`, `eslint.config.mjs`, `src/app/*` (via create-next-app)
-- Preserve: `docs/superpowers/**`
+- Modify: `src/app/globals.css` (`:root` and `.dark` accent tokens)
+- Modify: `src/components/ui/Button.tsx`
+- Test: `src/app/globals.accent.test.ts`
 
 **Interfaces:**
-- Consumes: none
-- Produces: runnable Next.js app with `src/`, TypeScript, Tailwind, `@/*` alias
+- Consumes: existing CSS variables `--accent`, `--accent-foreground`, `--ring`, `--inv-accent`
+- Produces: those four variables equal `#1FA971` / `#ffffff` in `:root` and `.dark`. `Button` primary uses `bg-accent text-accent-foreground` and `rounded-full`. Ghost uses `border border-current`.
 
-- [ ] **Step 1: Scaffold in the repo root**
-
-From `D:\Projects\inv-project` (non-empty because of `docs/` — use create-next-app; if it refuses a non-empty directory, scaffold into `_tmp` then move files up, keeping `docs/` and `.git`):
-
-```powershell
-npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --turbopack --yes
-```
-
-If blocked by existing files:
-
-```powershell
-npx create-next-app@latest _scaffold --typescript --tailwind --eslint --app --src-dir --import-alias "@/*" --turbopack --yes
-# Move scaffold contents into root, excluding overwriting docs/ and .git
-Copy-Item -Path _scaffold\* -Destination . -Recurse -Force
-Remove-Item -Recurse -Force _scaffold
-```
-
-- [ ] **Step 2: Enable TypeScript strict (verify `tsconfig.json`)**
-
-Ensure `"strict": true` in `tsconfig.json`. If create-next-app left it true, leave as-is.
-
-- [ ] **Step 3: Install Framer Motion**
-
-```powershell
-npm install framer-motion
-```
-
-- [ ] **Step 4: Add Vitest for CMS unit tests**
-
-```powershell
-npm install -D vitest @vitejs/plugin-react vite-tsconfig-paths
-```
-
-Create `vitest.config.ts`:
+- [ ] **Step 1: Write the failing test**
 
 ```ts
-import { defineConfig } from "vitest/config";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
 
-export default defineConfig({
-  plugins: [tsconfigPaths()],
-  test: {
-    environment: "node",
-    include: ["src/**/*.test.ts"],
-  },
+const css = readFileSync("src/app/globals.css", "utf8");
+
+function block(selector: string) {
+  const start = css.indexOf(selector);
+  const end = css.indexOf("}", start);
+  return css.slice(start, end);
+}
+
+describe("accent token", () => {
+  it("uses the same green in light and dark", () => {
+    for (const selector of [":root", ".dark"]) {
+      const body = block(selector);
+      expect(body).toContain("--accent: #1fa971;");
+      expect(body).toContain("--accent-foreground: #ffffff;");
+      expect(body).toContain("--ring: #1fa971;");
+      expect(body).toContain("--inv-accent: #1fa971;");
+    }
+    expect(css).toContain('[data-theme="desert"]');
+    expect(block("[data-theme=\"desert\"]")).toContain("--accent: #8b6914;");
+  });
 });
 ```
 
-Add to `package.json` scripts:
+- [ ] **Step 2: Run test to verify it fails**
 
-```json
-"test": "vitest run",
-"test:watch": "vitest"
+Run: `npx vitest run src/app/globals.accent.test.ts`
+
+Expected: FAIL because `--accent` is still `#3a6b8c` in `:root` and `#6ba3c4` in `.dark`.
+
+- [ ] **Step 3: Update tokens and Button**
+
+In `:root` and `.dark`, set:
+
+```css
+--inv-accent: #1fa971;
+--accent: #1fa971;
+--accent-foreground: #ffffff;
+--ring: #1fa971;
 ```
 
-- [ ] **Step 5: Smoke the scaffold**
+Leave `[data-theme="desert"]` and `.dark[data-theme="desert"]` unchanged.
 
-```powershell
-npm run build
+Replace the `Button` variant classes with:
+
+```tsx
+variant === "primary" &&
+  "rounded-full bg-accent text-accent-foreground hover:bg-accent/90",
+variant === "ghost" &&
+  "rounded-full border border-current bg-transparent text-foreground",
 ```
 
-Expected: build succeeds (default starter page).
+- [ ] **Step 4: Run test to verify it passes**
 
-- [ ] **Step 6: Commit**
+Run: `npx vitest run src/app/globals.accent.test.ts`
 
-```powershell
-git add package.json package-lock.json tsconfig.json next.config.ts postcss.config.mjs eslint.config.mjs vitest.config.ts src public
-git commit -m "chore: scaffold Next.js App Router with Tailwind and Vitest"
+Expected: PASS
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/app/globals.css src/app/globals.accent.test.ts src/components/ui/Button.tsx
+git commit -m "feat: switch the accent to green pills"
 ```
-
----
 

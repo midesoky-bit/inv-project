@@ -84,7 +84,9 @@ export function HeroSection() {
           transition={{ duration: 0.55, delay: 0.05, ease: "easeOut" }}
           className="max-w-3xl font-serif text-4xl leading-tight tracking-tight text-balance sm:text-5xl md:text-6xl"
         >
-          {t("title")}
+          {t.rich("title", {
+            g: (chunks) => <span className="text-accent">{chunks}</span>,
+          })}
         </motion.h1>
         <motion.p
           initial={animate ? { opacity: 0, y: 16 } : false}
@@ -101,13 +103,13 @@ export function HeroSection() {
           className="mt-10 flex flex-wrap items-center gap-6"
         >
           <Button
-            href="/#services"
+            href="/services"
             className="bg-brand-foreground text-brand hover:bg-brand-foreground/90"
           >
             {t("ctaServices")}
           </Button>
           <Button
-            href="/#contact"
+            href="/contact"
             variant="ghost"
             className="text-brand-foreground hover:text-brand-foreground"
           >

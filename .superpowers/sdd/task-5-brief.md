@@ -1,110 +1,59 @@
-### Task 5: Dynamic service route (SSG + metadata)
+### Task 5: Services index
 
 **Files:**
-- Create: `src/app/services/[slug]/page.tsx`
+- Create: `src/app/[locale]/services/page.tsx`
+- Modify: `src/app/[locale]/services/[slug]/page.tsx` (heading only)
+- Test: `src/app/[locale]/services/page.test.ts`
 
 **Interfaces:**
-- Consumes: `fetchServices()`, `fetchServiceBySlug(slug)`
-- Produces: statically generated `/services/[slug]` pages with per-page metadata
+- Consumes: `fetchServices`, `ServiceGrid`, `buildPageMetadata`
+- Produces: `/services` renders `ServiceGrid`. The service detail `h1` wraps no new data; it adds `className` including `text-balance` and a green eyebrow using `t("eyebrow")` if that eyebrow is not already above the title.
 
-- [ ] **Step 1: Implement service detail page**
+- [ ] **Step 1: Write the failing test**
 
-Create `src/app/services/[slug]/page.tsx`:
+```ts
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+const page = readFileSync("src/app/[locale]/services/page.tsx", "utf8");
+
+describe("services index", () => {
+  it("renders the Directus grid", () => {
+    expect(page).toContain("fetchServices");
+    expect(page).toContain("<ServiceGrid");
+    expect(page).toContain('src="/images/forum.webp"');
+  });
+});
+```
+
+- [ ] **Step 2: Run test to verify it fails**
+
+Run: `npx vitest run src/app/[locale]/services/page.test.ts`
+
+Expected: FAIL because the file does not exist.
+
+- [ ] **Step 3: Add the index page**
+
+Create the locale page with the same static-param and metadata pattern as the home page, using `services.title` and `services.subtitle`. Render a full-width `Image` `/images/forum.webp` with `alt` from `images.forum` if that key exists, otherwise `images.hero`. Under it render:
 
 ```tsx
-import type { Metadata } from "next";
-import Link from "next/link";
-import { notFound } from "next/navigation";
-import { fetchServiceBySlug, fetchServices } from "@/services/cms";
-
-type PageProps = {
-  params: Promise<{ slug: string }>;
-};
-
-export async function generateStaticParams() {
-  const services = await fetchServices();
-  return services.map((service) => ({ slug: service.slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: PageProps): Promise<Metadata> {
-  const { slug } = await params;
-  const service = await fetchServiceBySlug(slug);
-  if (!service) {
-    return { title: "Service not found", robots: { index: false } };
-  }
-
-  const path = `/services/${service.slug}`;
-
-  return {
-    title: service.title,
-    description: service.summary,
-    alternates: { canonical: path },
-    openGraph: {
-      type: "website",
-      locale: "en_US",
-      siteName: "Inventure Communications",
-      url: path,
-      title: `${service.title} | Inventure Communications`,
-      description: service.summary,
-    },
-  };
-}
-
-export default async function ServicePage({ params }: PageProps) {
-  const { slug } = await params;
-  const service = await fetchServiceBySlug(slug);
-
-  if (!service) {
-    notFound();
-  }
-
-  return (
-    <article className="bg-inv-white">
-      <div className="bg-inv-navy px-6 pt-28 pb-16 text-inv-white">
-        <div className="mx-auto max-w-3xl">
-          <p className="mb-4 text-xs tracking-[0.18em] text-white/60 uppercase">
-            Service
-          </p>
-          <h1 className="font-serif text-4xl tracking-tight md:text-5xl">
-            {service.title}
-          </h1>
-          <p className="mt-6 text-lg text-white/75">{service.summary}</p>
-        </div>
-      </div>
-      <div className="mx-auto max-w-3xl px-6 py-16">
-        <p className="text-base leading-relaxed text-inv-slate">
-          {service.description}
-        </p>
-        <Link
-          href="/#services"
-          className="mt-10 inline-flex text-sm font-medium text-inv-accent hover:underline"
-        >
-          ← All services
-        </Link>
-      </div>
-    </article>
-  );
-}
+<ServiceGrid services={services} />
 ```
 
-- [ ] **Step 2: Build and confirm static params**
+On the slug page, add `text-accent` to the existing eyebrow. Do not change the Directus fields or the slug.
 
-```powershell
-npm run build
+Change `services.title` to `Core <g>offerings</g>` and the Arabic services title to `الخدمات <g>الأساسية</g>`. Render that heading with `t.rich` and a `text-accent` span, on both the index and the existing services heading component.
+
+- [ ] **Step 4: Run test to verify it passes**
+
+Run: `npx vitest run src/app/[locale]/services/page.test.ts`
+
+Expected: PASS
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add src/app/[locale]/services/page.tsx src/app/[locale]/services/page.test.ts src/app/[locale]/services/[slug]/page.tsx
+git commit -m "feat: add a services index in the reference layout"
 ```
-
-Expected: build lists `/services/media-production`, `/services/digital-media`, `/services/events`, `/services/public-affairs` (or equivalent static generation messages).
-
-- [ ] **Step 3: Commit**
-
-```powershell
-git add src/app/services
-git commit -m "feat: add SSG service detail routes with CMS metadata"
-```
-
-Note: `export const revalidate = 3600` and `dynamicParams = true` are added in Task 8 (keep Task 5 focused on SSG + metadata).
-
----
 

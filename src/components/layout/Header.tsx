@@ -1,21 +1,12 @@
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { DesktopNav } from "@/components/layout/DesktopNav";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { fetchServices } from "@/services/cms";
 
 export async function Header() {
   const tBrand = await getTranslations("brand");
-  const locale = (await getLocale()) as Locale;
-  const services = await fetchServices(locale);
-  const navServices = services.map((service) => ({
-    slug: service.slug,
-    title: service.title,
-    summary: service.summary,
-  }));
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 border-b border-border bg-background text-foreground">
@@ -27,10 +18,10 @@ export async function Header() {
           {tBrand("name")}
         </Link>
         <div className="flex items-center gap-4 md:gap-6">
-          <DesktopNav services={navServices} />
+          <DesktopNav />
           <ThemeSwitcher />
-          <LanguageSwitcher className="hidden md:block" />
-          <MobileNav services={navServices} />
+          <LanguageSwitcher className="hidden xl:block" />
+          <MobileNav />
         </div>
       </div>
     </header>

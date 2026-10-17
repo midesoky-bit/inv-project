@@ -1,142 +1,118 @@
-# Task 6 Report — Final verification (Amendment E)
+# Task 6 Report: Our Work gallery
 
-**Branch:** `feat/inventure-website-bootstrap`  
-**Date:** 2026-10-15  
-**Commit:** `879a6f5` — `docs: add bootstrap README and verify build`
+## Status
+
+DONE
 
 ## Summary
 
-| Step | Command | Result |
-|------|---------|--------|
-| Unit tests | `npm test` | **PASS** — 3 files, 10 tests |
-| Typecheck | `npx tsc --noEmit` / `npm run typecheck` | **PASS** (exit 0) |
-| Lint | `npm run lint` | **FAIL** — 3 errors (see Concerns) |
-| Build | `npm run build` | **PASS** — `/`, 4× `/services/*`, sitemap, robots, `/api/revalidate` |
-| Crawl surface | curl (existing server on :3000) | **PASS** |
-| Canonical | curl `/services/events` | **PASS** — self-referencing canonical |
-| Mobile nav | Browser snapshot @ 390px + code review | **Partial** — menu button visible; Contact → `/#contact` → `footer#contact` in markup |
+`/work` is a locale route with a `forum.webp` hero and a five-photo gallery. Captions are the Directus service titles for the linked slugs. The title is `Our <g>work</g>` in English and `<g>أعمالنا</g>` in Arabic, rendered with `t.rich` and a `text-accent` span. Filters are All plus the five groups from the brief. Each photo links to `/services/${serviceSlug}`.
 
-## Step 1: Unit tests
+## TDD workflow
 
-```
-npm test
-> vitest run
-Test Files  3 passed (3)
-     Tests  10 passed (10)
-Duration  147ms
-```
+| Step | Action | Result |
+|------|--------|--------|
+| 1 | Added `src/components/work/work-items.test.ts` from the brief | Created before `work-items.ts` |
+| 2 | `npx vitest run src/components/work/work-items.test.ts` | FAIL — module `@/components/work/work-items` does not exist |
+| 3 | Added the catalog, `WorkGallery`, the `/work` page, and both `work` message objects | Applied |
+| 4 | `npx vitest run src/components/work/work-items.test.ts src/i18n/messages.parity.test.ts` | PASS (3 tests) |
+| 5 | Git commit | `aa55901` — feat: add the work gallery from existing photos |
 
-## Step 2: Typecheck and lint
+## RED evidence
 
-**Typecheck (`npx tsc --noEmit`):** exit 0, no diagnostics.
-
-**Added script:** `"typecheck": "tsc --noEmit"` in `package.json`.
-
-**Lint (`npm run lint`):** exit 1.
+Command: `npx vitest run src/components/work/work-items.test.ts`
 
 ```
-.superpowers/sdd/extract-brief.js
-  1:12  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
-  2:14  error  A `require()` style import is forbidden  @typescript-eslint/no-require-imports
+ FAIL  src/components/work/work-items.test.ts [ src/components/work/work-items.test.ts ]
+Error: Cannot find package '@/components/work/work-items' imported from D:/Projects/inv-project/src/components/work/work-items.test.ts
+ ❯ src/components/work/work-items.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import { WORK_ITEMS, filterWork } from "@/components/work/work-items";
+       | ^
+      3|
+      4| describe("work gallery", () => {
 
-src/components/layout/CopyrightYear.tsx
-  9:5  error  Avoid calling setState() directly within an effect  react-hooks/set-state-in-effect
+ Test Files  1 failed (1)
+      Tests  no tests
+   Start at  15:37:00
+   Duration  125ms (worker 96%, environment 4%)
 ```
 
-## Step 3: Production build
+Failure reason matches the brief: the catalog module did not exist, so the suite failed before any assertion.
+
+## GREEN evidence
+
+Command after the catalog, gallery, page, and message catalogs existed: `npx vitest run src/components/work/work-items.test.ts src/i18n/messages.parity.test.ts`
 
 ```
-npm run build
-▲ Next.js 16.4.1 (Turbopack)
-✓ Compiled successfully
-✓ Generating static pages (11/11)
-
-Route (app)
-┌ ○ /
-├ ƒ /api/revalidate
-├ ○ /robots.txt
-├ ● /services/media-production
-├ ● /services/digital-media
-├ ● /services/events
-├ ● /services/public-affairs
-└ ○ /sitemap.xml
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  15:38:49
+   Duration  128ms (transform 63%, import 24%, worker 7%, tests 6%)
 ```
 
-## Step 4: Crawl surface
-
-`npm run start` failed with `EADDRINUSE` (port 3000 already in use by PID 21764). Verification used the running production server.
-
-### `curl.exe http://localhost:3000/sitemap.xml`
-
-Five URLs:
-
-- `http://localhost:3000`
-- `http://localhost:3000/services/media-production`
-- `http://localhost:3000/services/digital-media`
-- `http://localhost:3000/services/events`
-- `http://localhost:3000/services/public-affairs`
-
-### `curl.exe http://localhost:3000/robots.txt`
+Command after the final gallery match (same suite, committed code):
 
 ```
-User-Agent: *
-Allow: /
-Disallow: /api/
-
-Host: http://localhost:3000
-Sitemap: http://localhost:3000/sitemap.xml
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  15:43:52
+   Duration  110ms (import 41%, transform 34%, worker 13%, tests 11%, environment 1%)
 ```
 
-## Step 5: Canonical and nav spot-check
+`npm run lint:direction`: `lint:direction OK — no physical direction utilities in src/`.
 
-**Canonical** (`/services/events` HTML):
+ESLint on `work-items.ts`, `work-items.test.ts`, `WorkGallery.tsx`, and `src/app/[locale]/work/page.tsx`: exit 0, no findings.
 
-```html
-<link rel="canonical" href="http://localhost:3000/services/events"/>
-```
+## Changes
 
-**Mobile nav:** At 390×844 emulation, accessibility snapshot shows `Open menu` button (`md:hidden` hamburger). `MobileNav` renders `NAV_ITEMS` including Contact (`href="/#contact"`). Layout footer has `id="contact"`. Interactive open-menu → Contact scroll was not exercised in-browser (automation blocked); structure matches spec.
+### Catalog
 
-## Step 6: README
+`src/components/work/work-items.ts` exports `WorkItem`, `WORK_ITEMS`, and `filterWork`. The five photos, in order, are `forum.webp` (events / `events-exhibitions`), `analytics.webp` (digital / `digital-media-platforms`), `briefing.webp` (affairs / `public-affairs-government-relations`), `hero.webp` (capital / `capital-markets-financial-communications`), and `about.webp` (partnerships / `public-relations-partnerships`). `filterWork("all")` returns every item. Any other filter returns only that group.
 
-Replaced default create-next-app README with bootstrap docs: stack, setup, CMS providers, `REVALIDATE_SECRET` for `POST /api/revalidate` (`x-revalidate-secret`, body `{ "tags": ["services"] }`), scripts including `typecheck`.
+### Messages
 
-## Step 7: Commit
+Both catalogs gained a `work` object:
 
-```
-git add README.md package.json
-git commit -m "docs: add bootstrap README and verify build"
-879a6f5 docs: add bootstrap README and verify build
-```
+- English: title `Our <g>work</g>`, intro `Photographs from the disciplines we deliver.`, filters All, Events and media production, Digital and content, Public affairs, Capital markets, Partnerships.
+- Arabic: title `<g>أعمالنا</g>`, intro `صور من التخصصات التي نقدّمها.`, filters الكل, الفعاليات والإنتاج الإعلامي, الرقمي والمحتوى, الشؤون العامة, أسواق رأس المال, الشراكات.
 
-## Cleanup
+### Page
 
-Stopped PID **21764** (`next start` on :3000). No `LISTENING` on port 3000 after cleanup (TIME_WAIT only).
+`src/app/[locale]/work/page.tsx` follows the services index for `generateStaticParams`, `generateMetadata`, `setRequestLocale`, and `revalidate = 3600`. Metadata uses `t.markup` so the document title is plain text (`Our work` / `أعمالنا`). The description is the intro.
 
-## Concerns / follow-ups
+The page fetches `fetchServices(locale)` in parallel with the `work` and `images` translators. Captions are `slug -> title`. Labels come from `getTranslations("work")`. The hero is a separate `forum.webp` with alt `images.forum`. The `h1` is `t.rich("title")` with `<span className="text-accent">` for the `g` tag.
 
-1. **Lint not clean** — exclude `.superpowers/**` from ESLint and/or fix `CopyrightYear.tsx` (prefer `useSyncExternalStore` or static year) before treating CI lint as gate.
-2. **Sitemap/robots Host URLs** use `http://localhost:3000` locally; production needs correct `NEXT_PUBLIC_SITE_URL` (or equivalent) if not already env-driven.
-3. **Vitest warning** — ESM/CJS in `vitest.config.ts`; non-blocking for tests.
+### Gallery
 
-## Artifacts changed (this task)
+`WorkGallery` is a client component. It holds `useState<"all" | WorkItem["filter"]>("all")`. Buttons call `setFilter` and expose `aria-pressed`. The grid starts from `filterWork(filter)` and keeps the items the page passed, matched by `src`, `filter`, and `serviceSlug`. That match is by value because the server serializes props; object identity would drop every photo. Each item is a `Link` to `/services/${item.serviceSlug}` wrapping `Image`, with `alt={captions[item.serviceSlug] ?? ""}` and the same string as the visible caption.
 
-- `README.md` — project bootstrap documentation
-- `package.json` — `typecheck` script
+## Browser check
 
----
+- `/en/work`: document title `Our work | Inventure Communications`. One `h1`, "Our work", with "work" in `rgb(31, 169, 113)`. Intro is the English sentence. Hero image alt is "Audience at an institutional forum" and its src is `/images/forum.webp`. Five gallery links, in order, use the service titles Events & Exhibitions, Digital Media & Platforms, Public Affairs & Government Relations, Capital Markets & Financial Communications, and Public Relations & Strategic Partnerships. Their hrefs are the five slugs above. `dir` is `ltr`.
+- Capital markets filter leaves one link, Capital Markets & Financial Communications, and that link opens `/en/services/capital-markets-financial-communications` with that service as the `h1`.
+- `/ar/work`: document title `أعمالنا | Inventure Communications`. The whole title is the accent span, same green. `dir` is `rtl`, `lang` is `ar`. Hero alt is `جمهور في منتدى مؤسسي`. Filters and captions are the Arabic strings. The partnerships filter leaves `العلاقات العامة والشراكات الاستراتيجية`.
+- At 1440px the gallery images sit in three columns (about 373px each). At 390px they stack in one column (342px) with captions underneath. No extra photos.
 
-## Lint fix follow-up (2026-10-15)
+## Commit
 
-**Commit:** `07b3552` — `fix: resolve lint errors for CopyrightYear and eslint ignore`
+`aa559018dc53fd28c002d5eef000665916b384da`
 
-| Step | Command | Result |
-|------|---------|--------|
-| Lint | `npm run lint` | **PASS** (exit 0) |
-| Unit tests | `npm test` | **PASS** — 3 files, 10 tests |
+`feat: add the work gallery from existing photos`
 
-**Changes:**
+Files:
 
-- `eslint.config.mjs` — added `.superpowers/**` to `globalIgnores` (SDD helpers use CommonJS `require`).
-- `Footer.tsx` — copyright year via `{new Date().getFullYear()}` in Server Component; removed `Suspense` wrapper.
-- Deleted `CopyrightYear.tsx` client component (no longer needed).
+- `src/components/work/work-items.ts`
+- `src/components/work/work-items.test.ts`
+- `src/components/work/WorkGallery.tsx`
+- `src/app/[locale]/work/page.tsx`
+- `messages/en.json`
+- `messages/ar.json`
+
+Not pushed. Not an amend.
+
+## Concerns
+
+The dev server logged that `/images/forum.webp` was the LCP image and was lazy. The hero copy uses `priority`. The gallery copy is the same file and is lazy, and on a short viewport it can sit below the hero. The brief asks for both uses of that photo.
+
+`npx tsc --noEmit` still reports missing modules in `.next/types/validator.ts` for `src/app/page.js` and `src/app/services/[slug]/page.js`. Those paths are not part of this task, and the new work files were not in that error list.

@@ -103,7 +103,10 @@ export default async function ServicePage({ params }: PageProps) {
         />
         <div aria-hidden className="absolute inset-0 bg-brand/72" />
         <div className="relative mx-auto w-full max-w-6xl px-6 pt-32 pb-16">
-          <p className="text-xs font-medium tracking-[0.18em] text-brand-foreground/70 uppercase">
+          <p className="text-xs font-medium tracking-[0.18em] text-accent uppercase">
+            {t("eyebrow")}
+          </p>
+          <p className="mt-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {index} — {t("label")}
           </p>
           <h1 className="mt-4 max-w-3xl font-serif text-4xl tracking-tight text-balance md:text-5xl">
@@ -121,7 +124,7 @@ export default async function ServicePage({ params }: PageProps) {
             {service.description}
           </p>
           <Link
-            href="/#services"
+            href="/services"
             className="mt-10 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
           >
             <span aria-hidden className="rtl:-scale-x-100">

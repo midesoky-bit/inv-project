@@ -66,7 +66,19 @@ export async function AboutSection() {
       aria-labelledby="about-heading"
     >
       <div className="mx-auto max-w-6xl">
-        <SectionIntro eyebrow={t("eyebrow")} title={t("title")} id="about-heading" />
+        <div className="max-w-2xl">
+          <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
+            {t("eyebrow")}
+          </p>
+          <h2
+            id="about-heading"
+            className="font-serif text-3xl tracking-tight text-balance text-foreground md:text-4xl"
+          >
+            {t.rich("title", {
+              g: (chunks) => <span className="text-accent">{chunks}</span>,
+            })}
+          </h2>
+        </div>
         <div className="mt-8 grid items-start gap-8 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <FramedImage

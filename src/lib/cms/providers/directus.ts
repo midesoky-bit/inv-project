@@ -3,13 +3,17 @@ import { cmsFetch } from "@/lib/cms/client";
 import {
   directusServiceBySlugQuery,
   directusServicesQuery,
+  mapDirectusCareer,
   mapDirectusEsg,
+  mapDirectusInsight,
   mapDirectusService,
+  type DirectusCareerRow,
   type DirectusEsgRow,
+  type DirectusInsightRow,
   type DirectusServiceRow,
 } from "@/lib/cms/directus-map";
 import { CmsError } from "@/lib/cms/errors";
-import type { CaseStudy, EsgCommitment, Insight, Service } from "@/types/cms";
+import type { Career, CaseStudy, EsgCommitment, Insight, Service } from "@/types/cms";
 
 type DirectusList<T> = { data: T[] };
 
@@ -60,7 +64,30 @@ export async function directusFetchServiceBySlug(
 }
 
 export async function directusFetchInsights(locale: Locale): Promise<Insight[]> {
-  return emptyIfMissing<Insight>("/items/insights", [`insights:${locale}`]);
+  const params = new URLSearchParams({
+    fields: "id,slug,published_at,translations.title,translations.summary",
+    sort: "-published_at",
+    "filter[status][_eq]": "published",
+  });
+  params.set("deep[translations][_filter][languages_code][_eq]", locale);
+  const rows = await emptyIfMissing<DirectusInsightRow>(
+    `/items/insights?${params.toString()}`,
+    ["insights", `insights:${locale}`],
+  );
+  return rows.map(mapDirectusInsight);
+}
+
+export async function directusFetchCareers(locale: Locale): Promise<Career[]> {
+  const params = new URLSearchParams({
+    fields: "id,translations.title,translations.summary,translations.location",
+    "filter[status][_eq]": "published",
+  });
+  params.set("deep[translations][_filter][languages_code][_eq]", locale);
+  const rows = await emptyIfMissing<DirectusCareerRow>(
+    `/items/careers?${params.toString()}`,
+    ["careers", `careers:${locale}`],
+  );
+  return rows.map(mapDirectusCareer);
 }
 
 export async function directusFetchEsgCommitments(

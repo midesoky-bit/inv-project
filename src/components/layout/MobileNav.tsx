@@ -6,14 +6,8 @@ import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
 import { NAV_LINKS } from "@/components/layout/navigation";
-import { Link } from "@/i18n/navigation";
-import type { NavService } from "@/components/layout/DesktopNav";
 
-type MobileNavProps = {
-  services: NavService[];
-};
-
-export function MobileNav({ services }: MobileNavProps) {
+export function MobileNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const t = useTranslations("nav");
@@ -36,7 +30,7 @@ export function MobileNav({ services }: MobileNavProps) {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring md:hidden"
+        className="inline-flex h-10 w-10 items-center justify-center text-foreground focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring xl:hidden"
       >
         <svg
           width="22"
@@ -65,7 +59,7 @@ export function MobileNav({ services }: MobileNavProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground md:hidden"
+            className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground xl:hidden"
           >
             <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
               {NAV_LINKS.map((item, index) => (
@@ -86,21 +80,6 @@ export function MobileNav({ services }: MobileNavProps) {
                   >
                     {t(item.messageKey)}
                   </SectionLink>
-                  {item.messageKey === "services" ? (
-                    <ul className="mb-2 border-s border-border ps-4">
-                      {services.map((service) => (
-                        <li key={service.slug}>
-                          <Link
-                            href={`/services/${service.slug}`}
-                            onClick={() => setOpen(false)}
-                            className="block py-1.5 text-sm text-foreground/80 hover:text-foreground"
-                          >
-                            {service.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : null}
                 </motion.li>
               ))}
             </ul>
