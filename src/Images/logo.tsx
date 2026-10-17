@@ -1,80 +1,114 @@
-import React from 'react';
+import type { SVGProps } from "react";
 
-interface LogoProps {
-  className?: string;
+/**
+ * Inventure Communications logo.
+ *
+ * The logo is always rendered left-to-right, even on RTL (Arabic) pages. Inside an
+ * <html dir="rtl"> page, SVG text inherits `direction: rtl`, which flips the text anchor
+ * and pushes the tagline out of alignment. Forcing direction="ltr" on the SVG and the
+ * text keeps it exactly as designed in every locale.
+ *
+ * Dark mode: navy letters/tagline turn white under `.dark`, `data-theme="dark"`, or the OS
+ * dark setting (unless the page forces `.light` / `data-theme="light"`).
+ *
+ * Override colors: set CSS variables `--inv-navy` and `--inv-shade` on the element or a parent.
+ */
+const css = `
+.inv-logo {
+  --inv-navy: #142544;
+  --inv-shade: #16955a;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
+.inv-logo .inv-navy { fill: var(--inv-navy); }
+.inv-logo .inv-shade { fill: var(--inv-shade); }
+.inv-logo text { direction: ltr; unicode-bidi: isolate; text-anchor: start; }
 
-export default function Logo({ className = "h-12 w-auto" }: LogoProps) {
+.dark .inv-logo,
+[data-theme="dark"] .inv-logo {
+  --inv-navy: #ffffff;
+  --inv-shade: #1fb871;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.light):not([data-theme="light"]) .inv-logo {
+    --inv-navy: #ffffff;
+    --inv-shade: #1fb871;
+  }
+}
+`;
+
+export function Logo({ className, ...props }: SVGProps<SVGSVGElement>) {
   return (
-    <svg 
-      viewBox="0 0 540 160" 
-      fill="none" 
-      xmlns="http://www.w3.org/2000/svg" 
-      className={className}
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 2576 1075"
+      role="img"
+      aria-label="Inventure Communications"
+      direction="ltr"
+      className={className ? `inv-logo ${className}` : "inv-logo"}
+      {...props}
     >
-      {/* INVENTURE */}
-      <g className="fill-[#0B1D36] dark:fill-white">
+      <title>Inventure Communications</title>
+      <style>{css}</style>
+
+      {/* Navy (white in dark mode) letters */}
+      <g className="inv-navy">
         {/* I */}
-        <path d="M25 45h16v60H25V45z"/>
+        <rect x="92" y="381" width="71" height="306" />
         {/* N */}
-        <path d="M53 45h15l19 36V45h15v60H88L68 67v38H53V45z"/>
-      </g>
-
-      {/* حرف الـ V والأخضر المتجه للصعود */}
-      <g className="fill-[#1FA971]">
-        {/* V */}
-        <path d="M114 45h15.5l10.5 40 2.5-9 6-19.5 5.5-11.5H169l-22.5 60h-11L114 45z"/>
-        {/* السهم المتجه للصعود */}
-        <path d="M192 68l7.5-13.5 14 7L233 41l5.5 13L245 42l15-13 8 9.5-22.5 19.5-6.5-11-13 14 6 10-41-13.5z"/>
-      </g>
-
-      {/* ENTURE */}
-      <g className="fill-[#0B1D36] dark:fill-white">
+        <path d="M212 381H272L410 562V381H481V687H421L282 502V687H212Z" />
+        {/* V (left arm) */}
+        <path d="M505 381H590L662 572L623 678Z" />
         {/* E */}
-        <path d="M178 45h35v12h-20v11h17v12h-17v13h21v12h-36V45z"/>
+        <path d="M857 381H1067V441H928V502H1051V560H928V627H1073V687H857Z" />
         {/* N */}
-        <path d="M225 45h15l19 36V45h15v60H260L240 67v38h-15V45z"/>
+        <path d="M1113 381H1173L1312 562V381H1383V687H1323L1184 502V687H1113Z" />
         {/* T */}
-        <path d="M289 45h38v12h-12v48h-14v-48h-12V45z"/>
+        <path d="M1415 381H1655V441H1570V687H1500V441H1415Z" />
         {/* U */}
-        <path d="M339 45h15v38c0 7 4 10 9 10s9-3 9-10V45h15v38c0 15-9 24-24 24s-24-9-24-24V45z"/>
+        <path d="M1688 381H1757V570C1757 610 1785 628 1818 628C1852 628 1878 610 1878 570V540L1948 468V575C1948 645 1895 692 1818 692C1745 692 1690 640 1690 597Z" />
         {/* R */}
-        <path d="M399 45h21c13 0 20 5 20 14 0 7-5 12-11 13l13 33h-16l-11-29h-2V105h-14V45zm14 26h6c4 0 7-1 7-5s-3-5-7-5h-6v10z"/>
+        <path
+          fillRule="evenodd"
+          d="M1993 381H2100C2190 381 2237 425 2237 487C2237 535 2210 565 2177 578L2240 687H2165L2108 594H2063V687H1993ZM2063 441V534H2113C2147 534 2165 518 2165 488C2165 458 2147 441 2113 441Z"
+        />
         {/* E */}
-        <path d="M455 45h35v12h-20v11h17v12h-17v13h21v12h-36V45z"/>
+        <path d="M2277 381H2485V441H2347V502H2470V560H2347V627H2490V687H2277Z" />
       </g>
 
-      {/* COMMUNICATIONS */}
-      <g className="fill-[#0B1D36] dark:fill-white" opacity="0.95">
-        {/* C */}
-        <path d="M31 125c-5 0-9 4-9 9s4 9 9 9c4 0 7-3 8-6h3c-1 5-6 8-11 8-7 0-12-5-12-11s5-11 12-11c5 0 10 3 11 8h-3c-1-3-4-6-8-6z"/>
-        {/* O */}
-        <path d="M54 123c7 0 11 5 11 11s-4 11-11 11-11-5-11-11 4-11 11-11zm0 3c-5 0-8 3-8 8s3 8 8 8 8-3 8-8-3-8-8-8z"/>
-        {/* M */}
-        <path d="M72 124h4l5 13 5-13h4v19h-3v-15l-5 13h-2l-5-13v15h-3v-19z"/>
-        {/* M */}
-        <path d="M99 124h4l5 13 5-13h4v19h-3v-15l-5 13h-2l-5-13v15h-3v-19z"/>
-        {/* U */}
-        <path d="M127 124h3v12c0 3 1 4 4 4s4-1 4-4v-12h3v12c0 5-3 7-7 7s-7-2-7-7v-12z"/>
-        {/* N */}
-        <path d="M149 124h3l5 11v-11h3v19h-3l-5-11v11h-3v-19z"/>
-        {/* I */}
-        <path d="M171 124h3v19h-3v-19z"/>
-        {/* C */}
-        <path d="M189 125c-5 0-9 4-9 9s4 9 9 9c4 0 7-3 8-6h3c-1 5-6 8-11 8-7 0-12-5-12-11s5-11 12-11c5 0 10 3 11 8h-3c-1-3-4-6-8-6z"/>
-        {/* A */}
-        <path d="M211 124h3l5 19h-3l-1-4h-6l-1 4h-3l5-19zm3 12l-2-8-2 8h4z"/>
-        {/* T */}
-        <path d="M226 124h11v3h-4v16h-3v-16h-4v-3z"/>
-        {/* I */}
-        <path d="M245 124h3v19h-3v-19z"/>
-        {/* O */}
-        <path d="M264 123c7 0 11 5 11 11s-4 11-11 11-11-5-11-11 4-11 11-11zm0 3c-5 0-8 3-8 8s3 8 8 8 8-3 8-8-3-8-8-8z"/>
-        {/* N */}
-        <path d="M285 124h3l5 11v-11h3v19h-3l-5-11v11h-3v-19z"/>
-        {/* S */}
-        <path d="M306 137c0-4 3-5 7-6 4-1 5-2 5-4s-2-3-4-3-4 1-5 4h-3c1-4 4-6 8-6 5 0 7 2 7 5 0 4-3 5-7 6-4 1-5 2-5 4s2 3 4 3 4-1 5-4h3c-1 4-4 6-8 6-5 0-7-2-7-5z"/>
+      {/* Bright green accents */}
+      <g fill="#0acb6e">
+        {/* V (right arm, upper piece) */}
+        <path d="M749 381H831L812 432C808 442 800 446 790 450L718 483Z" />
+        {/* V (right arm, lower piece) */}
+        <path d="M800 455L716 687H638L690 540C698 515 712 508 730 498Z" />
+        {/* Growth arrow through U */}
+        <path d="M1757 405L1830 470L1975 295L1945 265L2073 250L2062 380L2032 350L1830 555L1760 497L1688 572V485Z" />
       </g>
+
+      {/* Green shading */}
+      <g className="inv-shade">
+        <path d="M563 524L662 572L623 678Z" />
+        <path d="M1688 485L1757 405V497L1688 572Z" />
+      </g>
+
+      {/* Tagline (always LTR, left-aligned with the wordmark, spans its full width) */}
+      <text
+        className="inv-navy"
+        x="92"
+        y="850"
+        direction="ltr"
+        textAnchor="start"
+        fontFamily="Montserrat, 'Segoe UI', Arial, sans-serif"
+        fontSize="100"
+        fontWeight="500"
+        textLength="2398"
+        lengthAdjust="spacing"
+      >
+        STRATEGIC COMMUNICATIONS
+      </text>
     </svg>
   );
 }
+
+export default Logo;

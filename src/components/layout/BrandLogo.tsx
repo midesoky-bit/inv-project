@@ -7,7 +7,10 @@ type BrandLogoProps = {
 };
 
 export function BrandLogo({ name, size = "header" }: BrandLogoProps) {
-  const className = size === "header" ? "h-9 w-auto sm:h-11" : "h-14 w-auto";
+  const className =
+    size === "header"
+      ? "h-12 w-[11.25rem] sm:h-14 sm:w-[13.15rem]"
+      : "h-20 w-[18.8rem]";
 
   return (
     <Link href="/" aria-label={name} className="inline-flex shrink-0">

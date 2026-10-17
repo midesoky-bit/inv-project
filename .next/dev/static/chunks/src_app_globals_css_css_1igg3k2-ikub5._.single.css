@@ -491,6 +491,10 @@
     margin-top: calc(var(--spacing) * 16);
   }
 
+  .mt-20 {
+    margin-top: calc(var(--spacing) * 20);
+  }
+
   .mb-3 {
     margin-bottom: calc(var(--spacing) * 3);
   }
@@ -586,6 +590,10 @@
     height: calc(var(--spacing) * 16);
   }
 
+  .h-20 {
+    height: calc(var(--spacing) * 20);
+  }
+
   .h-full {
     height: 100%;
   }
@@ -636,6 +644,14 @@
 
   .w-\[9rem\] {
     width: 9rem;
+  }
+
+  .w-\[11\.25rem\] {
+    width: 11.25rem;
+  }
+
+  .w-\[18\.8rem\] {
+    width: 18.8rem;
   }
 
   .w-auto {
@@ -1766,12 +1782,20 @@
       height: calc(var(--spacing) * 12);
     }
 
+    .sm\:h-14 {
+      height: calc(var(--spacing) * 14);
+    }
+
     .sm\:min-h-80 {
       min-height: calc(var(--spacing) * 80);
     }
 
     .sm\:w-\[6\.7rem\] {
       width: 6.7rem;
+    }
+
+    .sm\:w-\[13\.15rem\] {
+      width: 13.15rem;
     }
 
     .sm\:grid-cols-2 {

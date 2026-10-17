@@ -62,7 +62,7 @@ export default async function WorkPage({ params }: PageProps) {
 
   return (
     <div>
-      <section className="relative mt-16 min-h-72 overflow-hidden bg-brand text-brand-foreground sm:min-h-80 md:min-h-96">
+      <section className="relative mt-20 min-h-72 overflow-hidden bg-brand text-brand-foreground sm:min-h-80 md:min-h-96">
         <Image
           src="/images/forum.webp"
           alt={imageAlt}
