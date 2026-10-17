@@ -50,24 +50,11 @@ export default async function AboutPage({ params }: PageProps) {
   setRequestLocale(locale);
 
   const cmsLocale = locale as Locale;
-  const [tAbout, esgCommitments] = await Promise.all([
-    getTranslations("about"),
-    fetchEsgCommitments(cmsLocale),
-  ]);
-  const paragraphs = (tAbout.raw("paragraphs") as string[]).slice(1);
+  const esgCommitments = await fetchEsgCommitments(cmsLocale);
 
   return (
     <div>
       <AboutHero />
-      <section id="story" className="scroll-mt-24 bg-background px-6 py-14 md:py-20">
-        <div className="mx-auto max-w-3xl space-y-5">
-          {paragraphs.map((paragraph) => (
-            <p key={paragraph} className="text-base leading-relaxed text-muted">
-              {paragraph}
-            </p>
-          ))}
-        </div>
-      </section>
       <ScrollReveal delay={0.05}>
         <PositioningSection />
       </ScrollReveal>

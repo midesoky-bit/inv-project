@@ -26,7 +26,7 @@ export async function Footer() {
         <div className="col-span-2 max-w-sm space-y-4 lg:col-span-4">
           <BrandLogo name={tBrand("name")} size="footer" />
           <p className="text-sm leading-relaxed text-muted">{tFooter("tagline")}</p>
-          <ul aria-label={tHeader("social")} className="flex items-center gap-1">
+          <ul aria-label={tHeader("social")} className="-ms-2 flex items-center">
             {SOCIAL_NETWORKS.map(({ label, url, Icon }) => (
               <li key={label}>
                 <a
@@ -34,7 +34,7 @@ export async function Footer() {
                   target="_blank"
                   rel="noreferrer"
                   aria-label={tHeader(label)}
-                  className="inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 hover:text-accent"
+                  className="inline-flex size-9 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10 hover:text-accent"
                 >
                   <Icon />
                 </a>

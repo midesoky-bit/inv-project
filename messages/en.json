@@ -2,6 +2,7 @@
   "brand": { "name": "Inventure Communications" },
   "header": {
     "search": "Search",
+    "closeSearch": "Close search",
     "searchPlaceholder": "Search services",
     "social": "Social media",
     "linkedin": "LinkedIn",
@@ -102,7 +103,8 @@
     ]
   },
   "advantage": {
-    "title": "Our advantage",
+    "eyebrow": "Our advantage",
+    "title": "An integrated platform with institutional reach",
     "items": [
       "Integrated platform across communications disciplines",
       "Institutional-level engagement capability",

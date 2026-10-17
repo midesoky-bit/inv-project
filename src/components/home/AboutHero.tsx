@@ -28,7 +28,7 @@ export async function AboutHero() {
         aria-hidden
         className="absolute inset-0 bg-[linear-gradient(90deg,#ffffff_0%,#ffffff_34%,rgba(255,255,255,0.94)_46%,rgba(255,255,255,0.55)_58%,transparent_74%)] rtl:bg-[linear-gradient(270deg,#ffffff_0%,#ffffff_34%,rgba(255,255,255,0.94)_46%,rgba(255,255,255,0.55)_58%,transparent_74%)]"
       />
-      <div className="relative mx-auto grid min-h-[34rem] max-w-6xl items-center gap-10 px-6 py-10 lg:grid-cols-2 lg:py-14">
+      <div className="relative mx-auto grid min-h-[24rem] max-w-6xl items-start gap-10 px-6 pt-8 pb-5 lg:grid-cols-2 lg:min-h-[26rem] lg:pt-10 lg:pb-6">
         <div>
           <nav aria-label={tNav("breadcrumb")}>
             <ol className="flex items-center gap-2 text-sm text-[#3e4c5a]">
@@ -67,7 +67,7 @@ export async function AboutHero() {
           <p className="mt-6 max-w-xl text-base leading-relaxed text-[#0B1D36]">
             {paragraphs[0]}
           </p>
-          <div className="mt-8">
+          <div className="mt-6">
             <Button
               href="#story"
               className="bg-[#0B1D36] text-white hover:bg-[#132a4a]"
@@ -87,17 +87,17 @@ export async function AboutHero() {
           ))}
         </ul>
       </div>
-      <div className="relative z-10 bg-[#0B1D36] text-white md:[clip-path:polygon(0_2.75rem,22%_2.75rem,calc(22%+2.75rem)_0,100%_0,100%_100%,0_100%)] md:rtl:[clip-path:polygon(100%_2.75rem,78%_2.75rem,calc(78%-2.75rem)_0,0_0,0_100%,100%_100%)]">
-        <div className="flex items-center px-6 py-8 md:min-h-[9.5rem] md:px-0 md:py-6">
-          <span aria-hidden className="hidden w-[calc(22%+4rem)] shrink-0 md:block" />
-          <span aria-hidden className="hidden h-20 w-0.5 shrink-0 bg-accent md:block" />
-          <ul className="grid flex-1 grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-4 md:gap-x-4 md:pe-8">
+      <div className="relative z-10 bg-[#0B1D36] text-white md:[clip-path:polygon(0_1.75rem,22%_1.75rem,calc(22%+1.75rem)_0,100%_0,100%_100%,0_100%)] md:rtl:[clip-path:polygon(100%_1.75rem,78%_1.75rem,calc(78%-1.75rem)_0,0_0,0_100%,100%_100%)]">
+        <div className="flex items-center px-6 py-5 md:min-h-[6.5rem] md:px-0 md:py-4">
+          <span aria-hidden className="hidden w-[calc(22%+3rem)] shrink-0 md:block" />
+          <span aria-hidden className="hidden h-12 w-0.5 shrink-0 bg-accent md:block" />
+          <ul className="grid flex-1 grid-cols-2 gap-x-6 gap-y-5 md:grid-cols-4 md:gap-x-4 md:pe-8">
             {stats.map((item) => (
               <li key={item.label} className="text-center">
-                <p className="font-sans text-3xl font-semibold tracking-tight text-white md:text-4xl">
+                <p className="font-sans text-2xl font-semibold tracking-tight text-white md:text-3xl">
                   {item.value}
                 </p>
-                <p className="mx-auto mt-2 max-w-[10rem] text-sm leading-snug text-white/90">
+                <p className="mx-auto mt-1 max-w-[10rem] text-xs leading-snug text-white/90">
                   {item.label}
                 </p>
               </li>

@@ -2,6 +2,7 @@
   "brand": { "name": "Inventure Communications" },
   "header": {
     "search": "بحث",
+    "closeSearch": "إغلاق البحث",
     "searchPlaceholder": "ابحث في الخدمات",
     "social": "وسائل التواصل",
     "linkedin": "LinkedIn",
@@ -102,7 +103,8 @@
     ]
   },
   "advantage": {
-    "title": "ميزتنا",
+    "eyebrow": "ميزتنا",
+    "title": "منصة متكاملة بوصول مؤسسي",
     "items": [
       "منصة متكاملة عبر تخصصات الاتصال",
       "قدرة على المشاركة بمستوى مؤسسي",

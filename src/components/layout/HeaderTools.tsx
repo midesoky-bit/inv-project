@@ -1,9 +1,10 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useId, useRef, useState } from "react";
 import { SOCIAL_NETWORKS } from "@/components/layout/social";
 import { useRouter } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 function SearchIcon() {
   return (
@@ -14,10 +15,40 @@ function SearchIcon() {
   );
 }
 
+function CloseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className="size-5" fill="none" stroke="currentColor" strokeWidth="1.75">
+      <path d="M6 6l12 12M18 6 6 18" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function HeaderTools() {
   const t = useTranslations("header");
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const searchId = useId();
+
+  useEffect(() => {
+    if (!open) return;
+    inputRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+    };
+  }, [open]);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,29 +58,46 @@ export function HeaderTools() {
   }
 
   return (
-    <div className="flex items-center gap-1">
-      {open ? (
-        <form onSubmit={submit} className="ms-4 hidden sm:block">
-          <input
-            name="q"
-            type="search"
-            autoFocus
-            aria-label={t("search")}
-            placeholder={t("searchPlaceholder")}
-            className="h-9 w-40 rounded-full border border-border bg-background px-3 text-sm text-foreground outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-          />
-        </form>
-      ) : null}
-      <button
-        type="button"
-        aria-label={t("search")}
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
-        className="inline-flex size-10 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
+    <div ref={rootRef} className="flex items-center gap-1">
+      <form
+        role="search"
+        onSubmit={submit}
+        className={cn(
+          "flex h-10 items-center overflow-hidden rounded-full border bg-background transition-[width,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+          open
+            ? "w-[min(15rem,calc(100vw-6.5rem))] border-border focus-within:border-ring"
+            : "w-10 border-transparent",
+        )}
       >
-        <SearchIcon />
-      </button>
-      <ul aria-label={t("social")} className="flex items-center">
+        <button
+          type="button"
+          aria-label={open ? t("closeSearch") : t("search")}
+          aria-expanded={open}
+          aria-controls={searchId}
+          onClick={() => setOpen((value) => !value)}
+          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors hover:bg-foreground/10"
+        >
+          {open ? <CloseIcon /> : <SearchIcon />}
+        </button>
+        <input
+          ref={inputRef}
+          id={searchId}
+          name="q"
+          type="search"
+          tabIndex={open ? undefined : -1}
+          aria-hidden={!open}
+          aria-label={t("search")}
+          placeholder={t("searchPlaceholder")}
+          className={cn(
+            "h-10 min-w-0 flex-1 appearance-none bg-transparent pe-3 text-sm text-foreground outline-none transition-opacity duration-200 ease-out motion-reduce:transition-none",
+            open ? "opacity-100" : "pointer-events-none opacity-0",
+          )}
+        />
+      </form>
+      <ul
+        aria-label={t("social")}
+        className={cn("flex items-center", open && "max-xl:invisible max-xl:w-0 max-xl:overflow-hidden")}
+      >
         {SOCIAL_NETWORKS.map(({ label, url, Icon }) => (
           <li key={label}>
             <a
