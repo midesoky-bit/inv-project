@@ -1,5 +1,16 @@
 {
   "brand": { "name": "Inventure Communications" },
+  "header": {
+    "search": "Search",
+    "searchPlaceholder": "Search services",
+    "social": "Social media",
+    "linkedin": "LinkedIn",
+    "x": "X",
+    "youtube": "YouTube",
+    "linkedinUrl": "https://inventurecommunications.com",
+    "xUrl": "https://inventurecommunications.com",
+    "youtubeUrl": "https://inventurecommunications.com"
+  },
   "nav": {
     "home": "Home",
     "about": "About",

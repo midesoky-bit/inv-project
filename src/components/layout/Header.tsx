@@ -1,5 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { DesktopNav } from "@/components/layout/DesktopNav";
+import { HeaderTools } from "@/components/layout/HeaderTools";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
@@ -19,6 +20,7 @@ export async function Header() {
         </Link>
         <div className="flex items-center gap-4 md:gap-6">
           <DesktopNav />
+          <HeaderTools />
           <ThemeSwitcher />
           <LanguageSwitcher className="hidden xl:block" />
           <MobileNav />

@@ -51,10 +51,10 @@ export function HeroSection() {
           pathLength={1}
         />
         <path
-          className="inv-hero-line"
+          className="inv-hero-line text-accent"
           d="M40 180 H520"
           stroke="currentColor"
-          strokeWidth="1"
+          strokeWidth="1.5"
           pathLength={1}
           style={{ animationDelay: "0.15s" }}
         />
@@ -78,6 +78,7 @@ export function HeroSection() {
             bdi: (chunks) => <bdi>{chunks}</bdi>,
           })}
         </motion.p>
+        <span aria-hidden className="mb-5 block h-0.5 w-14 bg-accent" />
         <motion.h1
           initial={animate ? { opacity: 0, y: 16 } : false}
           animate={animate ? { opacity: 1, y: 0 } : undefined}
@@ -102,12 +103,7 @@ export function HeroSection() {
           transition={{ duration: 0.55, delay: 0.18, ease: "easeOut" }}
           className="mt-10 flex flex-wrap items-center gap-6"
         >
-          <Button
-            href="/services"
-            className="bg-brand-foreground text-brand hover:bg-brand-foreground/90"
-          >
-            {t("ctaServices")}
-          </Button>
+          <Button href="/services">{t("ctaServices")}</Button>
           <Button
             href="/contact"
             variant="ghost"

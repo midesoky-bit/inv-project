@@ -10,3 +10,8 @@ export const NAV_LINKS = [
 ] as const;
 
 export type NavMessageKey = (typeof NAV_LINKS)[number]["messageKey"];
+
+export function isNavActive(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}

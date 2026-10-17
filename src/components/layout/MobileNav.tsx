@@ -5,12 +5,14 @@ import { useTranslations } from "next-intl";
 import { useEffect, useId, useState } from "react";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { SectionLink } from "@/components/layout/SectionLink";
-import { NAV_LINKS } from "@/components/layout/navigation";
+import { usePathname } from "@/i18n/navigation";
+import { isNavActive, NAV_LINKS } from "@/components/layout/navigation";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
   const panelId = useId();
   const t = useTranslations("nav");
+  const pathname = usePathname();
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
@@ -62,7 +64,9 @@ export function MobileNav() {
             className="absolute inset-x-0 top-full border-b border-border bg-background text-foreground xl:hidden"
           >
             <ul className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-              {NAV_LINKS.map((item, index) => (
+              {NAV_LINKS.map((item, index) => {
+                const active = isNavActive(pathname, item.href);
+                return (
                 <motion.li
                   key={item.href}
                   initial={reduceMotion ? false : { opacity: 0, y: 6 }}
@@ -76,12 +80,18 @@ export function MobileNav() {
                   <SectionLink
                     href={item.href}
                     onNavigate={() => setOpen(false)}
-                    className="block py-3 text-base text-foreground/85 transition-colors hover:text-foreground"
+                    aria-current={active ? "page" : undefined}
+                    className={
+                      active
+                        ? "block border-b-2 border-accent py-3 text-base text-foreground"
+                        : "block border-b-2 border-transparent py-3 text-base text-foreground/85 transition-colors hover:text-foreground"
+                    }
                   >
                     {t(item.messageKey)}
                   </SectionLink>
                 </motion.li>
-              ))}
+                );
+              })}
             </ul>
             <div className="mx-auto flex max-w-6xl flex-col gap-4 border-t border-border px-6 py-4">
               <LanguageSwitcher onLocaleChange={() => setOpen(false)} />

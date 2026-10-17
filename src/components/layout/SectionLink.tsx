@@ -10,6 +10,7 @@ type SectionLinkProps = {
   className?: string;
   children: ReactNode;
   onNavigate?: () => void;
+  "aria-current"?: "page" | undefined;
 };
 
 function samePage(path: string, locale: string) {
@@ -25,6 +26,7 @@ export function SectionLink({
   className,
   children,
   onNavigate,
+  "aria-current": ariaCurrent,
 }: SectionLinkProps) {
   const locale = useLocale();
   const hashAt = href.indexOf("#");
@@ -46,6 +48,7 @@ export function SectionLink({
     <Link
       href={href}
       className={className}
+      aria-current={ariaCurrent}
       onClick={(event: MouseEvent<HTMLAnchorElement>) => handle(event)}
       onNavigate={handle}
     >

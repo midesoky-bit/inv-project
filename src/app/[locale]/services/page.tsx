@@ -14,6 +14,7 @@ export function generateStaticParams() {
 
 type PageProps = {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ q?: string }>;
 };
 
 export async function generateMetadata({
@@ -36,8 +37,9 @@ export async function generateMetadata({
   });
 }
 
-export default async function ServicesPage({ params }: PageProps) {
+export default async function ServicesPage({ params, searchParams }: PageProps) {
   const { locale } = await params;
+  const { q } = await searchParams;
   setRequestLocale(locale);
 
   const cmsLocale = locale as Locale;
@@ -46,6 +48,12 @@ export default async function ServicesPage({ params }: PageProps) {
     getTranslations("images"),
   ]);
   const imageAlt = tImages.has("forum") ? tImages("forum") : tImages("hero");
+  const query = q?.trim().toLowerCase() ?? "";
+  const visible = query
+    ? services.filter((service) =>
+        `${service.title} ${service.summary}`.toLowerCase().includes(query),
+      )
+    : services;
 
   return (
     <div>
@@ -68,7 +76,7 @@ export default async function ServicesPage({ params }: PageProps) {
           />
         </div>
       </section>
-      <ServiceGrid services={services} />
+      <ServiceGrid services={visible} />
     </div>
   );
 }

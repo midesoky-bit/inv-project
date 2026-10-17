@@ -1,5 +1,16 @@
 {
   "brand": { "name": "Inventure Communications" },
+  "header": {
+    "search": "بحث",
+    "searchPlaceholder": "ابحث في الخدمات",
+    "social": "وسائل التواصل",
+    "linkedin": "LinkedIn",
+    "x": "X",
+    "youtube": "YouTube",
+    "linkedinUrl": "https://inventurecommunications.com",
+    "xUrl": "https://inventurecommunications.com",
+    "youtubeUrl": "https://inventurecommunications.com"
+  },
   "nav": {
     "home": "الرئيسية",
     "about": "من نحن",
