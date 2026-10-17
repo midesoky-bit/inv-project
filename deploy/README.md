@@ -29,7 +29,7 @@ Wait until `directus` is healthy. The site listens on port 3000. Directus listen
 
 ## 3. Load the content
 
-Run this from the repository root, not from inside `deploy/`. The script reads `src/lib/cms/providers/mock.ts` and creates the collections, public read access, and the English and Arabic records.
+Copy the `scripts` folder onto the server next to your project folder. The script reads `scripts/seed-data.json` and creates the collections, public read access, and the English and Arabic records. Run it from the folder that contains `scripts/`.
 
 ```bash
 DIRECTUS_URL=http://localhost:8055 \

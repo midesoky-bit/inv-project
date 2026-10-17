@@ -52,7 +52,7 @@ node scripts/seed-directus.mjs
 - Directus: http://localhost:8055 (admin email and password from `.env`)
 - The web container calls Directus at `http://directus:8055` with `CMS_PROVIDER=directus`.
 
-The seed creates `languages` (`en`, `ar`), `services` plus `services_translations`, and the ESG collections, then grants public read. It is safe to run again. It loads the same bilingual records as the mock provider, including all seven services.
+The seed creates `languages` (`en`, `ar`), `services` plus `services_translations`, and the ESG collections, then grants public read. It is safe to run again. It loads `scripts/seed-data.json`, the same bilingual records as the mock provider, including all seven services. On a server you only need that `scripts` folder, not the rest of the source tree.
 
 `NEXT_PUBLIC_SITE_URL` is baked in when the image is built. Set it in `.env` before `docker compose up --build` when the site will be served from a public host.
 

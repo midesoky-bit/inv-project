@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const baseUrl = (process.env.DIRECTUS_URL ?? "http://localhost:8055").replace(
   /\/$/,
   "",
@@ -10,17 +10,13 @@ const baseUrl = (process.env.DIRECTUS_URL ?? "http://localhost:8055").replace(
 const email = process.env.DIRECTUS_ADMIN_EMAIL ?? "admin@inventure.com";
 const password = process.env.DIRECTUS_ADMIN_PASSWORD ?? "change-me-admin";
 
-function loadRecords(exportName) {
-  const source = fs
-    .readFileSync(path.join(root, "src/lib/cms/providers/mock.ts"), "utf8")
-    .replace(/\r\n/g, "\n");
-  const marker = `export const ${exportName}`;
-  const start = source.indexOf(marker);
-  if (start < 0) throw new Error(`Missing ${exportName} in mock.ts`);
-  const eq = source.indexOf("=", start);
-  const end = source.indexOf(";\n", eq);
-  if (end < 0) throw new Error(`Could not find the end of ${exportName}`);
-  return Function(`"use strict"; return (${source.slice(eq + 1, end).trim()});`)();
+function loadSeedData() {
+  const file = path.join(scriptDir, "seed-data.json");
+  const data = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!Array.isArray(data.services) || !Array.isArray(data.esg)) {
+    throw new Error(`Expected services and esg arrays in ${file}`);
+  }
+  return data;
 }
 
 async function api(token, method, pathname, body) {
@@ -200,8 +196,7 @@ async function upsertEsg(token, record) {
   }
 }
 
-const services = loadRecords("SERVICE_RECORDS");
-const esg = loadRecords("ESG_COMMITMENT_RECORDS");
+const { services, esg } = loadSeedData();
 const token = await waitForLogin();
 
 await ensureCollection(token, "languages", {
