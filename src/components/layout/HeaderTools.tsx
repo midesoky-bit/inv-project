@@ -59,41 +59,44 @@ export function HeaderTools() {
 
   return (
     <div ref={rootRef} className="relative flex min-w-0 items-center gap-1">
-      <form
-        role="search"
-        onSubmit={submit}
-        className={cn(
-          "flex h-10 items-center overflow-hidden rounded-full border bg-background transition-[width,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
-          open
-            ? "fixed start-4 end-36 top-5 z-40 w-auto border-border focus-within:border-ring"
-            : "w-10 shrink-0 border-transparent",
-        )}
-      >
-        <button
-          type="button"
-          aria-label={open ? t("closeSearch") : t("search")}
-          aria-expanded={open}
-          aria-controls={searchId}
-          onClick={() => setOpen((value) => !value)}
-          className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none"
-        >
-          {open ? <CloseIcon /> : <SearchIcon />}
-        </button>
-        <input
-          ref={inputRef}
-          id={searchId}
-          name="q"
-          type="search"
-          tabIndex={open ? undefined : -1}
-          aria-hidden={!open}
-          aria-label={t("search")}
-          placeholder={t("searchPlaceholder")}
+      <div className="relative h-10 w-10 shrink-0 xl:w-auto">
+        <form
+          role="search"
+          onSubmit={submit}
           className={cn(
-            "h-10 min-w-0 flex-1 appearance-none bg-transparent pe-3 text-sm text-foreground outline-none transition-opacity duration-200 ease-out motion-reduce:transition-none",
-            open ? "opacity-100" : "pointer-events-none opacity-0",
+            "flex h-10 items-center overflow-hidden rounded-full border bg-background transition-[width,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+            "max-xl:absolute max-xl:end-0 max-xl:top-0 max-xl:z-40 max-xl:flex-row-reverse",
+            open
+              ? "w-[min(15rem,calc(100vw-9rem))] border-border focus-within:border-ring"
+              : "w-10 border-transparent",
           )}
-        />
-      </form>
+        >
+          <button
+            type="button"
+            aria-label={open ? t("closeSearch") : t("search")}
+            aria-expanded={open}
+            aria-controls={searchId}
+            onClick={() => setOpen((value) => !value)}
+            className="inline-flex size-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 motion-reduce:transition-none"
+          >
+            {open ? <CloseIcon /> : <SearchIcon />}
+          </button>
+          <input
+            ref={inputRef}
+            id={searchId}
+            name="q"
+            type="search"
+            tabIndex={open ? undefined : -1}
+            aria-hidden={!open}
+            aria-label={t("search")}
+            placeholder={t("searchPlaceholder")}
+            className={cn(
+              "h-10 min-w-0 flex-1 appearance-none bg-transparent px-3 text-sm text-foreground outline-none transition-opacity duration-200 ease-out motion-reduce:transition-none",
+              open ? "opacity-100" : "pointer-events-none opacity-0",
+            )}
+          />
+        </form>
+      </div>
       <ul
         aria-label={t("social")}
         className={cn(
