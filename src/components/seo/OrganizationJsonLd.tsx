@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { JsonLdScript } from "@/components/seo/JsonLdScript";
 import type { Locale } from "@/i18n/routing";
 import { localePath } from "@/lib/metadata";
 import { getSiteUrl } from "@/lib/site";
@@ -19,10 +20,5 @@ export async function OrganizationJsonLd({ locale }: OrganizationJsonLdProps) {
     logo: `${siteUrl}/images/logo-light.jpg`,
   };
 
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-    />
-  );
+  return <JsonLdScript id="organization-jsonld" json={JSON.stringify(schema)} />;
 }

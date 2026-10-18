@@ -27,6 +27,7 @@ export type Service = {
   highlights: string[];
   order: number;
   icon?: string;
+  image?: string;
 };
 
 export type Insight = {

@@ -49,7 +49,7 @@ export function MobileNav() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transition-none xl:hidden"
+        className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-foreground/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring motion-reduce:transition-none xl:hidden"
       >
         <svg
           width="22"
@@ -94,7 +94,7 @@ export function MobileNav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: reduceMotion ? 0 : 0.22, ease: "easeOut" }}
-            className="absolute inset-x-0 top-full z-30 border-b border-border bg-background text-foreground xl:hidden"
+            className="fixed inset-x-0 top-20 z-50 border-b border-border bg-background text-foreground xl:hidden"
           >
             <ul className={`flex flex-col ${PAGE_GUTTER} py-4`}>
               {NAV_LINKS.map((item, index) => {

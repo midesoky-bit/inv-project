@@ -9,11 +9,14 @@ export type DirectusTranslation = {
   location?: string | null;
 };
 
+export type DirectusFileRef = string | { id?: string | null } | null;
+
 export type DirectusServiceRow = {
   id: string | number;
   slug: string;
   order?: number | null;
   icon?: string | null;
+  image?: DirectusFileRef;
   translations?: DirectusTranslation[] | DirectusTranslation | null;
 };
 
@@ -30,6 +33,23 @@ function firstTranslation(
   return Array.isArray(translations) ? translations[0] : translations;
 }
 
+function cmsAssetBase(): string {
+  return (process.env.CMS_URL ?? process.env.DIRECTUS_PUBLIC_URL ?? "").replace(
+    /\/$/,
+    "",
+  );
+}
+
+export function directusAssetUrl(file: DirectusFileRef | undefined): string | undefined {
+  if (!file) return undefined;
+  const id = typeof file === "string" ? file : file.id;
+  if (!id) return undefined;
+  if (/^https?:\/\//.test(id)) return id;
+  const base = cmsAssetBase();
+  if (!base) return undefined;
+  return `${base}/assets/${id}`;
+}
+
 export function mapDirectusService(row: DirectusServiceRow): Service {
   const translation = firstTranslation(row.translations);
   return {
@@ -37,6 +57,7 @@ export function mapDirectusService(row: DirectusServiceRow): Service {
     slug: row.slug,
     order: row.order ?? 0,
     icon: row.icon ?? undefined,
+    image: directusAssetUrl(row.image),
     title: translation?.title ?? "",
     summary: translation?.summary ?? "",
     description: translation?.description ?? "",
@@ -93,9 +114,15 @@ export function mapDirectusCareer(row: DirectusCareerRow): Career {
   };
 }
 
-export function directusServicesQuery(locale: string): string {
+function serviceFields(includeImage: boolean) {
+  return includeImage
+    ? "id,slug,order,icon,image,translations.title,translations.summary,translations.description,translations.highlights"
+    : "id,slug,order,icon,translations.title,translations.summary,translations.description,translations.highlights";
+}
+
+export function directusServicesQuery(locale: string, includeImage = true): string {
   const params = new URLSearchParams({
-    fields: "id,slug,order,icon,translations.title,translations.summary,translations.description,translations.highlights",
+    fields: serviceFields(includeImage),
     sort: "order",
     "filter[status][_eq]": "published",
   });
@@ -103,9 +130,13 @@ export function directusServicesQuery(locale: string): string {
   return `/items/services?${params.toString()}`;
 }
 
-export function directusServiceBySlugQuery(slug: string, locale: string): string {
+export function directusServiceBySlugQuery(
+  slug: string,
+  locale: string,
+  includeImage = true,
+): string {
   const params = new URLSearchParams({
-    fields: "id,slug,order,icon,translations.title,translations.summary,translations.description,translations.highlights",
+    fields: serviceFields(includeImage),
     limit: "1",
     "filter[slug][_eq]": slug,
     "filter[status][_eq]": "published",

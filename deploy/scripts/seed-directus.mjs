@@ -212,7 +212,17 @@ async function ensurePublicRead(token, collection) {
       "GET",
       `/permissions?filter[policy][_eq]=${policy}&filter[collection][_eq]=${collection}&filter[action][_eq]=read`,
     );
-    if (existing.json?.data?.length) return;
+    if (existing.json?.data?.length) {
+      for (const permission of existing.json.data) {
+        const fields = permission.fields;
+        const hasAll = Array.isArray(fields) && fields.includes("*");
+        if (hasAll) continue;
+        await api(token, "PATCH", `/permissions/${permission.id}`, {
+          fields: ["*"],
+        });
+      }
+      return;
+    }
     const created = await api(token, "POST", "/permissions", {
       policy,
       collection,
@@ -346,6 +356,27 @@ await ensureField(token, "services", {
   meta: { interface: "input", width: "half" },
 });
 await ensureField(token, "services", {
+  field: "image",
+  type: "uuid",
+  meta: {
+    interface: "file-image",
+    special: ["file"],
+    display: "image",
+    width: "full",
+  },
+});
+await ensureRelation(token, {
+  collection: "services",
+  field: "image",
+  related_collection: "directus_files",
+  schema: { on_delete: "SET NULL" },
+  meta: {
+    one_field: null,
+    sort_field: null,
+    one_deselect_action: "nullify",
+  },
+});
+await ensureField(token, "services", {
   field: "status",
   type: "string",
   schema: { default_value: "published", is_nullable: false },
@@ -471,6 +502,13 @@ for (const collection of [
   "esg_commitments_translations",
 ]) {
   await ensurePublicRead(token, collection);
+}
+try {
+  await ensurePublicRead(token, "directus_files");
+} catch (error) {
+  console.warn(
+    `Public read for directus_files skipped: ${error instanceof Error ? error.message : error}`,
+  );
 }
 
 const statusField = {

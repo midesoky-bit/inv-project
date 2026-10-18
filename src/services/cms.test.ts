@@ -7,6 +7,7 @@ import type { LocalizedString } from "@/types/cms";
 import {
   mapDirectusEsg,
   mapDirectusService,
+  directusServiceBySlugQuery,
   directusServicesQuery,
 } from "@/lib/cms/directus-map";
 import {
@@ -114,11 +115,38 @@ describe("Directus response mapper", () => {
       slug: "digital-media-platforms",
       order: 3,
       icon: "digital",
+      image: undefined,
       title: "Digital Media & Platforms",
       summary: "Digital presence",
       description: "We manage digital presence.",
       highlights: ["Campaign design and execution"],
     });
+  });
+
+  it("maps a Directus file id to an asset URL", () => {
+    process.env.CMS_URL = "http://cms.example:8055";
+    expect(
+      mapDirectusService({
+        id: 7,
+        slug: "digital-media-platforms",
+        image: "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+        translations: [{ title: "Digital" }],
+      }).image,
+    ).toBe(
+      "http://cms.example:8055/assets/a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    );
+  });
+
+  it("maps a nested Directus file object to an asset URL", () => {
+    process.env.CMS_URL = "http://cms.example:8055";
+    expect(
+      mapDirectusService({
+        id: 7,
+        slug: "digital-media-platforms",
+        image: { id: "file-99" },
+        translations: [{ title: "Digital" }],
+      }).image,
+    ).toBe("http://cms.example:8055/assets/file-99");
   });
 
   it("uses empty strings when the locale translation is missing", () => {
@@ -148,7 +176,10 @@ describe("Directus response mapper", () => {
   it("asks Directus for one locale via a deep translation filter", () => {
     const query = decodeURIComponent(directusServicesQuery("ar"));
     expect(query).toContain("deep[translations][_filter][languages_code][_eq]=ar");
-    expect(query).toContain("fields=id,slug,order,icon,translations.title");
+    expect(query).toContain("fields=id,slug,order,icon,image,translations.title");
     expect(query).toContain("filter[status][_eq]=published");
+    expect(decodeURIComponent(directusServiceBySlugQuery("media-production", "ar"))).toContain(
+      "fields=id,slug,order,icon,image,translations.title",
+    );
   });
 });

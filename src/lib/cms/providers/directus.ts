@@ -23,27 +23,58 @@ function serviceTags(locale: Locale, slug?: string): string[] {
   return tags;
 }
 
+function isForbidden(error: unknown) {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    /responded 403/.test(String((error as { message: unknown }).message))
+  );
+}
+
 async function emptyIfMissing<T>(path: string, tags: string[]): Promise<T[]> {
   try {
     const result = await cmsFetch<DirectusList<T>>(path, { tags });
     return result.data ?? [];
   } catch (error) {
-    if (
-      error instanceof CmsError &&
-      (error.code === "NOT_FOUND" || /responded 403/.test(error.message))
-    ) {
+    if (error instanceof CmsError && (error.code === "NOT_FOUND" || isForbidden(error))) {
       return [];
     }
     throw error;
   }
 }
 
+async function fetchServiceRows(
+  locale: Locale,
+  slug?: string,
+): Promise<DirectusServiceRow[]> {
+  const tags = serviceTags(locale, slug);
+  const primary = slug
+    ? directusServiceBySlugQuery(slug, locale)
+    : directusServicesQuery(locale);
+  try {
+    const result = await cmsFetch<DirectusList<DirectusServiceRow>>(primary, { tags });
+    return result.data ?? [];
+  } catch (error) {
+    if (!isForbidden(error)) throw error;
+    try {
+      const fallback = slug
+        ? directusServiceBySlugQuery(slug, locale, false)
+        : directusServicesQuery(locale, false);
+      const result = await cmsFetch<DirectusList<DirectusServiceRow>>(fallback, { tags });
+      return result.data ?? [];
+    } catch (retryError) {
+      if (isForbidden(retryError) || (retryError instanceof CmsError && retryError.code === "NOT_FOUND")) {
+        return [];
+      }
+      throw retryError;
+    }
+  }
+}
+
 export async function directusFetchServices(locale: Locale): Promise<Service[]> {
-  const result = await cmsFetch<DirectusList<DirectusServiceRow>>(
-    directusServicesQuery(locale),
-    { tags: serviceTags(locale) },
-  );
-  return result.data.map(mapDirectusService).sort((a, b) => a.order - b.order);
+  const rows = await fetchServiceRows(locale);
+  return rows.map(mapDirectusService).sort((a, b) => a.order - b.order);
 }
 
 export async function directusFetchServiceBySlug(
@@ -51,11 +82,8 @@ export async function directusFetchServiceBySlug(
   locale: Locale,
 ): Promise<Service | null> {
   try {
-    const result = await cmsFetch<DirectusList<DirectusServiceRow>>(
-      directusServiceBySlugQuery(slug, locale),
-      { tags: serviceTags(locale, slug) },
-    );
-    const row = result.data[0];
+    const rows = await fetchServiceRows(locale, slug);
+    const row = rows[0];
     return row ? mapDirectusService(row) : null;
   } catch (error) {
     if (error instanceof CmsError && error.code === "NOT_FOUND") return null;

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { ServiceCardMotion } from "@/components/home/ServiceCardMotion";
-import { serviceVisual } from "@/lib/service-visuals";
+import { serviceCardVisual } from "@/lib/service-visuals";
 import { PAGE_GUTTER } from "@/lib/layout";
 import type { Service } from "@/types/cms";
 
@@ -54,7 +54,7 @@ export async function ServiceGrid({ services }: ServiceGridProps) {
     >
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {services.map((service, index) => {
-          const visual = serviceVisual(service.slug);
+          const visual = serviceCardVisual(service);
           return (
             <ServiceCardMotion
               key={service.id}

@@ -1,3 +1,5 @@
+import type { Service } from "@/types/cms";
+
 export const SERVICE_VISUALS = {
   forum: { src: "/images/forum.webp", altKey: "forum" },
   analytics: { src: "/images/analytics.webp", altKey: "analytics" },
@@ -25,4 +27,14 @@ export function serviceVisual(slug: string): ServiceVisual {
     return SERVICE_VISUALS.office;
   }
   return SERVICE_VISUALS.briefing;
+}
+
+export function serviceCardVisual(
+  service: Pick<Service, "slug" | "image">,
+): { src: string; altKey: ServiceVisual["altKey"] } {
+  const fallback = serviceVisual(service.slug);
+  if (service.image?.trim()) {
+    return { src: service.image, altKey: fallback.altKey };
+  }
+  return fallback;
 }

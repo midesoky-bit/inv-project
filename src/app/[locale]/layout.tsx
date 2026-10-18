@@ -101,9 +101,9 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
     >
       <head>
         <meta name="theme-color" content="#0b1d36" />
+        <OrganizationJsonLd locale={locale as Locale} />
       </head>
       <body className="min-h-screen bg-background text-foreground antialiased">
-        <OrganizationJsonLd locale={locale as Locale} />
         <ThemeProvider>
           <ThemeColorMeta />
           <NextIntlClientProvider locale={locale as Locale} messages={messages}>

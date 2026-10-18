@@ -58,7 +58,7 @@ export function HeaderTools() {
   }
 
   return (
-    <div ref={rootRef} className="flex items-center gap-1">
+    <div ref={rootRef} className="flex shrink-0 items-center gap-1">
       <form
         role="search"
         onSubmit={submit}
@@ -97,7 +97,7 @@ export function HeaderTools() {
       <ul
         aria-label={t("social")}
         className={cn(
-          "flex items-center overflow-hidden transition-[max-width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
+          "hidden items-center overflow-hidden transition-[max-width,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none xl:flex",
           open
             ? "max-xl:max-w-0 max-xl:opacity-0 max-xl:pointer-events-none"
             : "max-w-[12rem] opacity-100",
