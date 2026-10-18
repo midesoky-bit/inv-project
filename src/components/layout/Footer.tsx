@@ -5,9 +5,8 @@ import { SOCIAL_NETWORKS } from "@/components/layout/social";
 import { Link } from "@/i18n/navigation";
 import { type Locale } from "@/i18n/routing";
 import { PAGE_GUTTER } from "@/lib/layout";
+import { MARKETS } from "@/lib/markets";
 import { fetchServices } from "@/services/cms";
-
-const MARKETS = ["egypt", "saudi", "uae", "qatar"] as const;
 const COMPANY_LINKS = NAV_LINKS.filter((item) => item.href !== "/services");
 
 export async function Footer() {
@@ -142,9 +141,23 @@ export async function Footer() {
       </div>
 
       <div className="border-t border-border">
-        <p className={`${PAGE_GUTTER} py-5 text-xs text-muted`}>
-          © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
-        </p>
+        <div className={`${PAGE_GUTTER} flex flex-col gap-3 py-5 text-xs text-muted sm:flex-row sm:items-center sm:justify-between`}>
+          <p>
+            © {new Date().getFullYear()} {tBrand("name")}. {tFooter("rights")}
+          </p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            <li>
+              <Link href="/privacy" className={navLinkClass({ tone: "accent" })}>
+                {tFooter("privacy")}
+              </Link>
+            </li>
+            <li>
+              <Link href="/terms" className={navLinkClass({ tone: "accent" })}>
+                {tFooter("terms")}
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </footer>
   );

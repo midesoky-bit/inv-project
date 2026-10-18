@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 import { ServicesHero } from "@/components/services/ServicesHero";
+import { Button } from "@/components/ui/Button";
+import { PAGE_GUTTER } from "@/lib/layout";
 import { routing, type Locale } from "@/i18n/routing";
 import { buildPageMetadata } from "@/lib/metadata";
 import { fetchServices } from "@/services/cms";
@@ -52,10 +54,23 @@ export default async function ServicesPage({ params, searchParams }: PageProps) 
       )
     : services;
 
+  const t = await getTranslations("services");
+
   return (
     <div className="bg-background">
       <ServicesHero />
       <ServiceGrid services={visible} />
+      <section className={`border-t border-border bg-brand ${PAGE_GUTTER} py-14 text-brand-foreground md:py-16`}>
+        <h2 className="font-serif text-3xl tracking-tight md:text-4xl">
+          {t("multiTitle")}
+        </h2>
+        <p className="mt-4 max-w-2xl text-base leading-relaxed text-brand-foreground/80">
+          {t("multiBody")}
+        </p>
+        <div className="mt-8">
+          <Button href="/contact">{t("multiCta")}</Button>
+        </div>
+      </section>
     </div>
   );
 }

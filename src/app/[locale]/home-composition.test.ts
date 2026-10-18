@@ -4,13 +4,13 @@ import { describe, expect, it } from "vitest";
 const page = readFileSync("src/app/[locale]/page.tsx", "utf8");
 
 describe("home composition", () => {
-  it("keeps the intro blocks and drops the long profile", () => {
+  it("uses the brief homepage blocks", () => {
     expect(page).toContain("<HeroSection services={services} />");
-    expect(page).toContain("<StatsBar />");
-    expect(page).toContain("<AboutTeaser />");
-    expect(page).toContain("<PresenceStrip />");
-    expect(page).not.toContain("<ServiceGrid");
+    expect(page).toContain("<HomeServices");
+    expect(page).toContain("<ContactModel");
+    expect(page).toContain("<HowWeWork");
+    expect(page).toContain("<WhySection");
+    expect(page).not.toContain("<StatsBar");
     expect(page).not.toContain("<EsgSection");
-    expect(page).not.toContain("<ImpactSection");
   });
 });

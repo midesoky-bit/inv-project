@@ -68,6 +68,19 @@ export function ServiceMark({
         <path d="M7.5 14.5 11 11l3 2.5 5-5.5" />
       </>
     ),
+    sustainability: (
+      <>
+        <path d="M12 20V9" />
+        <path d="M12 9c4-6 8-4 8 1-4 1-8 2.5-8 7" />
+        <path d="M12 11C8 6 4 7.5 4 12c4 .8 8 2 8 6" />
+      </>
+    ),
+    supplies: (
+      <>
+        <path d="M4 8.5 12 4.5 20 8.5v7L12 19.5 4 15.5z" />
+        <path d="M12 4.5v15M4 8.5 12 12.5 20 8.5" />
+      </>
+    ),
   };
 
   return (

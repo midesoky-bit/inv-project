@@ -11,15 +11,18 @@ export function DesktopNav() {
 
   return (
     <nav aria-label={t("primary")} className="hidden xl:block">
-      <ul className="flex items-center gap-5">
-        {NAV_LINKS.map((item) => {
+      <ul className="flex items-center gap-3 2xl:gap-4">
+        {NAV_LINKS.filter((item) => item.href !== "/").map((item) => {
           const active = isNavActive(pathname, item.href);
           return (
             <li key={item.href}>
               <SectionLink
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={navLinkClass({ active })}
+                className={navLinkClass({
+                  active,
+                  className: "text-xs 2xl:text-sm",
+                })}
               >
                 {t(item.messageKey)}
               </SectionLink>

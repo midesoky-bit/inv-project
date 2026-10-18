@@ -95,31 +95,22 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
       <div className={`relative z-[1] ${PAGE_GUTTER} w-full pb-28 pt-10 lg:pb-32 lg:pt-12`}>
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="max-w-xl">
-            <div className="flex items-center gap-3">
-              <span aria-hidden className="h-0.5 w-10 bg-accent" />
-              <p className="text-xs font-medium tracking-[0.16em] text-accent uppercase">
-                {t.rich("eyebrow", {
-                  bdi: (chunks) => <bdi>{chunks}</bdi>,
-                })}
-              </p>
-            </div>
-            <h1 className="mt-4 font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[3.35rem]">
-              {t.rich("title", {
-                g: (chunks) => <span className="text-accent">{chunks}</span>,
-              })}
+            <h1 className="font-serif text-4xl leading-[1.08] tracking-tight text-balance sm:text-5xl lg:text-[3.35rem]">
+              {t("title")}
             </h1>
             <p className="mt-6 text-base leading-relaxed text-brand-foreground/80">
               {t("subtitle")}
             </p>
-            <div className="mt-8 flex flex-wrap items-center gap-6">
-              <Button href="/services">{t("ctaServices")}</Button>
-              <Button
-                href="/contact"
-                variant="ghost"
-                className="text-brand-foreground hover:text-brand-foreground"
+            {(t.raw("body") as string[]).map((paragraph) => (
+              <p
+                key={paragraph}
+                className="mt-4 text-base leading-relaxed text-brand-foreground/80"
               >
-                {t("ctaContact")}
-              </Button>
+                {paragraph}
+              </p>
+            ))}
+            <div className="mt-8 flex flex-wrap items-center gap-6">
+              <Button href="/contact">{t("ctaContact")}</Button>
             </div>
           </div>
         </div>

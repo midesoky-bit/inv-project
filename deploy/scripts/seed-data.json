@@ -2,225 +2,213 @@
   "services": [
     {
       "id": "1",
-      "slug": "media-production",
+      "slug": "events-event-management",
       "order": 1,
-      "icon": "media",
+      "icon": "events",
       "title": {
-        "en": "Media Production",
-        "ar": "الإنتاج الإعلامي"
+        "en": "Events & Event Management",
+        "ar": "الفعاليات وإدارة الفعاليات"
       },
       "summary": {
-        "en": "Documentary, corporate, and multi-platform content produced to institutional standards.",
-        "ar": "محتوى وثائقي ومؤسسي ومتعدد المنصات يُنتَج وفق معايير مؤسسية."
+        "en": "We plan and manage conferences, exhibitions, workshops and corporate events, from initial planning to on-site delivery.",
+        "ar": "نخطط وندير المؤتمرات والمعارض وورش العمل والفعاليات المؤسسية، من التخطيط الأولي حتى التنفيذ في الموقع."
       },
       "description": {
-        "en": "From documentary and narrative-driven production to corporate and strategic communication content, multi-platform digital assets, and high-quality event coverage — we deliver media that supports positioning, stakeholder alignment, and measurable outcomes across the Middle East.",
-        "ar": "من الإنتاج الوثائقي والسردي إلى المحتوى المؤسسي والاتصالي الاستراتيجي، والأصول الرقمية متعددة المنصات، وتغطية الفعاليات بجودة عالية — نقدّم إنتاجًا إعلاميًا يدعم التموضع ومواءمة أصحاب المصلحة وتحقيق نتائج قابلة للقياس في أنحاء الشرق الأوسط."
+        "en": "We plan and manage professional events from initial concept through execution, with attention to the details that keep everything running smoothly.",
+        "ar": "نخطط وندير الفعاليات المهنية من الفكرة الأولية حتى التنفيذ، مع الاهتمام بالتفاصيل التي تضمن سير العمل بسلاسة."
       },
       "highlights": {
         "en": [
-          "Documentary and narrative-driven production",
-          "Corporate and strategic communication content",
-          "Multi-platform digital content",
-          "High-quality event coverage"
+          "Conferences, forums and seminars",
+          "Exhibitions and trade events",
+          "Workshops and corporate events",
+          "Event planning and coordination",
+          "Venue, supplier and logistics coordination",
+          "On-site event management"
         ],
         "ar": [
-          "إنتاج وثائقي وسردي",
-          "محتوى مؤسسي واتصالي استراتيجي",
-          "محتوى رقمي متعدد المنصات",
-          "تغطية فعاليات بجودة عالية"
+          "مؤتمرات ومنتديات وندوات",
+          "معارض وفعاليات تجارية",
+          "ورش عمل وفعاليات مؤسسية",
+          "تخطيط الفعاليات وتنسيقها",
+          "تنسيق المكان والموردين والخدمات اللوجستية",
+          "إدارة الفعاليات في الموقع"
         ]
       }
     },
     {
       "id": "2",
-      "slug": "media-content-management",
+      "slug": "media-production-content-creation",
       "order": 2,
-      "icon": "content",
+      "icon": "media",
       "title": {
-        "en": "Media & Content Management",
-        "ar": "إدارة الإعلام والمحتوى"
+        "en": "Media Production & Content Creation",
+        "ar": "الإنتاج الإعلامي وصناعة المحتوى"
       },
       "summary": {
-        "en": "Structured coverage, narrative design, and multi-channel planning aligned with strategic positioning.",
-        "ar": "تغطية منظمة وتصميم سردي وتخطيط متعدد القنوات متسق مع التموضع الاستراتيجي."
+        "en": "We produce videos, photography, advertising materials and creative content tailored to your communication objectives.",
+        "ar": "ننتج الفيديو والتصوير والمواد الإعلانية والمحتوى الإبداعي بما يتوافق مع أهداف الاتصال."
       },
       "description": {
-        "en": "We provide structured media coverage for initiatives and events, develop content aligned with institutional positioning, design narratives and message architecture, and plan integrated multi-channel communication programs.",
-        "ar": "نوفر تغطية إعلامية منظمة للمبادرات والفعاليات، ونطوّر محتوى متسقًا مع التموضع المؤسسي، ونصمم السرديات وبنية الرسائل، ونخطط لبرامج اتصال متكاملة عبر قنوات متعددة."
+        "en": "We create visual and digital content that helps organisations communicate their messages clearly.",
+        "ar": "نصنع محتوى بصريًا ورقميًا يساعد المؤسسات على إيصال رسائلها بوضوح."
       },
       "highlights": {
         "en": [
-          "Structured media coverage for initiatives and events",
-          "Content development aligned with strategic positioning",
-          "Narrative design and message structuring",
-          "Multi-channel communication planning"
+          "Video production and filming",
+          "Photography and event coverage",
+          "Advertising and promotional materials",
+          "Creative concepts and visual storytelling",
+          "Digital content production",
+          "Media materials for events and campaigns"
         ],
         "ar": [
-          "تغطية إعلامية منظمة للمبادرات والفعاليات",
-          "تطوير محتوى متسق مع التموضع الاستراتيجي",
-          "تصميم السرد وبنية الرسائل",
-          "تخطيط اتصال متعدد القنوات"
+          "إنتاج الفيديو والتصوير",
+          "التصوير الفوتوغرافي وتغطية الفعاليات",
+          "مواد إعلانية وترويجية",
+          "مفاهيم إبداعية وسرد بصري",
+          "إنتاج المحتوى الرقمي",
+          "مواد إعلامية للفعاليات والحملات"
         ]
       }
     },
     {
       "id": "3",
-      "slug": "digital-media-platforms",
+      "slug": "government-relations",
       "order": 3,
-      "icon": "digital",
+      "icon": "affairs",
       "title": {
-        "en": "Digital Media & Platforms",
-        "ar": "الإعلام الرقمي والمنصات"
+        "en": "Government Relations",
+        "ar": "العلاقات الحكومية"
       },
       "summary": {
-        "en": "Digital presence, campaigns, content systems, and performance frameworks built for influence.",
-        "ar": "حضور رقمي وحملات وأنظمة محتوى وأطر أداء تُبنى من أجل التأثير لا الضجيج."
+        "en": "We coordinate institutional communication, meetings, visits and delegations to support professional engagement with relevant organisations.",
+        "ar": "ننسّق الاتصال المؤسسي والاجتماعات والزيارات والوفود لدعم التواصل المهني مع الجهات المعنية."
       },
       "description": {
-        "en": "We manage digital presence strategically, design and execute campaigns, build content systems and publishing frameworks, and track performance to optimize reach, relevance, and reputation outcomes.",
-        "ar": "ندير الحضور الرقمي بشكل استراتيجي، ونصمم وننفّذ الحملات، ونبني أنظمة المحتوى وأطر النشر، ونقيس الأداء لتحسين الوصول والملاءمة ونتائج السمعة."
+        "en": "We support institutional communication and coordinate engagement activities with relevant organisations.",
+        "ar": "ندعم الاتصال المؤسسي وننسّق أنشطة التواصل مع الجهات المعنية."
       },
       "highlights": {
         "en": [
-          "Strategic management of digital presence",
-          "Campaign design and execution",
-          "Content systems and publishing frameworks",
-          "Performance tracking and optimization"
+          "Institutional communication",
+          "Meeting and visit coordination",
+          "Delegation arrangements",
+          "Stakeholder communication",
+          "Coordination of institutional activities",
+          "Follow-up on agreed actions"
         ],
         "ar": [
-          "إدارة استراتيجية للحضور الرقمي",
-          "تصميم الحملات وتنفيذها",
-          "أنظمة محتوى وأطر نشر",
-          "متابعة الأداء وتحسينه"
+          "الاتصال المؤسسي",
+          "تنسيق الاجتماعات والزيارات",
+          "ترتيبات الوفود",
+          "التواصل مع أصحاب المصلحة",
+          "تنسيق الأنشطة المؤسسية",
+          "متابعة الإجراءات المتفق عليها"
         ]
       }
     },
     {
       "id": "4",
-      "slug": "public-relations-partnerships",
+      "slug": "sustainability-advisory",
       "order": 4,
-      "icon": "pr",
+      "icon": "sustainability",
       "title": {
-        "en": "Public Relations & Strategic Partnerships",
-        "ar": "العلاقات العامة والشراكات الاستراتيجية"
+        "en": "Sustainability Advisory",
+        "ar": "الاستشارات في الاستدامة"
       },
       "summary": {
-        "en": "Media positioning, reputation alignment, partnerships, and stakeholder engagement frameworks.",
-        "ar": "تموضع إعلامي ومواءمة السمعة وشراكات وأطر مشاركة أصحاب المصلحة."
+        "en": "We support organisations in planning sustainability initiatives, programmes and related communications.",
+        "ar": "ندعم المؤسسات في تخطيط مبادرات الاستدامة وبرامجها والاتصال المرتبط بها."
       },
       "description": {
-        "en": "We support media positioning and relationship management, align reputation and communication with institutional objectives, structure strategic partnerships and collaborations, and design stakeholder engagement frameworks that endure scrutiny.",
-        "ar": "ندعم التموضع الإعلامي وإدارة العلاقات، ونوائم السمعة والاتصال مع الأهداف المؤسسية، ونهيكل الشراكات والتعاون الاستراتيجي، ونصمم أطر مشاركة أصحاب المصلحة التي تتحمل التدقيق."
+        "en": "We support organisations in planning and coordinating sustainability initiatives according to their objectives and areas of activity.",
+        "ar": "ندعم المؤسسات في تخطيط مبادرات الاستدامة وتنسيقها وفق أهدافها ومجالات نشاطها."
       },
       "highlights": {
         "en": [
-          "Media positioning and relationship management",
-          "Reputation and communication alignment",
-          "Strategic partnerships and collaborations",
-          "Stakeholder engagement frameworks"
+          "Sustainability initiative planning",
+          "Programme and activity coordination",
+          "Sustainability communications",
+          "Stakeholder engagement",
+          "Sustainability events and forums",
+          "Awareness and engagement activities"
         ],
         "ar": [
-          "التموضع الإعلامي وإدارة العلاقات",
-          "مواءمة السمعة والاتصال",
-          "شراكات وتعاون استراتيجي",
-          "أطر مشاركة أصحاب المصلحة"
+          "تخطيط مبادرات الاستدامة",
+          "تنسيق البرامج والأنشطة",
+          "اتصال الاستدامة",
+          "مشاركة أصحاب المصلحة",
+          "فعاليات ومنتديات الاستدامة",
+          "أنشطة التوعية والمشاركة"
         ]
       }
     },
     {
       "id": "5",
-      "slug": "events-exhibitions",
+      "slug": "business-networking-strategic-partnerships",
       "order": 5,
-      "icon": "events",
+      "icon": "pr",
       "title": {
-        "en": "Events & Exhibitions",
-        "ar": "الفعاليات والمعارض"
+        "en": "Business Networking & Strategic Partnerships",
+        "ar": "التواصل التجاري والشراكات الاستراتيجية"
       },
       "summary": {
-        "en": "Conferences, exhibitions, and integrated event communication delivered with operational precision.",
-        "ar": "مؤتمرات ومعارض واتصال متكامل للفعاليات يُنفَّذ بدقة تشغيلية."
+        "en": "We help organisations identify opportunities for cooperation, build relevant business connections and explore potential partnerships.",
+        "ar": "نساعد المؤسسات على تحديد فرص التعاون وبناء علاقات عمل مناسبة واستكشاف الشراكات المحتملة."
       },
       "description": {
-        "en": "We design and deliver conferences and institutional events, plan and execute exhibitions, structure sponsorships and partner coordination, and integrate event communication from pre-brief through post-event narrative continuity.",
-        "ar": "نصمم وننفّذ المؤتمرات والفعاليات المؤسسية، ونخطط وننفّذ المعارض، ونهيكل الرعايات وتنسيق الشركاء، وندمج اتصال الفعاليات من الإعداد حتى استمرارية السرد بعد الحدث."
+        "en": "We help organisations identify potential areas of cooperation and build relevant business relationships.",
+        "ar": "نساعد المؤسسات على تحديد مجالات التعاون المحتملة وبناء علاقات عمل مناسبة."
       },
       "highlights": {
         "en": [
-          "Design and delivery of conferences and institutional events",
-          "Exhibition planning and execution",
-          "Sponsorship structuring and partner coordination",
-          "Integrated event communication"
+          "Business introductions",
+          "Networking and meeting coordination",
+          "Partnership opportunity identification",
+          "Cooperation initiative support",
+          "Business relationship development"
         ],
         "ar": [
-          "تصميم المؤتمرات والفعاليات المؤسسية وتقديمها",
-          "تخطيط المعارض وتنفيذها",
-          "هيكلة الرعايات وتنسيق الشركاء",
-          "اتصال متكامل للفعاليات"
+          "التعارف التجاري",
+          "تنسيق التواصل والاجتماعات",
+          "تحديد فرص الشراكة",
+          "دعم مبادرات التعاون",
+          "تطوير علاقات العمل"
         ]
       }
     },
     {
       "id": "6",
-      "slug": "public-affairs-government-relations",
+      "slug": "general-supplies-trading",
       "order": 6,
-      "icon": "affairs",
+      "icon": "supplies",
       "title": {
-        "en": "Public Affairs & Government Relations",
-        "ar": "الشؤون العامة والعلاقات الحكومية"
+        "en": "General Supplies & Trading",
+        "ar": "التوريدات العامة والتجارة"
       },
       "summary": {
-        "en": "Government engagement, policy-aligned communication, and institutional positioning counsel.",
-        "ar": "مشاركة حكومية واتصال متسق مع السياسات ومشورة في التموضع المؤسسي."
+        "en": "We support sourcing and the supply of products and materials according to project specifications and client requirements.",
+        "ar": "ندعم التوريد وتوفير المنتجات والمواد وفق مواصفات المشروع ومتطلبات العميل."
       },
       "description": {
-        "en": "We advise on government and institutional engagement, develop policy-aligned communication strategies, map stakeholders and influence pathways, and support leadership on positioning in complex regulatory and public environments.",
-        "ar": "نقدّم المشورة في المشاركة الحكومية والمؤسسية، ونطوّر استراتيجيات اتصال متسقة مع السياسات، ونرسم خرائط أصحاب المصلحة ومسارات التأثير، وندعم القيادات في التموضع ضمن بيئات تنظيمية وعامة معقدة."
+        "en": "We support sourcing and the supply of products and materials based on agreed specifications and project requirements.",
+        "ar": "ندعم التوريد وتوفير المنتجات والمواد بناءً على المواصفات المتفق عليها ومتطلبات المشروع."
       },
       "highlights": {
         "en": [
-          "Government and institutional engagement",
-          "Policy-aligned communication strategies",
-          "Stakeholder mapping and influence planning",
-          "Advisory on institutional positioning"
+          "General supplies",
+          "Product sourcing",
+          "Procurement coordination",
+          "Supplier coordination",
+          "Supply arrangements based on agreed requirements"
         ],
         "ar": [
-          "المشاركة الحكومية والمؤسسية",
-          "استراتيجيات اتصال متسقة مع السياسات",
-          "رسم أصحاب المصلحة وتخطيط التأثير",
-          "مشورة في التموضع المؤسسي"
-        ]
-      }
-    },
-    {
-      "id": "7",
-      "slug": "capital-markets-financial-communications",
-      "order": 7,
-      "icon": "capital",
-      "title": {
-        "en": "Capital Markets & Financial Communications",
-        "ar": "أسواق رأس المال والاتصالات المالية"
-      },
-      "summary": {
-        "en": "Investor narratives, IR support, and clear financial messaging at pivotal market moments.",
-        "ar": "سرديات المستثمرين ودعم علاقات المستثمرين ورسائل مالية واضحة في لحظات السوق المحورية."
-      },
-      "description": {
-        "en": "We support institutions in communicating with investors and financial stakeholders during fundraising, listings, and major transactions — shaping investment narratives, preparing investor-facing materials, supporting investor relations, and translating complex financial information into clear, consistent messaging that builds confidence.",
-        "ar": "ندعم المؤسسات في التواصل مع المستثمرين وأصحاب المصلحة الماليين أثناء جمع التمويل والإدراج والصفقات الكبرى — عبر صياغة سرديات الاستثمار، وإعداد مواد موجهة للمستثمرين، ودعم علاقات المستثمرين، وترجمة المعلومات المالية المعقدة إلى رسائل واضحة ومتسقة تبني الثقة."
-      },
-      "highlights": {
-        "en": [
-          "Shaping investment narratives",
-          "Preparing investor-facing materials",
-          "Supporting investor relations",
-          "Translating complex financial information into clear messaging"
-        ],
-        "ar": [
-          "صياغة سرديات الاستثمار",
-          "إعداد مواد موجهة للمستثمرين",
-          "دعم علاقات المستثمرين",
-          "ترجمة المعلومات المالية المعقدة إلى رسائل واضحة"
+          "التوريدات العامة",
+          "توفير المنتجات",
+          "تنسيق المشتريات",
+          "تنسيق الموردين",
+          "ترتيبات التوريد وفق المتطلبات المتفق عليها"
         ]
       }
     }

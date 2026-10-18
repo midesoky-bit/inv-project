@@ -4,16 +4,12 @@ import { Button } from "@/components/ui/Button";
 import { Link } from "@/i18n/navigation";
 import { PAGE_GUTTER } from "@/lib/layout";
 
-type Stat = { value: string; label: string };
-
 export async function AboutHero() {
   const tAbout = await getTranslations("about");
   const tNav = await getTranslations("nav");
   const tImages = await getTranslations("images");
-  const tStats = await getTranslations("stats");
   const paragraphs = tAbout.raw("paragraphs") as string[];
   const values = tAbout.raw("values") as string[];
-  const stats = tStats.raw("items") as Stat[];
 
   return (
     <section className="relative mt-20 overflow-hidden bg-white text-brand after:absolute after:inset-x-0 after:bottom-0 after:z-[11] after:h-px after:bg-brand after:content-['']">
@@ -79,7 +75,7 @@ export async function AboutHero() {
             </p>
             <div className="mt-8">
               <Button
-                href="#story"
+                href="#approach"
                 className="bg-brand text-brand-foreground hover:bg-brand-mid"
               >
                 {tAbout("readMore")}
@@ -99,24 +95,6 @@ export async function AboutHero() {
         </div>
       </div>
 
-      <div className="relative z-10 bg-brand text-brand-foreground md:-mb-px md:[clip-path:polygon(0_1.75rem,14rem_1.75rem,calc(14rem+1.75rem)_0,100%_0,100%_100%,0_100%)] md:rtl:[clip-path:polygon(100%_1.75rem,calc(100%-14rem)_1.75rem,calc(100%-14rem-1.75rem)_0,0_0,0_100%,100%_100%)]">
-        <div className="flex items-center gap-6 px-4 py-5 sm:px-5 lg:min-h-[6.5rem] lg:px-0 lg:py-6">
-          <span aria-hidden className="hidden w-56 shrink-0 lg:block" />
-          <span aria-hidden className="hidden h-12 w-0.5 shrink-0 bg-accent lg:block" />
-          <ul className="grid flex-1 grid-cols-2 gap-x-5 gap-y-5 sm:grid-cols-4 sm:gap-x-8 lg:max-w-3xl lg:pe-10">
-            {stats.map((item) => (
-              <li key={item.label}>
-                <p className="font-sans text-2xl font-medium tracking-tight text-brand-foreground md:text-[1.75rem]">
-                  {item.value}
-                </p>
-                <p className="mt-1 max-w-[9.5rem] text-xs leading-snug text-brand-foreground/70">
-                  {item.label}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
     </section>
   );
 }

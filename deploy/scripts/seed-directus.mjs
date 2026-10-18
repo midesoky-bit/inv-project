@@ -328,27 +328,48 @@ function translationsFor(record, fields) {
   });
 }
 
+async function removeObsoleteServices(token, keepSlugs) {
+  const list = await api(token, "GET", "/items/services?fields=id,slug&limit=-1");
+  if (!list.ok) {
+    throw new Error(`List services: ${JSON.stringify(list.json)}`);
+  }
+  for (const row of list.json?.data ?? []) {
+    if (keepSlugs.has(row.slug)) continue;
+    const result = await api(token, "DELETE", `/items/services/${row.id}`);
+    if (!result.ok) {
+      throw new Error(`Delete service ${row.slug}: ${JSON.stringify(result.json)}`);
+    }
+  }
+}
+
 async function upsertService(token, record) {
   const found = await api(
     token,
     "GET",
-    `/items/services?filter[slug][_eq]=${encodeURIComponent(record.slug)}&fields=id&limit=1`,
+    `/items/services?filter[slug][_eq]=${encodeURIComponent(record.slug)}&fields=id,translations.id,translations.languages_code&limit=1`,
   );
+  const translations = translationsFor(record, [
+    "title",
+    "summary",
+    "description",
+    "highlights",
+  ]).map((row) => {
+    const existing = found.json?.data?.[0]?.translations?.find(
+      (item) => item.languages_code === row.languages_code,
+    );
+    return existing?.id ? { id: existing.id, ...row } : row;
+  });
   const payload = {
     slug: record.slug,
     order: record.order,
     icon: record.icon ?? null,
     status: "published",
-    translations: translationsFor(record, [
-      "title",
-      "summary",
-      "description",
-      "highlights",
-    ]),
+    translations,
   };
   const id = found.json?.data?.[0]?.id;
-  if (id) return;
-  const result = await api(token, "POST", "/items/services", payload);
+  const result = id
+    ? await api(token, "PATCH", `/items/services/${id}`, payload)
+    : await api(token, "POST", "/items/services", payload);
   if (!result.ok) {
     throw new Error(`Service ${record.slug}: ${JSON.stringify(result.json)}`);
   }
@@ -750,6 +771,7 @@ await ensureTranslationsInterface(token, "esg_commitments");
 await ensureTranslationsInterface(token, "insights");
 await ensureTranslationsInterface(token, "careers");
 
+await removeObsoleteServices(token, new Set(services.map((record) => record.slug)));
 for (const record of services) await upsertService(token, record);
 for (const record of esg) await upsertEsg(token, record);
 

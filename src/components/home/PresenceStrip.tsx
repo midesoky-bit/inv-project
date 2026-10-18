@@ -1,7 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { PAGE_GUTTER } from "@/lib/layout";
-
-const MARKETS = ["egypt", "saudi", "uae", "qatar"] as const;
+import { MARKETS } from "@/lib/markets";
 
 type PresencePoint = { title: string; body: string };
 

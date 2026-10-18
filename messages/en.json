@@ -6,218 +6,279 @@
     "searchPlaceholder": "Search services",
     "social": "Social media",
     "linkedin": "LinkedIn",
-    "x": "X",
+    "facebook": "Facebook",
+    "instagram": "Instagram",
     "youtube": "YouTube",
     "linkedinUrl": "https://inventurecommunications.com",
-    "xUrl": "https://inventurecommunications.com",
+    "facebookUrl": "https://inventurecommunications.com",
+    "instagramUrl": "https://inventurecommunications.com",
     "youtubeUrl": "https://inventurecommunications.com"
   },
   "nav": {
     "home": "Home",
-    "about": "About",
-    "services": "Services",
+    "about": "About Us",
+    "services": "Our Services",
+    "team": "Our Team",
     "work": "Our Work",
-    "approach": "Approach",
-    "insights": "Insights",
+    "news": "News & Media",
+    "clients": "Our Clients",
+    "partners": "Our Partners",
+    "contact": "Contact Us",
     "careers": "Careers",
     "esg": "ESG",
-    "contact": "Contact",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "primary": "Primary",
     "mobile": "Mobile",
     "breadcrumb": "Breadcrumb",
-    "aboutDetail": "An integrated platform across media, public affairs, and institutional engagement.",
-    "servicesDetail": "Seven disciplines, from media production to capital markets.",
-    "approachDetail": "How strategy, media, and public affairs operate as one system.",
+    "aboutDetail": "Communications, events, media production and coordinated project support.",
+    "servicesDetail": "Six service areas, from events to trading, coordinated through one point of contact.",
     "contactDetail": "info@inventurecommunications.com"
   },
   "presence": {
     "label": "Regional presence",
-    "title": "Active engagement across the Middle East",
-    "lead": "We operate across the Middle East, with active presence and ongoing engagement in four markets.",
-    "status": "Ongoing engagement",
+    "title": "Experience across the region",
+    "lead": "Our leadership and team members bring professional experience spanning Egypt, Saudi Arabia, the United Arab Emirates and Lebanon.",
+    "status": "Professional experience",
     "egypt": "Egypt",
     "saudi": "Saudi Arabia",
     "uae": "United Arab Emirates",
-    "qatar": "Qatar",
+    "lebanon": "Lebanon",
     "points": [
       {
-        "title": "Local context, one approach",
-        "body": "Our presence in these markets allows us to work within different regulatory and institutional contexts while maintaining a consistent approach to strategy and delivery."
+        "title": "Local context, coordinated delivery",
+        "body": "Experience across these markets supports work within different regulatory and institutional contexts while keeping communication and delivery coordinated."
       },
       {
-        "title": "Cross-market delivery",
-        "body": "We combine local understanding with a regional perspective—enabling us to support cross-market initiatives, align stakeholders across jurisdictions, and execute communication programs with clarity and coordination."
+        "title": "Clear responsibilities",
+        "body": "We combine local understanding with a regional perspective so projects stay organised from planning through completion."
       }
     ]
   },
   "about": {
     "eyebrow": "About us",
-    "heroEyebrow": "About Inventure",
-    "title": "An integrated <g>communications</g> platform",
-    "heroTitle": "Building meaningful <g>connections</g>",
-    "readMore": "Our story",
-    "values": ["People", "Ideas", "Partnerships", "Impact"],
+    "heroEyebrow": "About us",
+    "title": "About Us",
+    "heroTitle": "A coordinated approach to <g>every assignment</g>",
+    "readMore": "Our approach",
+    "cta": "Discuss Your Project",
+    "values": ["Clarity", "Coordination", "Delivery"],
     "paragraphs": [
-      "Inventure Communications operates across media, public relations, public affairs, and institutional engagement.",
-      "We work with governments, regional organizations, and leading institutions to shape narratives, align stakeholders, and support decision-making in complex environments—delivering outcomes that are clear, measurable, and relevant.",
-      "Our approach connects strategy with execution. Communication is not treated as an isolated function, but as a structured tool that supports positioning, strengthens alignment, and drives outcomes.",
-      "The name Inventure reflects our approach—working from within institutional environments and translating insight into communication that shapes direction and drives results.",
-      "At the core of our work is a simple principle: to shape influence and deliver impact through communication that is precise, purposeful, and aligned with real-world outcomes."
-    ]
-  },
-  "positioning": {
-    "eyebrow": "Our positioning",
-    "title": "A strategic partner, not a service provider",
-    "body": "We support institutions in navigating complexity—connecting communication with decision-making, and ensuring that messaging contributes directly to clarity, alignment, and direction."
-  },
-  "impact": {
-    "eyebrow": "How we deliver impact",
-    "title": "Communication systems that connect thinking with execution",
-    "items": [
-      { "index": "01", "title": "Context-Based Strategy", "body": "Grounded in real stakeholder and institutional dynamics." },
-      { "index": "02", "title": "Institutional Understanding", "body": "Clear awareness of how decisions are made and influenced." },
-      { "index": "03", "title": "Integrated Execution", "body": "Media, PR, public affairs, and events operate as one coordinated system." },
-      { "index": "04", "title": "Insight-Driven Approach", "body": "Decisions are based on analysis, not assumptions." },
-      { "index": "05", "title": "Outcome-Focused Delivery", "body": "We define success through measurable results." },
-      { "index": "06", "title": "Structured Problem Solving", "body": "We simplify complexity and provide clear direction." }
+      "Inventure Communications works with businesses and institutions across communications, events, media production, government relations, sustainability advisory, business networking and general trading.",
+      "We bring together the services and expertise needed for each assignment, helping clients manage projects through a clear and coordinated approach."
     ],
-    "strengthTitle": "Our core strength",
-    "strengthBody": "We operate where communication meets decision-making. Our work ensures that communication supports outcomes—not just visibility.",
-    "thinkTitle": "How we think",
-    "thinkBody": "We approach every engagement as a system, not a campaign. In complex environments, communication is not about visibility—it is about positioning."
-  },
-  "capability": {
-    "title": "Institutional capability",
-    "paragraphs": [
-      "Inventure Communications is built to operate within institutional environments—engaging with governments, regional entities, and large-scale initiatives.",
-      "We integrate strategy and execution within one structure—ensuring consistency, speed, and clarity across all communication efforts.",
-      "In-house capabilities provide full control over production, creative development, and delivery, supported by an established operational infrastructure and media network.",
-      "The company is supported by strategic partnerships and institutional backing, enabling scale, execution capability, and regional reach."
+    "storyEyebrow": "The ideas that guide us",
+    "storyTitle": "Connecting people, communication and delivery",
+    "story": [
+      "Our work is guided by ideas associated with messages, communication, travel and exchange.",
+      "These ideas reflect our focus on connecting people, facilitating communication and helping projects move forward."
     ],
-    "items": [
-      {
-        "title": "Production Facilities",
-        "body": "Access to high-quality production facilities enabling full-scale content creation"
-      },
-      {
-        "title": "Media Relationships",
-        "body": "Established relationships across media platforms, including journalists, publications, and broadcast networks"
-      },
-      {
-        "title": "Distribution & Delivery",
-        "body": "The ability to manage, distribute, and deliver communication outputs with speed, consistency, and quality"
-      }
-    ]
-  },
-  "advantage": {
-    "eyebrow": "Our advantage",
-    "title": "An integrated platform with institutional reach",
-    "items": [
-      "Integrated platform across communications disciplines",
-      "Institutional-level engagement capability",
-      "Execution-ready operational structure",
-      "Strong regional access and network",
-      "Ability to operate with clarity, speed, and consistency"
-    ]
-  },
-  "clients": {
-    "title": "Who we work with",
-    "items": [
-      "Government entities",
-      "Sovereign and institutional partners",
-      "Regional and international organizations",
-      "Corporations and investment groups",
-      "Development-focused institutions"
-    ]
-  },
-  "principles": {
-    "eyebrow": "Our principles",
-    "title": "How we operate is as important as what we deliver",
-    "items": [
-      { "title": "Transparency & Integrity", "body": "We operate with clarity, accountability, and professional discipline. Our work maintains a clear separation between advisory and execution." },
-      { "title": "Accountability", "body": "We take responsibility for outcomes. Every engagement is structured around clear objectives and measurable results." },
-      { "title": "Institutional Responsibility", "body": "We operate with a strong understanding of governance frameworks and institutional expectations." }
-    ]
-  },
-  "stats": {
-    "items": [
-      { "value": "10+", "label": "Years of Regional Experience" },
-      { "value": "200+", "label": "Successful Projects" },
-      { "value": "50+", "label": "Strategic Partners" },
-      { "value": "15+", "label": "Countries in the Region" }
+    "experienceTitle": "Our Experience",
+    "experience": "Our leadership and team members bring professional experience across public relations, event management, media production, institutional communication and business development, with experience spanning Egypt, Saudi Arabia, the United Arab Emirates and Lebanon.",
+    "approachTitle": "Our Approach",
+    "approach": [
+      "We begin by understanding what the client needs, then define the scope of work and coordinate the services required. Throughout the assignment, we focus on clear communication, defined responsibilities and consistent follow-up.",
+      "Our aim is to make project coordination more straightforward for our clients while keeping the work aligned with agreed objectives."
     ]
   },
   "hero": {
-    "eyebrow": "Inventure Communications",
-    "title": "Strategic communications for <g>decision-makers</g>",
-    "subtitle": "We counsel institutions across the Middle East on reputation, media, and public affairs — with clarity, discipline, and regional fluency.",
-    "ctaServices": "Explore our services",
-    "ctaContact": "Contact"
+    "title": "One Client. One Team. One Goal.",
+    "subtitle": "Managing a project can mean dealing with multiple suppliers, specialists and service providers. We make the process easier by bringing the services you need together under one point of contact.",
+    "body": [
+      "Your dedicated project manager coordinates the work, keeps communication clear and follows the project from planning to delivery.",
+      "Whether you need one service or support across several areas, we help you manage the process with greater clarity and less coordination on your side."
+    ],
+    "ctaContact": "Discuss Your Project",
+    "ctaServices": "Explore Our Services"
+  },
+  "home": {
+    "servicesTitle": "Our Services",
+    "servicesCta": "Explore Our Services",
+    "modelTitle": "One Point of Contact. The Right Team for Your Project.",
+    "modelBody": [
+      "You tell us what you want to achieve. We help define the services needed, bring together the right specialists and coordinate the work through one dedicated project manager.",
+      "Instead of managing every service separately, you have one main point of contact who keeps the project organised and follows its progress."
+    ],
+    "client": "You",
+    "roles": [
+      { "id": "pm", "title": "Project Manager", "lead": true },
+      { "id": "events", "title": "Event Coordinator" },
+      { "id": "design", "title": "Graphic Designer" },
+      { "id": "pr", "title": "PR & Communications Specialist" },
+      { "id": "media", "title": "Media Production Specialist" },
+      { "id": "bd", "title": "Business Development Specialist" },
+      { "id": "esg", "title": "Sustainability Advisor" }
+    ],
+    "howTitle": "How We Work",
+    "how": [
+      { "index": "01", "title": "Discuss", "body": "We start by understanding your objectives, requirements and expected outcomes." },
+      { "index": "02", "title": "Define", "body": "We identify the services needed, agree on the scope of work and establish the project plan." },
+      { "index": "03", "title": "Coordinate", "body": "Your project manager brings together the relevant specialists, coordinates activities and keeps communication clear." },
+      { "index": "04", "title": "Deliver", "body": "We follow the agreed plan, track progress and coordinate the work through completion." }
+    ],
+    "whyTitle": "Why Inventure?",
+    "why": [
+      { "title": "One Point of Contact", "body": "Work with one project manager who coordinates the services involved in your assignment." },
+      { "title": "Services That Work Together", "body": "Bring together the expertise your project needs without managing every service separately." },
+      { "title": "Clear Responsibilities", "body": "Know who is responsible for each part of the work and how it fits into the overall plan." },
+      { "title": "From Planning to Delivery", "body": "Keep the work coordinated through agreed milestones and project completion." }
+    ],
+    "workTitle": "Our Work",
+    "workBody": "Explore selected projects, events and assignments to see what we have worked on, the role we played and the services delivered.",
+    "workCta": "Explore Our Work",
+    "teamTitle": "Our Team",
+    "teamBody": "Meet the leadership behind Inventure Communications and learn about the experience guiding the company.",
+    "teamCta": "Meet Our Team",
+    "newsTitle": "News & Media",
+    "newsBody": "Discover our latest announcements, activities, event highlights and media coverage.",
+    "newsCta": "View News & Media",
+    "ctaTitle": "Have a Project in Mind?",
+    "ctaBody": "Tell us what you need. We will discuss your objectives and help identify the right approach.",
+    "ctaButton": "Discuss Your Project"
   },
   "services": {
-    "eyebrow": "Capabilities",
+    "eyebrow": "Our services",
     "heroEyebrow": "Our Services",
-    "heroTitle": "Integrated Communication<br></br>for a <g>Changing World</g>",
-    "intro": "We provide end-to-end strategic communication solutions that help organizations build reputation, engage stakeholders and create measurable impact.",
-    "title": "Core <g>offerings</g>",
-    "subtitle": "Integrated communications disciplines for institutional clients.",
+    "heroTitle": "The right support for <g>your project</g>",
+    "intro": "From individual assignments to projects requiring several services, Inventure Communications helps businesses and institutions find the right support for their needs.",
+    "title": "Our <g>services</g>",
+    "subtitle": "Six service areas coordinated through one point of contact.",
     "learnMore": "Learn more",
     "all": "All services",
     "label": "Service",
-    "includes": "What this includes",
-    "others": "Other capabilities"
+    "includes": "Our services include",
+    "others": "Other services",
+    "multiTitle": "Need Several Services for One Project?",
+    "multiBody": "Inventure Communications can coordinate the relevant services through one project manager, giving you a clear point of contact and a more organised way to manage the work.",
+    "multiCta": "Discuss Your Project"
   },
   "work": {
     "heroEyebrow": "Our Work",
-    "heroTitle": "Events that Inspire<br></br><g>Change</g>",
-    "intro": "We conceptualize, manage and deliver high-profile events that bring people together, spark dialogue and drive real outcomes.",
-    "explore": "Explore our work",
-    "values": ["Ideas", "Dialogue", "Action"],
-    "all": "All",
-    "conferences": "Conferences",
-    "forums": "Forums",
-    "summits": "Summits",
-    "exhibitions": "Exhibitions",
-    "campaigns": "Media Campaigns"
+    "heroTitle": "Projects, Partnerships & <g>Experiences</g>",
+    "intro": "Every project has its own objectives and requirements. Our work reflects the assignments we undertake and the role we play in bringing them to life.",
+    "values": ["Projects", "Partnerships", "Experiences"],
+    "explore": "Explore selected projects",
+    "empty": "Selected projects will appear here once they are approved for publication. We do not present illustrative images as completed assignments.",
+    "ctaTitle": "Planning Something Similar?",
+    "ctaBody": "Tell us about your project and the support you need. We will discuss the requirements and how we can help coordinate the work.",
+    "ctaButton": "Discuss Your Project",
+    "overview": "Project Overview",
+    "role": "Our Role",
+    "delivered": "Services Delivered",
+    "highlights": "Project Highlights",
+    "details": "Project Details"
+  },
+  "news": {
+    "title": "News & Media",
+    "description": "Follow the latest news, announcements and activities from Inventure Communications.",
+    "empty": "Announcements, photo galleries and media coverage will appear here once they are approved for publication.",
+    "press": "Press Releases",
+    "pressBody": "Official announcements and company updates.",
+    "events": "Events & Activities",
+    "eventsBody": "Updates from events, conferences, exhibitions and other activities.",
+    "gallery": "Photo Gallery",
+    "galleryBody": "Photographs from selected projects, events and company activities.",
+    "video": "Videos & Media Coverage",
+    "videoBody": "Video content, interviews and published coverage related to our work.",
+    "latest": "Latest Updates",
+    "readMore": "Read More"
   },
   "insights": {
-    "title": "<g>Insights</g>",
-    "description": "Notes on communication and public affairs.",
-    "empty": "Articles will be added in Directus.",
-    "comingSoon": "Insights will be published here soon."
+    "title": "News & <g>Media</g>",
+    "description": "Announcements, activities and media coverage.",
+    "empty": "Announcements, photo galleries and media coverage will appear here once they are approved for publication.",
+    "comingSoon": "News and media updates will be published here soon."
+  },
+  "team": {
+    "title": "Our Team",
+    "eyebrow": "Leadership & Experience",
+    "intro": "Inventure Communications is led by professionals with experience across strategic communications, media, operations, event management and business development.",
+    "lead": "Our leadership brings together complementary expertise to guide the company, oversee its activities and support the work we undertake.",
+    "closing": "Our leadership combines different areas of experience to guide the company and support the delivery of its assignments.",
+    "pending": "Approved names, photographs and biographies will be published here once they have been cleared for use. This page lists senior leadership roles only.",
+    "roles": [
+      {
+        "title": "Chairman",
+        "body": "Leadership biography to be published upon approval."
+      },
+      {
+        "title": "Chief Executive Officer",
+        "body": "Executive biography to be published upon approval."
+      },
+      {
+        "title": "Chief Operating Officer",
+        "body": "Operations biography to be published upon approval."
+      },
+      {
+        "title": "Director of Media & Communications",
+        "body": "Media and communications biography to be published upon approval."
+      }
+    ]
+  },
+  "clientsPage": {
+    "title": "Our Clients",
+    "intro": "We value the professional relationships we build with the organisations we serve.",
+    "body": "Our work is shaped by each client’s objectives and requirements, with a focus on clear communication and coordinated delivery.",
+    "showcase": "This section showcases selected clients. Logos and named relationships appear only where approved for publication.",
+    "items": ["NAVIX Logistics", "ARM Consulting"]
+  },
+  "partnersPage": {
+    "title": "Our Partners",
+    "intro": "We work with organisations whose expertise and capabilities complement our services and support the delivery of projects and initiatives.",
+    "body": "Our partnerships are built around shared objectives, clear responsibilities and opportunities for professional cooperation.",
+    "items": ["SYSTICS", "EBAR", "Arab League Partners Alliance for Sustainability"],
+    "allianceTitle": "Alliance Events Coordination",
+    "alliance": "Inventure Communications is responsible for organising and coordinating the Alliance’s events across the Arab region, in accordance with the agreed scope of work."
   },
   "careers": {
     "title": "<g>Careers</g>",
     "description": "Open roles at Inventure Communications.",
-    "empty": "Openings will be added in Directus."
-  },
-  "esg": {
-    "title": "Sustainability & ESG",
-    "comingSoon": "ESG commitments will appear here soon.",
-    "subtitle": "Sustainability is integrated into how we operate, advise, and deliver our work.",
-    "closing": "We view communication as a key enabler of sustainability—shaping perception, influencing behavior, and supporting institutions in aligning with long-term economic and social priorities.",
-    "practice": [
-      "Prioritize digital delivery and reduce unnecessary production",
-      "Integrate ESG messaging into relevant projects and campaigns",
-      "Apply structured review processes to ensure accuracy and transparency",
-      "Align communication outputs with recognized sustainability principles",
-      "Work with partners and suppliers who demonstrate responsible practices"
-    ]
+    "empty": "Openings will be added when they are available."
   },
   "contact": {
-    "heading": "Contact"
+    "heading": "Contact Us",
+    "title": "Let’s Discuss Your Project",
+    "intro": "Tell us what you are planning and what you need to achieve. Whether you require one service or support across several areas, we will review your requirements and discuss the right approach.",
+    "formTitle": "Send an Enquiry",
+    "name": "Full Name",
+    "email": "Business Email",
+    "company": "Company / Organisation",
+    "service": "Service Required",
+    "timeline": "Expected Timeline",
+    "budget": "Estimated Budget",
+    "message": "Project Objectives & Requirements",
+    "namePlaceholder": "Enter your full name",
+    "emailPlaceholder": "Enter your business email",
+    "companyPlaceholder": "Enter your company or organisation",
+    "servicePlaceholder": "Select a service",
+    "timelinePlaceholder": "Enter your expected timeline",
+    "budgetPlaceholder": "Optional",
+    "messagePlaceholder": "Briefly describe your project and what you need to achieve.",
+    "multiple": "Multiple Services",
+    "other": "Other",
+    "submit": "Submit Enquiry",
+    "notice": "We will use the information you provide to respond to your enquiry.",
+    "success": "Thank you. Your enquiry has been submitted. We will be in touch.",
+    "error": "The enquiry could not be sent. Please try again or email us directly.",
+    "required": "This field is required."
+  },
+  "legal": {
+    "privacyTitle": "Privacy Policy",
+    "privacyBody": "This privacy notice will be published after legal review. Until then, we use enquiry information only to respond to your request.",
+    "termsTitle": "Terms of Use",
+    "termsBody": "The terms of use for this website will be published after legal review."
   },
   "footer": {
-    "tagline": "Strategic Communications & Public Affairs — Middle East.",
-    "explore": "Explore",
+    "tagline": "One Client. One Team. One Goal.",
+    "explore": "Quick Links",
     "markets": "Markets",
     "emailLabel": "Email",
     "webLabel": "Website",
     "rights": "All rights reserved.",
     "email": "info@inventurecommunications.com",
-    "web": "inventurecommunications.com"
+    "web": "inventurecommunications.com",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Use"
   },
   "theme": {
     "label": "Appearance",
@@ -237,17 +298,17 @@
   "seo": {
     "titleDefault": "Inventure Communications",
     "titleTemplate": "%s | Inventure Communications",
-    "description": "Inventure Communications is a Strategic Communications & Public Affairs firm advising institutions across the Middle East on reputation, media, and stakeholder engagement.",
-    "ogTitle": "Inventure Communications — Strategic Communications & Public Affairs",
+    "description": "Inventure Communications coordinates communications, events, media production, government relations, sustainability advisory, business networking and trading through one point of contact.",
+    "ogTitle": "Inventure Communications — One Client. One Team. One Goal.",
     "twitterTitle": "Inventure Communications",
-    "twitterDescription": "Strategic Communications & Public Affairs for institutional audiences in the Middle East."
+    "twitterDescription": "One point of contact to coordinate the services and specialists required for each project."
   },
   "images": {
     "hero": "Glass office towers seen from below",
     "about": "Team working in an open office",
     "aboutSkyline": "Glass towers against a bright sky",
     "briefing": "Briefing around a conference table",
-    "forum": "Audience at an institutional forum",
+    "forum": "Audience at a professional forum",
     "analytics": "Performance dashboard on a laptop"
   },
   "a11y": {

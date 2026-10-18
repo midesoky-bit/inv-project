@@ -5,9 +5,11 @@ export const NAV_LINKS = [
   { href: "/", messageKey: "home" },
   { href: "/about", messageKey: "about" },
   { href: "/services", messageKey: "services" },
+  { href: "/team", messageKey: "team" },
   { href: "/work", messageKey: "work" },
-  { href: "/insights", messageKey: "insights" },
-  { href: "/careers", messageKey: "careers" },
+  { href: "/news", messageKey: "news" },
+  { href: "/clients", messageKey: "clients" },
+  { href: "/partners", messageKey: "partners" },
   { href: "/contact", messageKey: "contact" },
 ] as const;
 

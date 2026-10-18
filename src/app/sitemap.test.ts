@@ -12,6 +12,6 @@ describe("sitemap", () => {
     const urls = (await sitemap()).map((entry) => entry.url);
     expect(urls).toContain("https://inventure.example/en/contact");
     expect(urls).toContain("https://inventure.example/ar/work");
-    expect(urls).toContain("https://inventure.example/en/careers");
+    expect(urls).toContain("https://inventure.example/en/news");
   });
 });

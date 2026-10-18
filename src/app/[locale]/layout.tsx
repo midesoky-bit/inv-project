@@ -22,11 +22,11 @@ import "../globals.css";
 
 const siteKeywords = [
   "Strategic Communications",
-  "Public Affairs",
-  "Middle East",
+  "Event Management",
   "Media Production",
-  "Corporate Communications",
-  "ESG Communications",
+  "Government Relations",
+  "Sustainability Advisory",
+  "Business Networking",
 ];
 
 export function generateStaticParams() {

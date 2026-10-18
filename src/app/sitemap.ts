@@ -6,7 +6,19 @@ import { fetchServices } from "@/services/cms";
 
 export const revalidate = 3600;
 
-const STATIC_PATHS = ["", "/about", "/services", "/work", "/insights", "/careers", "/contact"];
+const STATIC_PATHS = [
+  "",
+  "/about",
+  "/services",
+  "/team",
+  "/work",
+  "/news",
+  "/clients",
+  "/partners",
+  "/contact",
+  "/privacy",
+  "/terms",
+];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const services = await fetchServices("en");

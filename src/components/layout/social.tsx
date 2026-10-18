@@ -6,10 +6,20 @@ export function LinkedInIcon({ className = "size-4" }: { className?: string }) {
   );
 }
 
-export function XIcon({ className = "size-4" }: { className?: string }) {
+export function FacebookIcon({ className = "size-4" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden className={className} fill="currentColor">
-      <path d="M14.7 10.3 21.4 3h-1.6l-5.8 6.4L9.2 3H3.5l7 9.9L3.5 21h1.6l6.1-6.8L15.3 21h5.7l-6.3-10.7Zm-2.2 2.4-.7-1-5.6-7.8h2.4l4.5 6.3.7 1 5.9 8.2h-2.4l-4.8-6.7Z" />
+      <path d="M14 9h3V6h-3c-2.2 0-4 1.8-4 4v2H8v3h2v7h3v-7h2.6l.4-3H13v-2c0-.6.4-1 1-1Z" />
+    </svg>
+  );
+}
+
+export function InstagramIcon({ className = "size-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden className={className} fill="none" stroke="currentColor" strokeWidth="1.6">
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <circle cx="12" cy="12" r="3.5" />
+      <circle cx="17.2" cy="6.8" r="0.8" fill="currentColor" stroke="none" />
     </svg>
   );
 }
@@ -24,6 +34,7 @@ export function YouTubeIcon({ className = "size-4" }: { className?: string }) {
 
 export const SOCIAL_NETWORKS = [
   { label: "linkedin", url: "linkedinUrl", Icon: LinkedInIcon },
-  { label: "x", url: "xUrl", Icon: XIcon },
+  { label: "facebook", url: "facebookUrl", Icon: FacebookIcon },
+  { label: "instagram", url: "instagramUrl", Icon: InstagramIcon },
   { label: "youtube", url: "youtubeUrl", Icon: YouTubeIcon },
 ] as const;

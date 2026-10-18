@@ -11,20 +11,20 @@ export const SERVICE_VISUALS = {
 export type ServiceVisual = (typeof SERVICE_VISUALS)[keyof typeof SERVICE_VISUALS];
 
 export function serviceVisual(slug: string): ServiceVisual {
-  if (slug === "events-exhibitions" || slug === "media-production") {
+  if (slug === "events-event-management") {
     return SERVICE_VISUALS.forum;
   }
-  if (
-    slug === "digital-media-platforms" ||
-    slug === "media-content-management"
-  ) {
+  if (slug === "media-production-content-creation") {
     return SERVICE_VISUALS.analytics;
   }
-  if (slug === "capital-markets-financial-communications") {
-    return SERVICE_VISUALS.towers;
+  if (slug === "government-relations") {
+    return SERVICE_VISUALS.briefing;
   }
-  if (slug === "public-relations-partnerships") {
+  if (slug === "sustainability-advisory") {
     return SERVICE_VISUALS.office;
+  }
+  if (slug === "business-networking-strategic-partnerships") {
+    return SERVICE_VISUALS.towers;
   }
   return SERVICE_VISUALS.briefing;
 }

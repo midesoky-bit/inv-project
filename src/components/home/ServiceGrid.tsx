@@ -52,7 +52,7 @@ export async function ServiceGrid({ services }: ServiceGridProps) {
       className={`relative z-10 scroll-mt-24 ${PAGE_GUTTER} py-10 md:py-16`}
       aria-labelledby="services-page-heading"
     >
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {services.map((service, index) => {
           const visual = serviceCardVisual(service);
           return (

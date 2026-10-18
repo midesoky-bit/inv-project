@@ -5,8 +5,8 @@ import type { Service } from "@/types/cms";
 function service(overrides: Partial<Service> = {}): Service {
   return {
     id: "1",
-    slug: "media-production",
-    title: "Media Production",
+    slug: "events-event-management",
+    title: "Events & Event Management",
     summary: "Summary",
     description: "Description",
     highlights: [],
@@ -29,6 +29,8 @@ describe("serviceCardVisual", () => {
   });
 
   it("keeps the local alt key for both sources", () => {
-    expect(serviceCardVisual(service()).altKey).toBe(serviceVisual("media-production").altKey);
+    expect(serviceCardVisual(service()).altKey).toBe(
+      serviceVisual("events-event-management").altKey,
+    );
   });
 });

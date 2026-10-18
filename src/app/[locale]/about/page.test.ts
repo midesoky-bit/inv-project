@@ -5,10 +5,10 @@ import { NAV_LINKS } from "@/components/layout/navigation";
 const page = readFileSync("src/app/[locale]/about/page.tsx", "utf8");
 
 describe("about page", () => {
-  it("hosts the profile sections and keeps ESG off the menu", () => {
-    expect(page).toContain("<EsgSection");
-    expect(page).toContain("<ImpactSection");
-    expect(page).toContain("<PrinciplesSection");
+  it("keeps ESG off the menu and uses the brief about flow", () => {
+    expect(page).toContain("<AboutHero");
+    expect(page).toContain("<PresenceStrip");
+    expect(page).not.toContain("<EsgSection");
     expect(
       NAV_LINKS.some((item) => (item.messageKey as string) === "esg"),
     ).toBe(false);

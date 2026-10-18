@@ -29,19 +29,18 @@ describe("cms service (mock provider)", () => {
     process.env.CMS_PROVIDER = "mock";
   });
 
-  it("returns seven ordered services in English", async () => {
+  it("returns six ordered services in English", async () => {
     const services = await fetchServices("en");
-    expect(services).toHaveLength(7);
+    expect(services).toHaveLength(6);
     const orders = services.map((s) => s.order);
     expect(orders).toEqual([...orders].sort((a, b) => a - b));
     expect(services.map((s) => s.slug)).toEqual([
-      "media-production",
-      "media-content-management",
-      "digital-media-platforms",
-      "public-relations-partnerships",
-      "events-exhibitions",
-      "public-affairs-government-relations",
-      "capital-markets-financial-communications",
+      "events-event-management",
+      "media-production-content-creation",
+      "government-relations",
+      "sustainability-advisory",
+      "business-networking-strategic-partnerships",
+      "general-supplies-trading",
     ]);
   });
 
@@ -58,7 +57,10 @@ describe("cms service (mock provider)", () => {
   });
 
   it("fetches a service by slug", async () => {
-    const service = await fetchServiceBySlug("media-production", "en");
+    const service = await fetchServiceBySlug(
+      "media-production-content-creation",
+      "en",
+    );
     expect(service).not.toBeNull();
     expect(service?.title).toMatch(/media production/i);
   });
@@ -88,7 +90,7 @@ describe("cms service (mock provider)", () => {
 
   it("defaults locale to English", async () => {
     const services = await fetchServices();
-    expect(services[0]?.title).toBe("Media Production");
+    expect(services[0]?.title).toBe("Events & Event Management");
   });
 });
 
