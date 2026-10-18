@@ -6,7 +6,7 @@ import type { Service } from "@/types/cms";
 import { ServiceGrid } from "@/components/home/ServiceGrid";
 
 type Role = { id: string; title: string; lead?: boolean };
-type Step = { index: string; title: string; body: string };
+type Step = { title: string; body: string };
 type WhyItem = { title: string; body: string };
 
 function RoleIcon({ id }: { id: string }) {
@@ -176,11 +176,8 @@ export async function HowWeWork() {
       </h2>
       <ol className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         {steps.map((step) => (
-          <li key={step.index} className="rounded-xl border border-border bg-surface p-6">
-            <p className="text-xs font-medium tracking-[0.18em] text-accent">
-              {step.index}
-            </p>
-            <h3 className="mt-3 font-serif text-xl text-foreground">{step.title}</h3>
+          <li key={step.title} className="rounded-xl border border-border bg-surface p-6">
+            <h3 className="font-serif text-xl text-foreground">{step.title}</h3>
             <p className="mt-3 text-sm leading-relaxed text-muted">{step.body}</p>
           </li>
         ))}

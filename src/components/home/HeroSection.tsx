@@ -118,27 +118,25 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
 
       <div className="absolute inset-x-0 bottom-0 z-10 bg-brand text-brand-foreground">
         <div className={`flex flex-col gap-2 ${PAGE_GUTTER} sm:flex-row sm:items-stretch sm:gap-0`}>
-          <div className="flex items-center gap-3 py-4 text-sm tracking-[0.14em] sm:pe-6">
+          <div className="flex items-center gap-2 py-4 sm:pe-6">
             {SLIDES.map((item, index) => (
-              <span key={item.src} className="flex items-center gap-3">
-                {index > 0 ? (
-                  <span aria-hidden className="text-brand-foreground/35">
-                    —
-                  </span>
-                ) : null}
-                <button
-                  type="button"
-                  onClick={() => setSlide(index)}
-                  aria-current={slide === index ? "true" : undefined}
+              <button
+                key={item.src}
+                type="button"
+                onClick={() => setSlide(index)}
+                aria-label={tImages(item.key)}
+                aria-current={slide === index ? "true" : undefined}
+                className="inline-flex size-8 items-center justify-center"
+              >
+                <span
+                  aria-hidden
                   className={
                     slide === index
-                      ? "text-brand-foreground"
-                      : "text-brand-foreground/45 transition-colors hover:text-brand-foreground motion-reduce:transition-none"
+                      ? "size-2 rounded-full bg-brand-foreground"
+                      : "size-2 rounded-full bg-brand-foreground/35 transition-colors hover:bg-brand-foreground motion-reduce:transition-none"
                   }
-                >
-                  {String(index + 1).padStart(2, "0")}
-                </button>
-              </span>
+                />
+              </button>
             ))}
           </div>
           <ul className="flex flex-1 items-stretch overflow-x-auto">

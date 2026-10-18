@@ -111,10 +111,10 @@
     ],
     "howTitle": "How We Work",
     "how": [
-      { "index": "01", "title": "Discuss", "body": "We start by understanding your objectives, requirements and expected outcomes." },
-      { "index": "02", "title": "Define", "body": "We identify the services needed, agree on the scope of work and establish the project plan." },
-      { "index": "03", "title": "Coordinate", "body": "Your project manager brings together the relevant specialists, coordinates activities and keeps communication clear." },
-      { "index": "04", "title": "Deliver", "body": "We follow the agreed plan, track progress and coordinate the work through completion." }
+      { "title": "Discuss", "body": "We start by understanding your objectives, requirements and expected outcomes." },
+      { "title": "Define", "body": "We identify the services needed, agree on the scope of work and establish the project plan." },
+      { "title": "Coordinate", "body": "Your project manager brings together the relevant specialists, coordinates activities and keeps communication clear." },
+      { "title": "Deliver", "body": "We follow the agreed plan, track progress and coordinate the work through completion." }
     ],
     "whyTitle": "Why Inventure?",
     "why": [

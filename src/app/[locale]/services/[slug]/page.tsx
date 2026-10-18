@@ -64,7 +64,6 @@ export default async function ServicePage({ params }: PageProps) {
   const tImages = await getTranslations("images");
   const visual = serviceCardVisual(service);
   const others = services.filter((item) => item.slug !== service.slug);
-  const index = String(service.order).padStart(2, "0");
 
   return (
     <article className="bg-background">
@@ -85,9 +84,6 @@ export default async function ServicePage({ params }: PageProps) {
         <div className={`relative ${PAGE_GUTTER} pt-12 pb-16`}>
           <p className="text-xs font-medium tracking-[0.18em] text-accent uppercase">
             {t("eyebrow")}
-          </p>
-          <p className="mt-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
-            {index} — {t("label")}
           </p>
           <h1 className="mt-4 max-w-3xl font-serif text-4xl tracking-tight text-balance md:text-5xl">
             {service.title}
