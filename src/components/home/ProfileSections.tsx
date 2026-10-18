@@ -11,17 +11,19 @@ function SectionIntro({
   id,
   lead,
   tone = "default",
+  className,
 }: {
   eyebrow?: string;
   title: string;
   id?: string;
   lead?: string;
   tone?: "default" | "brand";
+  className?: string;
 }) {
   const onBrand = tone === "brand";
 
   return (
-    <div className="max-w-2xl">
+    <div className={cn("max-w-2xl", className)}>
       {eyebrow ? (
         <p className="mb-3 text-xs font-medium tracking-[0.18em] text-accent uppercase">
           {eyebrow}
@@ -37,7 +39,7 @@ function SectionIntro({
       </h2>
       {lead ? (
         <p
-          className={`mt-4 max-w-xl text-sm leading-relaxed md:text-base ${
+          className={`mt-4 text-sm leading-relaxed md:text-base ${
             onBrand ? "text-brand-foreground/75" : "text-muted"
           }`}
         >
@@ -102,7 +104,7 @@ function FramedImage({
   sizes: string;
 }) {
   return (
-    <figure className="overflow-hidden border border-border bg-surface">
+    <figure className="w-full overflow-hidden border border-border bg-surface">
       <div className="relative aspect-[4/3]">
         <Image src={src} alt="" fill sizes={sizes} className="object-cover" />
       </div>
@@ -185,10 +187,14 @@ export async function PositioningSection() {
       id="story"
       className={`scroll-mt-24 border-t border-border bg-surface-muted ${PAGE_GUTTER} py-14 md:py-20 dark:border-t-0`}
     >
-      <div className="grid items-start gap-10 lg:grid-cols-12 lg:items-center">
-        <div className="lg:col-span-7">
-          <SectionIntro eyebrow={t("eyebrow")} title={t("title")} />
-          <div className="mt-6 max-w-xl space-y-5">
+      <div className="grid items-start gap-10 lg:grid-cols-12">
+        <div className="min-w-0 lg:col-span-7">
+          <SectionIntro
+            className="max-w-none"
+            eyebrow={t("eyebrow")}
+            title={t("title")}
+          />
+          <div className="mt-6 space-y-5">
             <p className="text-base leading-relaxed text-foreground">{t("body")}</p>
             {body.map((paragraph) => (
               <p key={paragraph} className="text-sm leading-relaxed text-muted md:text-base">
@@ -226,16 +232,21 @@ export async function ImpactSection() {
       aria-labelledby="impact-heading"
     >
       <div>
-        <div className="grid items-end gap-10 lg:grid-cols-12">
-          <div className="lg:col-span-7">
+        <div className="grid items-start gap-10 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-7">
             <SectionIntro
+              className="max-w-none"
               eyebrow={t("eyebrow")}
               title={t("title")}
               id="impact-heading"
               lead={t("strengthBody")}
             />
+            <p className="mt-8 border-s-2 border-accent ps-5 text-sm leading-relaxed text-foreground md:text-base">
+              {t("thinkBody")}
+            </p>
+            <TopicList items={items} columnsClassName="sm:grid-cols-2" />
           </div>
-          <figure className="relative hidden aspect-[16/10] overflow-hidden border border-border lg:col-span-5 lg:block">
+          <figure className="relative hidden aspect-[16/10] w-full overflow-hidden border border-border lg:col-span-5 lg:block">
             <Image
               src="/images/forum.webp"
               alt={tImages("forum")}
@@ -246,10 +257,6 @@ export async function ImpactSection() {
             />
           </figure>
         </div>
-        <TopicList items={items} />
-        <p className="mt-12 max-w-3xl border-s-2 border-accent ps-5 text-sm leading-relaxed text-foreground md:text-base">
-          {t("thinkBody")}
-        </p>
       </div>
     </section>
   );
