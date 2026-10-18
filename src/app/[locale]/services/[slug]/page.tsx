@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { routing, type Locale } from "@/i18n/routing";
+import { isRemoteAsset } from "@/lib/cms/image-hosts";
 import { PAGE_GUTTER } from "@/lib/layout";
 import { buildPageMetadata } from "@/lib/metadata";
 import { serviceCardVisual } from "@/lib/service-visuals";
@@ -74,6 +75,7 @@ export default async function ServicePage({ params }: PageProps) {
           fill
           priority
           sizes="100vw"
+          unoptimized={isRemoteAsset(visual.src)}
           className="object-cover"
         />
         <div

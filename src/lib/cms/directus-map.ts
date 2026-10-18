@@ -34,7 +34,7 @@ function firstTranslation(
 }
 
 function cmsAssetBase(): string {
-  return (process.env.CMS_URL ?? process.env.DIRECTUS_PUBLIC_URL ?? "").replace(
+  return (process.env.DIRECTUS_PUBLIC_URL ?? process.env.CMS_URL ?? "").replace(
     /\/$/,
     "",
   );

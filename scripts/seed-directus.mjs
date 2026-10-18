@@ -204,7 +204,25 @@ async function publicPolicyId(token) {
   return access.json?.data?.find((entry) => entry.role == null && entry.user == null)?.policy ?? null;
 }
 
-async function ensurePublicRead(token, collection) {
+async function ensureFolder(token, name) {
+  const existing = await api(
+    token,
+    "GET",
+    `/folders?filter[name][_eq]=${encodeURIComponent(name)}&limit=1`,
+  );
+  const id = existing.json?.data?.[0]?.id;
+  if (id) return id;
+  const created = await api(token, "POST", "/folders", { name });
+  if (!created.ok || !created.json?.data?.id) {
+    throw new Error(`Create folder ${name}: ${JSON.stringify(created.json)}`);
+  }
+  return created.json.data.id;
+}
+
+async function ensurePublicRead(token, collection, spec = {}) {
+  const fields = spec.fields ?? ["*"];
+  const payload = { fields };
+  if (spec.permissions) payload.permissions = spec.permissions;
   const policy = await publicPolicyId(token);
   if (policy) {
     const existing = await api(
@@ -214,12 +232,17 @@ async function ensurePublicRead(token, collection) {
     );
     if (existing.json?.data?.length) {
       for (const permission of existing.json.data) {
-        const fields = permission.fields;
-        const hasAll = Array.isArray(fields) && fields.includes("*");
-        if (hasAll) continue;
-        await api(token, "PATCH", `/permissions/${permission.id}`, {
-          fields: ["*"],
-        });
+        const updated = await api(
+          token,
+          "PATCH",
+          `/permissions/${permission.id}`,
+          payload,
+        );
+        if (!updated.ok) {
+          throw new Error(
+            `Public read patch ${collection}: ${JSON.stringify(updated.json)}`,
+          );
+        }
       }
       return;
     }
@@ -227,7 +250,7 @@ async function ensurePublicRead(token, collection) {
       policy,
       collection,
       action: "read",
-      fields: ["*"],
+      ...payload,
     });
     if (created.ok) return;
   }
@@ -236,7 +259,7 @@ async function ensurePublicRead(token, collection) {
     role: null,
     collection,
     action: "read",
-    fields: ["*"],
+    ...payload,
   });
   if (!legacy.ok && legacy.status !== 400) {
     throw new Error(`Public read for ${collection}: ${JSON.stringify(legacy.json)}`);
@@ -355,6 +378,7 @@ await ensureField(token, "services", {
   type: "string",
   meta: { interface: "input", width: "half" },
 });
+const serviceImageFolderId = await ensureFolder(token, "Service images");
 await ensureField(token, "services", {
   field: "image",
   type: "uuid",
@@ -363,8 +387,24 @@ await ensureField(token, "services", {
     special: ["file"],
     display: "image",
     width: "full",
+    options: { folder: serviceImageFolderId },
   },
 });
+{
+  const imageField = await api(token, "GET", "/fields/services/image");
+  const meta = imageField.json?.data?.meta ?? {};
+  const foldered = await api(token, "PATCH", "/fields/services/image", {
+    meta: {
+      ...meta,
+      options: { ...meta.options, folder: serviceImageFolderId },
+    },
+  });
+  if (!foldered.ok) {
+    throw new Error(
+      `Service image folder: ${JSON.stringify(foldered.json)}`,
+    );
+  }
+}
 await ensureRelation(token, {
   collection: "services",
   field: "image",
@@ -504,7 +544,10 @@ for (const collection of [
   await ensurePublicRead(token, collection);
 }
 try {
-  await ensurePublicRead(token, "directus_files");
+  await ensurePublicRead(token, "directus_files", {
+    fields: ["id", "filename_download", "type", "width", "height", "title"],
+    permissions: { folder: { _eq: serviceImageFolderId } },
+  });
 } catch (error) {
   console.warn(
     `Public read for directus_files skipped: ${error instanceof Error ? error.message : error}`,

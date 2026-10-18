@@ -124,6 +124,7 @@ describe("Directus response mapper", () => {
   });
 
   it("maps a Directus file id to an asset URL", () => {
+    delete process.env.DIRECTUS_PUBLIC_URL;
     process.env.CMS_URL = "http://cms.example:8055";
     expect(
       mapDirectusService({
@@ -138,6 +139,7 @@ describe("Directus response mapper", () => {
   });
 
   it("maps a nested Directus file object to an asset URL", () => {
+    delete process.env.DIRECTUS_PUBLIC_URL;
     process.env.CMS_URL = "http://cms.example:8055";
     expect(
       mapDirectusService({

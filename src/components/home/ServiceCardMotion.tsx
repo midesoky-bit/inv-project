@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { ServiceMark } from "@/components/home/ServiceIconRow";
 import { Link } from "@/i18n/navigation";
+import { isRemoteAsset } from "@/lib/cms/image-hosts";
 
 type ServiceCardMotionProps = {
   href: string;
@@ -92,6 +93,7 @@ export function ServiceCardMotion({
             alt={imageAlt}
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 640px) 50vw, 100vw"
+            unoptimized={isRemoteAsset(imageSrc)}
             className="object-cover transition-transform duration-500 group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           />
         </div>

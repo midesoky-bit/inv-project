@@ -12,9 +12,9 @@ export async function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-30 border-b border-border bg-background text-foreground">
-      <div className={`relative flex h-20 items-center gap-3 ${PAGE_GUTTER}`}>
+      <div className={`relative flex h-20 min-w-0 items-center gap-1 sm:gap-3 ${PAGE_GUTTER}`}>
         <BrandLogo name={tBrand("name")} />
-        <div className="ms-auto flex items-center justify-end gap-1 sm:gap-2 xl:gap-4">
+        <div className="ms-auto flex min-w-0 items-center justify-end gap-1 sm:gap-2 xl:gap-4">
           <DesktopNav />
           <HeaderTools />
           <ThemeSwitcher className="shrink-0" />

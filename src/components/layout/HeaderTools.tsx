@@ -58,15 +58,15 @@ export function HeaderTools() {
   }
 
   return (
-    <div ref={rootRef} className="flex shrink-0 items-center gap-1">
+    <div ref={rootRef} className="relative flex min-w-0 items-center gap-1">
       <form
         role="search"
         onSubmit={submit}
         className={cn(
           "flex h-10 items-center overflow-hidden rounded-full border bg-background transition-[width,border-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none",
           open
-            ? "w-[min(15rem,calc(100vw-6.5rem))] border-border focus-within:border-ring"
-            : "w-10 border-transparent",
+            ? "fixed start-4 end-36 top-5 z-40 w-auto border-border focus-within:border-ring"
+            : "w-10 shrink-0 border-transparent",
         )}
       >
         <button

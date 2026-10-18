@@ -12,7 +12,7 @@ const FOOTER_LOGO_VIEWBOX = "92 250 2412 630";
 export function BrandLogo({ name, size = "header" }: BrandLogoProps) {
   const className =
     size === "header"
-      ? "h-12 w-[11.25rem] sm:h-14 sm:w-[13.15rem]"
+      ? "h-9 w-28 sm:h-12 sm:w-[11.25rem] md:h-14 md:w-[13.15rem]"
       : "h-14 w-auto";
 
   return (

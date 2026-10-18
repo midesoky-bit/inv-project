@@ -22,7 +22,10 @@
 
 # misc
 .DS_Store
+Thumbs.db
+Desktop.ini
 *.pem
+.eslintcache
 
 # debug
 *.log
@@ -31,8 +34,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
-.env*.local
+# env files (keep committed examples)
+.env
+.env.*
+!.env.example
+
+# local docker overrides
+docker-compose.override.yml
 
 # vercel
 .vercel
@@ -43,3 +51,6 @@ next-env.d.ts
 
 # sdd scratch
 .superpowers/
+
+# IDE
+.idea/
