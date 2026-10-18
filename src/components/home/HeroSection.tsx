@@ -56,8 +56,43 @@ export function HeroSection({ services = [] }: { services?: HeroService[] }) {
         <div className="bg-gradient-to-r from-brand from-30% via-brand/88 via-70% to-transparent rtl:bg-gradient-to-l" />
         <div className="bg-gradient-to-l from-brand/25 to-transparent rtl:bg-gradient-to-r" />
       </div>
+      <div
+        aria-hidden
+        className="inv-hero-glow pointer-events-none absolute -inset-[12%] bg-[radial-gradient(ellipse_at_top,_rgba(58,107,140,0.38),_transparent_58%)]"
+      />
+      <svg
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1] h-full w-full text-white/75 rtl:-scale-x-100"
+        viewBox="0 0 1200 700"
+        fill="none"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <path
+          className="inv-hero-line"
+          d="M80 560 C220 420, 280 180, 460 220 S760 480, 1120 140"
+          stroke="currentColor"
+          strokeWidth="1.25"
+          pathLength={1}
+        />
+        <path
+          className="inv-hero-line text-accent"
+          d="M40 180 H520"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          pathLength={1}
+          style={{ animationDelay: "0.15s" }}
+        />
+        <path
+          className="inv-hero-line"
+          d="M860 520 H1160"
+          stroke="currentColor"
+          strokeWidth="1"
+          pathLength={1}
+          style={{ animationDelay: "0.3s" }}
+        />
+      </svg>
 
-      <div className={`relative ${PAGE_GUTTER} w-full pb-28 pt-10 lg:pb-32 lg:pt-12`}>
+      <div className={`relative z-[1] ${PAGE_GUTTER} w-full pb-28 pt-10 lg:pb-32 lg:pt-12`}>
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="max-w-xl">
             <div className="flex items-center gap-3">
