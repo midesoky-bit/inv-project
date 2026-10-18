@@ -55,20 +55,30 @@ function TopicList({
   columnsClassName = "md:grid-cols-2 lg:grid-cols-3",
   tone = "default",
   className,
+  dense = false,
 }: {
   items: TitledItem[];
   columnsClassName?: string;
   tone?: "default" | "brand";
   className?: string;
+  dense?: boolean;
 }) {
   const onBrand = tone === "brand";
 
   return (
-    <ul className={cn("mt-10 grid gap-x-12 gap-y-8", columnsClassName, className)}>
+    <ul
+      className={cn(
+        dense
+          ? "mt-6 grid gap-x-6 gap-y-4"
+          : "mt-10 grid gap-x-12 gap-y-8",
+        columnsClassName,
+        className,
+      )}
+    >
       {items.map((item) => (
         <li
           key={item.title}
-          className={`border-t pt-5 ${
+          className={`border-t ${dense ? "pt-3" : "pt-5"} ${
             onBrand ? "border-brand-foreground/20" : "border-border"
           }`}
         >
@@ -81,7 +91,7 @@ function TopicList({
           </h3>
           {item.body ? (
             <p
-              className={`mt-2 text-sm leading-relaxed ${
+              className={`${dense ? "mt-1.5" : "mt-2"} text-sm leading-relaxed ${
                 onBrand ? "text-brand-foreground/75" : "text-muted"
               }`}
             >
@@ -232,8 +242,8 @@ export async function ImpactSection() {
       aria-labelledby="impact-heading"
     >
       <div>
-        <div className="grid items-start gap-10 lg:grid-cols-12">
-          <div className="min-w-0 lg:col-span-7">
+        <div className="grid items-start gap-6 lg:grid-cols-12">
+          <div className="min-w-0 lg:col-span-8">
             <SectionIntro
               className="max-w-none"
               eyebrow={t("eyebrow")}
@@ -241,12 +251,16 @@ export async function ImpactSection() {
               id="impact-heading"
               lead={t("strengthBody")}
             />
-            <p className="mt-8 border-s-2 border-accent ps-5 text-sm leading-relaxed text-foreground md:text-base">
+            <p className="mt-5 border-s-2 border-accent ps-5 text-sm leading-relaxed text-foreground md:text-base">
               {t("thinkBody")}
             </p>
-            <TopicList items={items} columnsClassName="sm:grid-cols-2" />
+            <TopicList
+              items={items}
+              columnsClassName="sm:grid-cols-2"
+              dense
+            />
           </div>
-          <figure className="relative hidden aspect-[16/10] w-full overflow-hidden border border-border lg:col-span-5 lg:block">
+          <figure className="relative hidden aspect-[4/3] w-full overflow-hidden border border-border lg:col-span-4 lg:block">
             <Image
               src="/images/forum.webp"
               alt={tImages("forum")}
