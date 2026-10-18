@@ -55,12 +55,8 @@ export default async function AboutPage({ params }: PageProps) {
   return (
     <div>
       <AboutHero />
-      <ScrollReveal delay={0.05}>
-        <PositioningSection />
-      </ScrollReveal>
-      <ScrollReveal>
-        <ImpactSection />
-      </ScrollReveal>
+      <PositioningSection />
+      <ImpactSection />
       <ScrollReveal>
         <CapabilitySection />
       </ScrollReveal>

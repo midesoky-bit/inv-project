@@ -97,9 +97,18 @@
       "The company is supported by strategic partnerships and institutional backing, enabling scale, execution capability, and regional reach."
     ],
     "items": [
-      "Access to high-quality production facilities enabling full-scale content creation",
-      "Established relationships across media platforms, including journalists, publications, and broadcast networks",
-      "The ability to manage, distribute, and deliver communication outputs with speed, consistency, and quality"
+      {
+        "title": "Production Facilities",
+        "body": "Access to high-quality production facilities enabling full-scale content creation"
+      },
+      {
+        "title": "Media Relationships",
+        "body": "Established relationships across media platforms, including journalists, publications, and broadcast networks"
+      },
+      {
+        "title": "Distribution & Delivery",
+        "body": "The ability to manage, distribute, and deliver communication outputs with speed, consistency, and quality"
+      }
     ]
   },
   "advantage": {
