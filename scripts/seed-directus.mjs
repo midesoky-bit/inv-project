@@ -219,6 +219,41 @@ async function ensureFolder(token, name) {
   return created.json.data.id;
 }
 
+function serviceImageFileId(value) {
+  if (!value) return null;
+  if (typeof value === "string") return value;
+  return value.id ?? null;
+}
+
+async function moveServiceImagesToFolder(token, folderId) {
+  const existing = await api(
+    token,
+    "GET",
+    "/items/services?fields=image&limit=-1",
+  );
+  if (!existing.ok) {
+    if (existing.status === 404) return;
+    throw new Error(`List service images: ${JSON.stringify(existing.json)}`);
+  }
+  const ids = [
+    ...new Set(
+      (existing.json?.data ?? [])
+        .map((row) => serviceImageFileId(row.image))
+        .filter(Boolean),
+    ),
+  ];
+  for (const id of ids) {
+    const updated = await api(token, "PATCH", `/files/${id}`, {
+      folder: folderId,
+    });
+    if (!updated.ok) {
+      throw new Error(
+        `Move service image ${id}: ${JSON.stringify(updated.json)}`,
+      );
+    }
+  }
+}
+
 async function ensurePublicRead(token, collection, spec = {}) {
   const fields = spec.fields ?? ["*"];
   const payload = { fields };
@@ -543,6 +578,7 @@ for (const collection of [
 ]) {
   await ensurePublicRead(token, collection);
 }
+await moveServiceImagesToFolder(token, serviceImageFolderId);
 try {
   await ensurePublicRead(token, "directus_files", {
     fields: ["id", "filename_download", "type", "width", "height", "title"],

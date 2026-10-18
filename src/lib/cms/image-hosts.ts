@@ -5,8 +5,48 @@ export type CmsRemotePattern = {
   pathname: `${string}/assets/**`;
 };
 
+function originOf(value?: string) {
+  if (!value) return null;
+  try {
+    return new URL(value).origin;
+  } catch {
+    return null;
+  }
+}
+
+function isLoopbackOrPrivateHost(hostname: string) {
+  const host = hostname.replace(/^\[|\]$/g, "").toLowerCase();
+  if (
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "0.0.0.0" ||
+    host === "::1"
+  ) {
+    return true;
+  }
+  if (/^10(?:\.\d{1,3}){3}$/.test(host)) return true;
+  if (/^127(?:\.\d{1,3}){3}$/.test(host)) return true;
+  if (/^192\.168(?:\.\d{1,3}){2}$/.test(host)) return true;
+  if (/^172\.(1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2}$/.test(host)) return true;
+  return false;
+}
+
 export function isRemoteAsset(src: string) {
-  return /^https?:\/\//.test(src);
+  if (!/^https?:\/\//.test(src)) return false;
+  try {
+    const url = new URL(src);
+    const publicOrigin = originOf(process.env.DIRECTUS_PUBLIC_URL);
+    const cmsOrigin = originOf(process.env.CMS_URL);
+    if (cmsOrigin && url.origin === cmsOrigin && url.origin !== publicOrigin) {
+      return false;
+    }
+    if (publicOrigin && url.origin === publicOrigin) {
+      return isLoopbackOrPrivateHost(url.hostname);
+    }
+    return isLoopbackOrPrivateHost(url.hostname);
+  } catch {
+    return false;
+  }
 }
 
 export function cmsAssetRemotePattern(
