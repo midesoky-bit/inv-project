@@ -29,7 +29,9 @@ export function ServiceCardMotion({
 }: ServiceCardMotionProps) {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
-  const [phase, setPhase] = useState<"idle" | "hidden" | "visible">("idle");
+  const [phase, setPhase] = useState<"hidden" | "visible">(
+    reduceMotion ? "visible" : "hidden",
+  );
 
   useEffect(() => {
     if (reduceMotion) {
@@ -40,25 +42,32 @@ export function ServiceCardMotion({
     const node = ref.current;
     if (!node) return;
 
+    let frame = 0;
+    const reveal = () => {
+      frame = requestAnimationFrame(() => setPhase("visible"));
+    };
+
     const rect = node.getBoundingClientRect();
     const alreadyVisible = rect.top < window.innerHeight - 40 && rect.bottom > 40;
     if (alreadyVisible) {
-      setPhase("visible");
-      return;
+      reveal();
+      return () => cancelAnimationFrame(frame);
     }
 
-    setPhase("hidden");
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setPhase("visible");
+          reveal();
           observer.disconnect();
         }
       },
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" },
     );
     observer.observe(node);
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
   }, [reduceMotion]);
 
   return (
@@ -67,8 +76,8 @@ export function ServiceCardMotion({
       initial={false}
       animate={phase === "hidden" ? { opacity: 0, y: 16 } : { opacity: 1, y: 0 }}
       transition={{
-        duration: phase === "idle" ? 0 : 0.4,
-        delay: phase === "visible" ? index * 0.05 : 0,
+        duration: reduceMotion ? 0 : 0.45,
+        delay: phase === "visible" && !reduceMotion ? (index % 4) * 0.08 : 0,
         ease: [0.22, 1, 0.36, 1],
       }}
       className="group overflow-hidden rounded-2xl border border-border bg-surface shadow-[0_12px_32px_rgb(11_29_54_/_0.08)] transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_16px_40px_rgb(11_29_54_/_0.12)] motion-reduce:transition-none motion-reduce:hover:translate-y-0"
